@@ -1,11 +1,112 @@
 ---
-import Welcome from '../components/Welcome.astro';
-import Layout from '../layouts/Layout.astro';
+import Hero from "../components/Hero.astro";
+import Header from "../components/Header.astro";
+import Layout from "../layouts/Layout.astro";
+import WithSplitImage from "../components/WithSplitImage";
+import Container from "../layouts/Container";
 
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+const projects = [
+  {
+    imageUrl:
+      "../src/assets/features/arce.png",
+    imagePosition: "left" as "left",
+    projectDetails: {
+      title: "Proyecto ARCE",
+      location: "Buenos Aires, Argentina",
+      year: 2024,
+      client: "ARCE Construcciones",
+      role: "Visualización",
+      buildingType: "Residencial",
+      status: "En construcción",
+    },
+  },
+  {
+    imageUrl:
+      "../src/assets/features/haus.jpg",
+    imagePosition: "right" as "right",
+    projectDetails: {
+      title: "Proyecto HAUS",
+      location: "Buenos Aires, Argentina",
+      year: 2025,
+      client: "Steel Tech Group",
+      role: "Visualización",
+      buildingType: "Residencial",
+      status: "En construcción",
+    },
+  },
+  {
+    imageUrl:
+      "../src/assets/features/hutch.png",
+    imagePosition: "left" as "left",
+    projectDetails: {
+      title: "Proyecto HUTCH",
+      location: "Ciudad Jardin, Buenos Aires, Argentina",
+      year: 2024,
+      client: "HUTCH",
+      role: "Visualización",
+      buildingType: "Comercial",
+      status: "Finalizado",
+    },
+  },
+  {
+    imageUrl:
+      "https://tailwindui.com/plus/img/ecommerce-images/confirmation-page-01-hero.jpg",
+    imagePosition: "right" as "right",
+    projectDetails: {
+      title: "Proyecto Meat Frisbee",
+      location: "Buenos Aires, Argentina",
+      year: 2025,
+      client: "Meat Frisbee",
+      role: "Proyecto, Dirección y Ejecuución de Obra",
+      buildingType: "Comercial",
+      status: "Finalizado",
+    },
+  },
+];
 ---
 
 <Layout>
-	<Welcome />
+  <Hero />
+  <Header />
+  {
+    projects.map((project) => (
+      <WithSplitImage
+        key={project.projectDetails.title}
+        imagePosition={project.imagePosition}
+        imageUrl={project.imageUrl}
+        projectDetails={project.projectDetails}
+      />
+    ))
+  }
 </Layout>
+
+<style is:global>
+  @font-face {
+    font-family: "Kuunari Bold";
+    font-style: normal;
+    font-weight: 300 700;
+    font-display: swap;
+    src: url("/fonts/kuunari-bold.otf") format("opentype");
+  }
+  @font-face {
+    font-family: "Kuunari Bold Condensed";
+    font-style: normal;
+    font-weight: 700;
+    font-display: swap;
+    src: url("/fonts/kuunari-bold-condensed.otf") format("opentype");
+  }
+  @font-face {
+    font-family: "Kuunari Medium";
+    font-style: normal;
+    font-weight: 700;
+    font-display: swap;
+    src: url("/fonts/kuunari-bold-medium.otf") format("opentype");
+  }
+  @font-face {
+    font-family: "Kuunari Light";
+    font-style: normal;
+    font-weight: 300;
+    font-display: swap;
+    src: url("/fonts/kuunari-light.otf") format("opentype");
+  }
+</style>
