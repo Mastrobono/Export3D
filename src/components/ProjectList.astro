@@ -1,0 +1,31 @@
+---
+import Image from "astro/components/Image.astro";
+
+const projects = Astro.props.projects;
+---
+
+<ul
+  role="list"
+  class="grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-3 sm:gap-x-6 lg:grid-cols-4 xl:gap-x-8 min-h-[600px]"
+  id="project-list"
+>
+  {
+    projects.map((project) => (
+      <li
+        class="relative project-item transition-all duration-500"
+        data-tags={project.metadata.tags ? project.metadata.tags.join(" ") : ""}
+      >
+        <div class="mb-4 group overflow-hidden rounded-lg bg-gray-100 focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-offset-2 focus-within:ring-offset-gray-100">
+          <Image
+            src={project.imageRef}
+            alt={project.metadata.title}
+            class="pointer-events-none aspect-[10/7] object-cover group-hover:opacity-75"
+          />
+        </div>
+        <p class="pointer-events-none block text-md font-medium text-white font-kuunari-light">
+          {project.metadata.title.replace("<br/>", "")}
+        </p>
+      </li>
+    ))
+  }
+</ul>
