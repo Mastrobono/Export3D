@@ -70,7 +70,9 @@ const Feature: React.FC<FeatureProps> = ({ projects }) => {
       {projects.map((slide, index) => (
         <Container key={index} data-section="featured" id="featured">
           <div
-            ref={(el) => (slideRefs.current[index] = el)}
+            ref={(el) => {
+              slideRefs.current[index] = el;
+            }}
             className="w-full relative rounded-lg h-[90vh] "
           >
             <img

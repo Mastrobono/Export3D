@@ -1,8 +1,8 @@
 // Import images directly
-import hutchImage from "../assets/features/hutch.png";
-import hausImage from "../assets/features/haus.jpg";
-import arceImage from "../assets/features/arce.png";
-import frisbeeImage from "../assets/features/frisbee.jpg";
+import hutchImage from "../assets/features/hutch.webp";
+import hausImage from "../assets/features/haus.webp";
+import arceImage from "../assets/features/arce.webp";
+import frisbeeImage from "../assets/features/frisbee.webp";
 
 //Filters
 // Define enums for tags
@@ -33,7 +33,7 @@ export const tags = {
 export const projects = [
   {
     imageRef: hutchImage,
-    imageUrl: hutchImage,
+    imageUrl: "../src/assets/features/hutch.png",
     metadata: {
       title: "HUTCH",
       location: "Ciudad Jardin, Buenos Aires, Argentina",
