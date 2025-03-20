@@ -3,6 +3,7 @@ import { Disclosure, DisclosureButton } from "@headlessui/react";
 import logo from "../assets/logo.png";
 import { scrollToFn } from "../utils/utils.tsx";
 import classNames from "classnames";
+import Container from "./Container.tsx";
 
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 
@@ -60,6 +61,7 @@ export default function Navbar() {
           "w-full",
           "top-0",
           "z-50",
+          "px-20",
           "shadow-lg",
           { "bg-white": open },
           { "bg-darkgray": !open }
@@ -67,7 +69,7 @@ export default function Navbar() {
 
         return (
           <nav className={NavbarClasses}>
-            <div className="mx-auto max-w-7xl px-4 sm:px-4 lg:px-8">
+            <div className="mx-auto max-w-8xl">
               <div className="flex h-16 justify-between">
                 <div className="flex">
                   <div

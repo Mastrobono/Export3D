@@ -29,6 +29,9 @@ export default {
         default: "0 2px 4px var(--tw-shadow-color)",
         lg: "0 8px 16px var(--tw-shadow-color)",
       },
+      maxWidth: {
+        "8xl": "calc(100% - 6rem)",
+      },
     },
   },
   plugins: [
