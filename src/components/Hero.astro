@@ -21,7 +21,7 @@ import Container from "../layouts/Container";
       
       {/* Spotlight effect */}
       <div id="spotlight" class="absolute inset-0 pointer-events-none mix-blend-soft-light">
-        <div class="absolute spotlight-glow opacity-0"></div>
+        <div class="absolute spotlight-glow opacity-0 transition-opacity duration-500"></div>
       </div>
       
       {/* Particle effect overlay */}
@@ -118,44 +118,19 @@ import Container from "../layouts/Container";
 <script>
   const heroContainer = document.getElementById('hero-container') as HTMLDivElement;
   const spotlight = document.getElementById('spotlight')?.querySelector('.spotlight-glow') as HTMLDivElement;
-  const exploreButton = document.querySelector('.scroll-indicator') as HTMLElement;
   
-  if (heroContainer && spotlight && exploreButton) {
+  if (heroContainer && spotlight) {
     let spotlightTimeout: number;
-    let isInBottomZone = false;
 
     heroContainer.addEventListener('mousemove', (e) => {
       const rect = heroContainer.getBoundingClientRect();
-      const mouseY = e.clientY - rect.top;
-      const bottomThreshold = rect.height * 0.7; // 70% de la altura
-
-      // Check if mouse is in bottom zone
-      const newIsInBottomZone = mouseY > bottomThreshold;
       
-      if (newIsInBottomZone !== isInBottomZone) {
-        isInBottomZone = newIsInBottomZone;
-        // Animate transition
-        spotlight.style.transition = 'transform 0.5s ease-out';
-      } else {
-        spotlight.style.transition = 'none';
-      }
-
+      // Update spotlight
       clearTimeout(spotlightTimeout);
-      
-      if (isInBottomZone) {
-        // Position spotlight over explore button
-        const buttonRect = exploreButton.getBoundingClientRect();
-        const spotX = buttonRect.left + (buttonRect.width / 2) - rect.left - 600;
-        const spotY = buttonRect.top - rect.top - 600;
-        spotlight.style.transform = `translate3d(${spotX}px, ${spotY}px, 0)`;
-      } else {
-        // Center spotlight on cursor
-        const spotX = e.clientX - rect.left - 600;
-        const spotY = e.clientY - rect.top - 600;
-        spotlight.style.transform = `translate3d(${spotX}px, ${spotY}px, 0)`;
-      }
-      
+      const cursorX = e.clientX - rect.left - 400; // Mitad del ancho del spotlight (800/2)
+      const cursorY = e.clientY - rect.top - 400;  // Mitad del alto del spotlight (800/2)
       spotlight.style.opacity = '1';
+      spotlight.style.transform = `translate3d(${cursorX}px, ${cursorY}px, 0)`;
     });
 
     heroContainer.addEventListener('mouseleave', () => {
@@ -318,14 +293,14 @@ import Container from "../layouts/Container";
 
   /* Spotlight effect */
   .spotlight-glow {
-    width: 1200px;
-    height: 1200px;
+    width: 800px;
+    height: 800px;
     border-radius: 50%;
     background: radial-gradient(
       circle at center,
-      rgba(255, 255, 255, 0.8) 0%,
-      rgba(255, 255, 255, 0.6) 20%,
-      rgba(255, 255, 255, 0.4) 30%,
+      rgba(255, 255, 255, 0.25) 0%,
+      rgba(255, 255, 255, 0.15) 20%,
+      rgba(255, 255, 255, 0.1) 30%,
       transparent 70%
     );
     transform-origin: center;
