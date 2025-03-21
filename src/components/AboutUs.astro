@@ -3,29 +3,74 @@ import Container from "../layouts/Container.tsx";
 ---
 
 <Container
-  data-section="services"
-  id="services"
-  classNames="min-h-[max-content]"
+  data-section="about"
+  id="about"
+  classNames="relative min-h-[max-content] overflow-hidden"
 >
-  {/*About Us */}
-  <div class="p-20">
-    <h2
-      class="text-[4rem] font-semibold tracking-tight text-white font-kuunari-medium"
-    >
-      Sobre Nosotros
-    </h2>
-    <p class="my-12 text-[2rem] leading-[60px] text-white font-kuunari-light">
-      Somos un estudio especializado en <span
-        class="font-kuunari-bold text-accent-500"
-      >
-        Visualización Arquitectónica</span
-      > y <span class="font-kuunari-bold text-accent-500">
-        Diseño y Dirección de Obra</span
-      >.
-      <br />
-      Nos destacamos por la calidad excepcional de nuestras imágenes, tiempos de
-      entrega eficientes y un firme compromiso con cada proyecto.
-      <br />
-    </p>
+  {/* Background effects */}
+  <div class="absolute inset-0 z-0">
+    <div class="absolute inset-0 bg-gradient-to-b from-darkgray/50 to-darkgray"></div>
+    <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.03)_0%,transparent_70%)]"></div>
+  </div>
+
+  {/* Content */}
+  <div class="relative z-10 px-20 py-32">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-20">
+      {/* Left Column - Title */}
+      <div class="space-y-6">
+        <div class="text-white/50 text-xl font-kuunari-medium tracking-wider">SOBRE NOSOTROS</div>
+        <h2 class="text-[4.5rem] leading-[1.1] font-semibold tracking-tight text-white font-kuunari-medium">
+          Innovación<br />
+          arquitectónica,<br />
+          <span class="text-accent-500">inspirada por vos</span>
+        </h2>
+      </div>
+
+      {/* Right Column - Content */}
+      <div class="space-y-12 lg:pt-16">
+        <p class="text-[2rem] leading-[1.4] text-white/90 font-kuunari-light">
+          Somos un estudio especializado en <span class="font-kuunari-bold text-accent-500">
+            Visualización Arquitectónica</span> y <span class="font-kuunari-bold text-accent-500">
+            Diseño y Dirección de Obra</span>.
+        </p>
+        
+        <p class="text-[2rem] leading-[1.4] text-white/80 font-kuunari-light">
+          Nos destacamos por la calidad excepcional de nuestras imágenes, tiempos de
+          entrega eficientes y un firme compromiso con cada proyecto.
+        </p>
+
+        {/* Stats Grid */}
+        <div class="grid grid-cols-2 lg:grid-cols-3 gap-8 pt-8">
+          <div class="space-y-4">
+            <div class="text-accent-500 text-4xl font-kuunari-bold">+10</div>
+            <div class="text-white/70 text-xl font-kuunari-light">Años de experiencia</div>
+          </div>
+          <div class="space-y-4">
+            <div class="text-accent-500 text-4xl font-kuunari-bold">+200</div>
+            <div class="text-white/70 text-xl font-kuunari-light">Proyectos realizados</div>
+          </div>
+          <div class="space-y-4">
+            <div class="text-accent-500 text-4xl font-kuunari-bold">100%</div>
+            <div class="text-white/70 text-xl font-kuunari-light">Clientes satisfechos</div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </Container>
+
+<style>
+  /* Subtle animation for the gradient */
+  .bg-gradient-to-b {
+    animation: gradientShift 15s ease-in-out infinite;
+  }
+
+  @keyframes gradientShift {
+    0%, 100% {
+      background-position: 0% 0%;
+    }
+    50% {
+      background-position: 0% 100%;
+    }
+  }
+</style>

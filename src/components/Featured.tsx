@@ -1,5 +1,6 @@
 import { useRef, useState, useEffect } from "react";
 import Container from "../layouts/Container";
+import { motion, useScroll, useTransform, useSpring, AnimatePresence } from "framer-motion";
 
 interface Slide {
   imageRef: HTMLImageElement;
@@ -36,12 +37,15 @@ const ChevronRightIcon = () => (
 const Feature: React.FC<FeatureProps> = ({ projects }) => {
   const slideRefs = useRef<(HTMLDivElement | null)[]>([]);
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [isTransitioning, setIsTransitioning] = useState(false);
 
   const handleDotClick = (index: number) => {
+    if (isTransitioning || index === currentSlide) return;
+    setIsTransitioning(true);
     slideRefs.current[index]?.scrollIntoView({ behavior: "smooth" });
     setCurrentSlide(index);
+    setTimeout(() => setIsTransitioning(false), 800);
   };
-
 
   useEffect(() => {
     const handleScroll = () => {
@@ -51,90 +55,175 @@ const Feature: React.FC<FeatureProps> = ({ projects }) => {
         const rect = slide.getBoundingClientRect();
         return rect.top <= viewportCenter && rect.bottom >= viewportCenter;
       });
-      if (currentIndex !== -1) {
+      if (currentIndex !== -1 && !isTransitioning) {
         setCurrentSlide(currentIndex);
       }
     };
 
     window.addEventListener("scroll", handleScroll);
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, []);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [isTransitioning]);
 
   return (
-    <div className="w-full py-20">
-      <h2 className="text-[4rem] my-12 font-semibold tracking-tight font-kuunari-medium text-accent-500 text-center">
+    <motion.div 
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      className="w-full py-20 bg-darkgray"
+    >
+      <motion.h2 
+        initial={{ y: 20, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: 0.6 }}
+        className="text-[4rem] my-12 font-semibold tracking-tight font-kuunari-medium text-accent-500 text-center"
+      >
         Proyectos Destacados
-      </h2>
-      {projects.map((slide, index) => (
-        <Container key={index} data-section="featured" id="featured">
-          <div
-            ref={(el) => {
-              slideRefs.current[index] = el;
-            }}
-            className="w-full relative rounded-lg h-[90vh] "
-          >
-            <img
-              src={slide.imageUrl}
-              alt={`Slide ${index + 1}`}
-              className="w-full h-[90vh] object-cover absolute z-0 rounded-lg"
-            />
+      </motion.h2>
 
-            {/* Overlay */}
-            <div className="w-[100%] h-[100%] bg-gradientOverlayFeature absolute z-10 rounded-md"></div>
+      {projects.map((slide, index) => {
+        const slideRef = useRef(null);
+        const { scrollYProgress } = useScroll({
+          target: slideRef,
+          offset: ["start end", "end start"]
+        });
 
-            {/* Date */}
-            <p className="absolute top-[15%] left-[10%]  text-[1.5rem] text-slate-200 font-kuunari-bold text-shadow-sm shadow-black z-20 ">
-              {slide.metadata.date}
-            </p>
+        const objectPosition = useTransform(
+          scrollYProgress,
+          [0, 1],
+          ["center 40%", "center 100%"]
+        );
 
-            {/* Social Medias */}
-            <div className="absolute top-[80%] left-[10%]  text-[1.5rem] text-slate-200 font-kuunari-bold text-shadow-sm shadow-black z-20 flex flex-col gap-4">
-              <div className="w-4 h-4 z-20 bg-white shadow-black shadow-lg rounded-lg"></div>
-              <div className="w-4 h-4 z-20 bg-white shadow-black shadow-lg rounded-lg"></div>
-              <div className="w-4 h-4 z-20 bg-white shadow-black shadow-lg rounded-lg"></div>
-            </div>
-
-            {/* Role */}
-            <h4 className="absolute top-[15%] left-[20%] text-[1.6rem] text-slate-200 font-kuunari-bold text-shadow-sm shadow-black z-20 ">
-              {slide.metadata.role}
-            </h4>
-
-            {/* Title */}
-            <h2
-              className="absolute top-[20%] left-[20%] text-[4.6rem]  text-slate-200 font-kuunari-bold text-shadow-default shadow-black z-20 "
-              dangerouslySetInnerHTML={{
-                __html: `Proyecto ${slide.metadata.title}`,
+        return (
+          <Container key={index} data-section="featured" id="featured">
+            <motion.div
+              ref={(el) => {
+                slideRefs.current[index] = el;
+                if (slideRef.current === null) {
+                  // @ts-ignore
+                  slideRef.current = el;
+                }
               }}
-            ></h2>
+              className="w-full relative rounded-2xl w-f mb-8 overflow-hidden group h-[75vh]"
+            >
+              {/* Background Image with object-position parallax */}
+              <motion.div
+                className="absolute inset-0 z-0 h-full w-full"
+              >
+                <motion.img
+                  src={slide.imageUrl}
+                  alt={`Slide ${index + 1}`}
+                  style={{
+                    objectPosition
+                  }}
+                  className="w-full h-[120%] object-cover rounded-2xl transition-transform duration-700"
+                />
+              </motion.div>
 
-            {/* See Project Button */}
-            <h4 className="absolute top-[85%] left-[20%] uppercase text-[2rem] text-slate-200 font-kuunari-bold text-shadow-sm shadow-black z-20 flex flex-row justify-center items-center gap-2">
-              Ver Proyecto <ChevronRightIcon />
-            </h4>
+              {/* Enhanced edge vignette with stronger opacity */}
+              <div className="absolute inset-0 z-10 rounded-2xl">
+                <div className="absolute inset-y-0 left-0 w-[20%] bg-gradient-to-r from-black/70 to-transparent"></div>
+                <div className="absolute inset-y-0 right-0 w-[20%] bg-gradient-to-l from-black/70 to-transparent"></div>
+                <div className="absolute inset-x-0 top-0 h-[30%] bg-gradient-to-b from-black/70 to-transparent"></div>
+                <div className="absolute inset-x-0 bottom-0 h-[40%] bg-gradient-to-t from-black/90 via-black/60 to-transparent"></div>
+              </div>
 
-            {/* Slide number count */}
-            <p className="flex absolute top-[22.5%] left-[80%]  text-[3rem] text-slate-200 font-kuunari-bold text-shadow-sm shadow-black z-20 ">
-              0{index + 1} /
-              <span className="ml-2 text-[2rem]">0{projects.length}</span>
-            </p>
+              {/* Content Container */}
+              <motion.div 
+                className="relative z-20 h-full flex flex-col justify-between p-16"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.2 }}
+              >
+                {/* Top Content */}
+                <div className="flex justify-between items-start">
+                  <div className="space-y-2 drop-shadow-[0_2px_3px_rgba(0,0,0,0.5)]">
+                    <motion.p 
+                      initial={{ opacity: 0, x: -20 }}
+                      whileInView={{ opacity: 1, x: 0 }}
+                      transition={{ duration: 0.6, delay: 0.3 }}
+                      className="text-xl text-white/90 font-kuunari-medium"
+                    >
+                      {slide.metadata.date}
+                    </motion.p>
+                    <motion.h4 
+                      initial={{ opacity: 0, x: -20 }}
+                      whileInView={{ opacity: 1, x: 0 }}
+                      transition={{ duration: 0.6, delay: 0.4 }}
+                      className="text-2xl text-accent-500 font-kuunari-bold"
+                    >
+                      {slide.metadata.role}
+                    </motion.h4>
+                  </div>
 
-            <div className="absolute top-1/2 right-5 transform -translate-y-1/2 flex flex-col gap-2  z-20">
-              {projects.map((_, index) => (
-                <div
-                  key={index}
-                  className={`w-3 h-3 rounded-full cursor-pointer transition-colors duration-300 ring-white shadow-[0 0 2px 1px black] ${
-                    index === currentSlide ? "bg-white" : "bg-darkgray"
-                  }`}
-                  onClick={() => handleDotClick(index)}
-                ></div>
-              ))}
-            </div>
-          </div>
-        </Container>
-      ))}
-    </div>
+                  <motion.p 
+                    initial={{ opacity: 0 }}
+                    whileInView={{ opacity: 1 }}
+                    transition={{ duration: 0.6, delay: 0.5 }}
+                    className="text-3xl text-white font-kuunari-bold drop-shadow-[0_2px_3px_rgba(0,0,0,0.5)]"
+                  >
+                    0{index + 1} <span className="text-white/70 text-xl">/ 0{projects.length}</span>
+                  </motion.p>
+                </div>
+
+                {/* Bottom Content */}
+                <div className="space-y-8">
+                  <motion.h2
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.6, delay: 0.6 }}
+                    className="text-[5rem] text-white font-kuunari-bold leading-none drop-shadow-[0_2px_4px_rgba(0,0,0,0.6)]"
+                  >
+                    {slide.metadata.title}
+                  </motion.h2>
+
+                  <motion.button
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    whileHover={{ x: 10 }}
+                    transition={{ duration: 0.3 }}
+                    className="flex items-center gap-4 text-2xl text-white font-kuunari-medium group/button drop-shadow-[0_2px_3px_rgba(0,0,0,0.5)]"
+                  >
+                    Ver Proyecto
+                    <span className="transform transition-transform duration-300 group-hover/button:translate-x-2">
+                      <ChevronRightIcon />
+                    </span>
+                  </motion.button>
+                </div>
+              </motion.div>
+
+              {/* Navigation Dots */}
+              <div className="absolute top-1/2 right-8 transform -translate-y-1/2 flex flex-col gap-4 z-30">
+                {projects.map((_, dotIndex) => (
+                  <motion.button
+                    key={dotIndex}
+                    initial={{ opacity: 0, x: 20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: dotIndex * 0.1 }}
+                    className="group relative flex items-center gap-4"
+                    onClick={() => handleDotClick(dotIndex)}
+                  >
+                    <div className="relative">
+                      <div 
+                        className={`w-4 h-4 rounded-full transition-all duration-300 ${
+                          dotIndex === currentSlide 
+                            ? "bg-accent-500 shadow-[0_0_10px_rgba(255,102,0,0.5)]" 
+                            : "bg-white/30 hover:bg-white/50"
+                        }`}
+                      />
+                      {dotIndex === currentSlide && (
+                        <div className="absolute inset-0 rounded-full bg-accent-500 animate-ping opacity-50" />
+                      )}
+                    </div>
+                    <span className="opacity-0 group-hover:opacity-100 transition-opacity duration-300 text-white text-sm whitespace-nowrap">
+                      0{dotIndex + 1}
+                    </span>
+                  </motion.button>
+                ))}
+              </div>
+            </motion.div>
+          </Container>
+        );
+      })}
+    </motion.div>
   );
 };
 
