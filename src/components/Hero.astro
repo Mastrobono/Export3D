@@ -4,51 +4,398 @@ import Container from "../layouts/Container";
 ---
 
 <Container classNames="relative max-w-8xl">
-  <div
-    class="w-[100%] h-[100%] bg-gradientOverlayHero absolute z-10 rounded-md"
-  >
-  </div>
-  <img
-    class="absolute w-[100%] h-full z-0 rounded-md object-cover"
-    src={background.src}
-    alt=""
-    fetchpriority="high"
-  />
-  <main class="py-20 px-20 mx-auto z-20 relative h-full main">
-    <section
-      class="text-white text-shadow-sm shadow-black flex flex-col gap-y-6 h-full justify-between"
-    >
-      <div class="flex flex-col">
-        <h1 class="text-[120px] font-bold font-kuunari-bold-condensed">
-          Export<span class="text-accent-500">3D</span>.
-        </h1>
-        <h2
-          class="text-[2rem] tracking-tight text-white font-kuunari-regular mt-[-30px]"
-        >
-          Selected Works 2024 - 2025.
-        </h2>
+  <div id="hero-container" class="relative h-[90vh] overflow-hidden">
+    {/* Background with effects */}
+    <div class="absolute inset-0 z-0">
+      <div id="parallax-image" class="relative w-full h-full">
+        <img
+          class="w-full h-full object-cover object-[center_65%]"
+          src={background.src}
+          alt="Architectural visualization"
+          fetchpriority="high"
+        />
+      </div>
+      
+      {/* Dark overlay with radial transparency */}
+      <div class="absolute inset-0 radial-dark-overlay"></div>
+      
+      {/* Spotlight effect */}
+      <div id="spotlight" class="absolute inset-0 pointer-events-none mix-blend-soft-light">
+        <div class="absolute spotlight-glow opacity-0"></div>
+      </div>
+      
+      {/* Particle effect overlay */}
+      <div class="absolute inset-0 mix-blend-soft-light opacity-30">
+        <div class="particles absolute inset-0"></div>
       </div>
 
-      <div class="">
-        <h2 class="text-[3.5rem] tracking-tight text-white font-kuunari-bold">
-          Diseños exportados a la realidad.
+      {/* Bottom dark overlay for smooth transition */}
+      <div class="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-darkgray to-transparent"></div>
+    </div>
+
+    {/* Main Content */}
+    <main class="relative z-10 h-[90vh]">
+      {/* Company Info */}
+      <div class="absolute top-24 left-0 right-0 text-center">
+        <h2 class="text-[3.5rem] font-kuunari-bold text-white leading-none drop-shadow-[0_2px_10px_rgba(0,0,0,0.4)]">
+          Export<span class="text-accent-500">3D</span>
         </h2>
-        <p
-          class="text-[2rem] text-white font-kuunari-bold-condensed mt-[-60px]"
-        >
-          <span class="font-kuunari-bold text-accent-500"
-            ><br />
-            Visualización Arquitectónica</span
-          > / <span class="font-kuunari-bold text-accent-500">
-            Diseño y Dirección de Obra</span
-          >.
-        </p>
-        <button
-          ><a class="text-white text-[2rem] font-kuunari-regular" href=""
-            >Contactanos</a
-          ></button
-        >
+        <div class="mt-3 flex items-center justify-center gap-2 text-lg font-kuunari-medium">
+          <button
+            id="service-viz"
+            class="service-btn text-accent-500 transition-all duration-300 hover:text-accent-400 active"
+            data-heading="Visualiza el futuro"
+            data-description="Transformamos tus ideas en experiencias visuales impactantes"
+          >
+            Visualización Arquitectónica
+          </button>
+          <span class="opacity-50">/</span>
+          <button
+            id="service-proj"
+            class="service-btn text-white/90 transition-all duration-300 hover:text-accent-400"
+            data-heading="Construye el mañana"
+            data-description="Materializamos tus sueños con excelencia y precisión"
+          >
+            Proyecto y Dirección de Obra
+          </button>
+        </div>
       </div>
-    </section>
-  </main>
+
+      {/* Hero Content - Centered in viewport */}
+      <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full px-8 lg:px-20">
+        <div class="max-w-4xl mx-auto text-center">
+          {/* Main heading */}
+          <div class="flex flex-col items-center">
+            <h1 id="main-heading" class="text-[5rem] lg:text-[7rem] text-white leading-none font-kuunari-bold tracking-tight drop-shadow-[0_4px_20px_rgba(0,0,0,0.4)]">
+              <span class="heading-text">Visualiza</span>
+              <br />
+              <span class="heading-text bg-gradient-to-r from-accent-500 to-accent-400 text-transparent bg-clip-text">
+                el futuro
+              </span>
+            </h1>
+            <p id="heading-description" class="mt-8 text-xl text-white/80 font-kuunari-light max-w-2xl description-text">
+              Transformamos tus ideas en experiencias visuales impactantes
+            </p>
+          </div>
+        </div>
+      </div>
+
+      {/* Scroll indicator */}
+      <div class="absolute bottom-8 left-1/2 -translate-x-1/2 z-20">
+        <a 
+          href="#services" 
+          class="flex flex-col items-center gap-2 text-white/80 hover:text-white transition-colors duration-300 group"
+        >
+          <span class="text-sm uppercase tracking-widest font-kuunari-regular">Explorar</span>
+          <div class="w-px h-12 bg-gradient-to-b from-accent-500 to-transparent scroll-line"></div>
+        </a>
+      </div>
+
+      {/* Wave divider */}
+      <div class="absolute -bottom-1 left-0 right-0 w-full z-10 overflow-hidden">
+        <svg class="relative block w-full h-[180px]" viewBox="0 0 1200 120" preserveAspectRatio="none">
+          <path 
+            d="M600,0L400,60L200,30L0,40L0,120L1200,120L1200,40L1000,30L800,60L600,0Z" 
+            class="fill-darkgray divider-pattern"
+          ></path>
+          <path 
+            d="M600,20L450,70L250,45L0,50L0,120L1200,120L1200,50L950,45L750,70L600,20Z" 
+            class="fill-darkgray/70 divider-pattern"
+          ></path>
+          <path 
+            d="M600,40L500,80L300,60L0,65L0,120L1200,120L1200,65L900,60L700,80L600,40Z" 
+            class="fill-darkgray/40 divider-pattern"
+          ></path>
+        </svg>
+      </div>
+
+      {/* Additional dark gradient for smooth transition */}
+      <div class="absolute bottom-0 left-0 right-0 h-48 bg-gradient-to-t from-darkgray via-darkgray/80 to-transparent z-[5]"></div>
+    </main>
+  </div>
 </Container>
+
+<script>
+  const heroContainer = document.getElementById('hero-container') as HTMLDivElement;
+  const spotlight = document.getElementById('spotlight')?.querySelector('.spotlight-glow') as HTMLDivElement;
+  const exploreButton = document.querySelector('.scroll-indicator') as HTMLElement;
+  
+  if (heroContainer && spotlight && exploreButton) {
+    let spotlightTimeout: number;
+    let isInBottomZone = false;
+
+    heroContainer.addEventListener('mousemove', (e) => {
+      const rect = heroContainer.getBoundingClientRect();
+      const mouseY = e.clientY - rect.top;
+      const bottomThreshold = rect.height * 0.7; // 70% de la altura
+
+      // Check if mouse is in bottom zone
+      const newIsInBottomZone = mouseY > bottomThreshold;
+      
+      if (newIsInBottomZone !== isInBottomZone) {
+        isInBottomZone = newIsInBottomZone;
+        // Animate transition
+        spotlight.style.transition = 'transform 0.5s ease-out';
+      } else {
+        spotlight.style.transition = 'none';
+      }
+
+      clearTimeout(spotlightTimeout);
+      
+      if (isInBottomZone) {
+        // Position spotlight over explore button
+        const buttonRect = exploreButton.getBoundingClientRect();
+        const spotX = buttonRect.left + (buttonRect.width / 2) - rect.left - 600;
+        const spotY = buttonRect.top - rect.top - 600;
+        spotlight.style.transform = `translate3d(${spotX}px, ${spotY}px, 0)`;
+      } else {
+        // Center spotlight on cursor
+        const spotX = e.clientX - rect.left - 600;
+        const spotY = e.clientY - rect.top - 600;
+        spotlight.style.transform = `translate3d(${spotX}px, ${spotY}px, 0)`;
+      }
+      
+      spotlight.style.opacity = '1';
+    });
+
+    heroContainer.addEventListener('mouseleave', () => {
+      spotlight.style.opacity = '0';
+      spotlightTimeout = setTimeout(() => {
+        spotlight.style.transform = 'translate(-100%, -100%)';
+      }, 500);
+    });
+  }
+
+  // Service selection and text animation
+  const serviceButtons = document.querySelectorAll('.service-btn');
+  const mainHeading = document.getElementById('main-heading');
+  const headingDescription = document.getElementById('heading-description');
+  let currentAnimation: Animation | null = null;
+
+  function createLetterSpans(text: string, className: string = '') {
+    return text.split('').map(letter => 
+      `<span class="letter-animation ${className} opacity-0">${letter === ' ' ? '&nbsp;' : letter}</span>`
+    ).join('');
+  }
+
+  function animateLetters(container: HTMLElement, delay: number = 30) {
+    const letters = container.querySelectorAll('.letter-animation');
+    letters.forEach((letter, index) => {
+      if (letter instanceof HTMLElement) {
+        setTimeout(() => {
+          letter.style.opacity = '1';
+          letter.style.transform = 'translateY(0)';
+        }, index * delay);
+      }
+    });
+  }
+
+  serviceButtons.forEach(button => {
+    button.addEventListener('click', () => {
+      // Update active states
+      serviceButtons.forEach(btn => {
+        btn.classList.remove('text-accent-500', 'active');
+        btn.classList.add('text-white/90');
+      });
+      button.classList.remove('text-white/90');
+      button.classList.add('text-accent-500', 'active');
+
+      // Get new text content
+      const heading = button.getAttribute('data-heading')?.split(' ') || [];
+      const description = button.getAttribute('data-description') || '';
+
+      // Cancel current animation if exists
+      if (currentAnimation) {
+        currentAnimation.cancel();
+      }
+
+      // Animate text out
+      const elements = document.querySelectorAll('.heading-text');
+      elements.forEach(el => {
+        if (el instanceof HTMLElement) {
+          el.style.opacity = '0';
+        }
+      });
+      
+      const descriptionEl = document.querySelector('.description-text');
+      if (descriptionEl instanceof HTMLElement) {
+        descriptionEl.style.opacity = '0';
+      }
+
+      // Animate text in
+      setTimeout(() => {
+        // Update content
+        const [firstLine, ...restLines] = heading;
+        const headingHTML = `
+          <div class="heading-text inline-block">
+            ${createLetterSpans(firstLine)}
+          </div>
+          <br />
+          <div class="heading-text inline-block bg-gradient-to-r from-accent-500 to-accent-400 text-transparent bg-clip-text">
+            ${createLetterSpans(restLines.join(' '))}
+          </div>
+        `;
+        
+        if (mainHeading) {
+          mainHeading.innerHTML = headingHTML;
+          
+          // Animate each line with different delays
+          const headingLines = mainHeading.querySelectorAll('.heading-text');
+          headingLines.forEach((line, index) => {
+            if (line instanceof HTMLElement) {
+              setTimeout(() => {
+                animateLetters(line, 30);
+              }, index * 500); // 500ms delay between lines
+            }
+          });
+        }
+
+        if (headingDescription) {
+          headingDescription.textContent = description;
+          setTimeout(() => {
+            if (headingDescription instanceof HTMLElement) {
+              headingDescription.style.opacity = '1';
+            }
+          }, 1200); // Start after main text animation
+        }
+      }, 400);
+    });
+  });
+
+  // Initial animation on page load
+  window.addEventListener('load', () => {
+    const headingLines = document.querySelectorAll('.heading-text');
+    headingLines.forEach((line, index) => {
+      if (line instanceof HTMLElement) {
+        const text = line.textContent || '';
+        line.innerHTML = createLetterSpans(text);
+        setTimeout(() => {
+          animateLetters(line, 30);
+        }, index * 500);
+      }
+    });
+  });
+</script>
+
+<style>
+  /* Particle animation */
+  .particles {
+    background-image: 
+      radial-gradient(circle at center, white 0.5px, transparent 0.5px),
+      radial-gradient(circle at center, white 0.5px, transparent 0.5px);
+    background-size: 40px 40px;
+    background-position: 0 0, 20px 20px;
+    animation: particleFloat 20s linear infinite;
+  }
+
+  @keyframes particleFloat {
+    0% {
+      transform: translateY(0) translateX(0);
+    }
+    25% {
+      transform: translateY(-10px) translateX(10px);
+    }
+    50% {
+      transform: translateY(0) translateX(0);
+    }
+    75% {
+      transform: translateY(10px) translateX(-10px);
+    }
+    100% {
+      transform: translateY(0) translateX(0);
+    }
+  }
+
+  /* Radial dark overlay */
+  .radial-dark-overlay {
+    background: radial-gradient(
+      circle at center,
+      rgba(16, 16, 16, 0.2) 0%,
+      rgba(16, 16, 16, 0.3) 40%,
+      rgba(16, 16, 16, 0.6) 100%
+    );
+  }
+
+  /* Spotlight effect */
+  .spotlight-glow {
+    width: 1200px;
+    height: 1200px;
+    border-radius: 50%;
+    background: radial-gradient(
+      circle at center,
+      rgba(255, 255, 255, 0.8) 0%,
+      rgba(255, 255, 255, 0.6) 20%,
+      rgba(255, 255, 255, 0.4) 30%,
+      transparent 70%
+    );
+    transform-origin: center;
+    will-change: transform, opacity;
+    pointer-events: none;
+  }
+
+  /* Scroll line animation */
+  .scroll-line {
+    animation: scrollPulse 2s ease-in-out infinite;
+  }
+
+  @keyframes scrollPulse {
+    0%, 100% { transform: scaleY(0.5); opacity: 0.5; }
+    50% { transform: scaleY(1); opacity: 1; }
+  }
+
+  /* Divider pattern and animation */
+  .divider-pattern {
+    mask-image: url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='1' cy='1' r='0.5' fill='%23000'/%3E%3C/svg%3E");
+    mask-size: 12px 12px;
+    animation: patternFloat 15s linear infinite;
+  }
+
+  @keyframes patternFloat {
+    0% {
+      mask-position: 0 0;
+    }
+    100% {
+      mask-position: 100px 0;
+    }
+  }
+
+  /* Service button styles */
+  .service-btn {
+    position: relative;
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.25rem;
+  }
+
+  .service-btn::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 50%;
+    width: 0;
+    height: 2px;
+    background: currentColor;
+    transition: all 0.3s ease;
+    transform: translateX(-50%);
+  }
+
+  .service-btn:hover::after,
+  .service-btn.active::after {
+    width: 100%;
+  }
+
+  /* Letter animation styles */
+  .letter-animation {
+    display: inline-block;
+    transform: translateY(20px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+  }
+
+  /* Text container styles */
+  .heading-text {
+    display: inline-block;
+  }
+
+  .description-text {
+    transition: opacity 0.6s ease;
+  }
+</style>
