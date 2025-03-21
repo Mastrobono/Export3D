@@ -10,18 +10,26 @@
   },
   "dependencies": {
     "@astrojs/cloudflare": "^12.2.3",
-    "@astrojs/react": "^4.2.0",
+    "@astrojs/react": "^4.2.1",
     "@astrojs/tailwind": "^5.1.5",
     "@headlessui/react": "^2.2.0",
     "@heroicons/react": "^2.2.0",
+    "@react-three/drei": "^10.0.4",
+    "@react-three/fiber": "^9.1.0",
     "@types/react": "^19.0.8",
     "@types/react-dom": "^19.0.3",
+    "@types/react-router-dom": "^5.3.3",
+    "@types/three": "^0.174.0",
     "astro": "^5.1.9",
     "classnames": "^2.5.1",
+    "framer-motion": "^12.5.0",
     "isotope-layout": "^3.0.6",
+    "maath": "^0.10.8",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
+    "react-router-dom": "^7.4.0",
     "tailwind": "^4.0.0",
-    "tailwindcss": "^3.4.17"
+    "tailwindcss": "^3.4.17",
+    "three": "^0.174.0"
   }
 }

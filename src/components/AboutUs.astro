@@ -1,31 +1,54 @@
 ---
-import Container from "../layouts/Container.tsx";
+import Container from "../layouts/Container";
 ---
 
-<Container
-  data-section="services"
-  id="services"
-  classNames="min-h-[max-content]"
->
-  {/*About Us */}
-  <div class="p-20">
-    <h2
-      class="text-[4rem] font-semibold tracking-tight text-white font-kuunari-medium"
-    >
-      Sobre Nosotros
-    </h2>
-    <p class="my-12 text-[2rem] leading-[60px] text-white font-kuunari-light">
-      Somos un estudio especializado en <span
-        class="font-kuunari-bold text-accent-500"
-      >
-        Visualización Arquitectónica</span
-      > y <span class="font-kuunari-bold text-accent-500">
-        Diseño y Dirección de Obra</span
-      >.
-      <br />
-      Nos destacamos por la calidad excepcional de nuestras imágenes, tiempos de
-      entrega eficientes y un firme compromiso con cada proyecto.
-      <br />
-    </p>
-  </div>
-</Container>
+<section id="about" class="py-32 bg-darkgray relative overflow-hidden">
+  <Container classNames="relative z-10">
+    <div class="max-w-5xl mx-auto">
+      <div class="space-y-12">
+        <h2 class="text-[4rem] font-semibold tracking-tight text-white font-kuunari-medium">
+          Sobre Nosotros
+        </h2>
+
+        <p class="text-[2rem] leading-[60px] text-white font-kuunari-light">
+          Somos un estudio especializado en <span class="font-kuunari-bold text-accent-500">Visualización Arquitectónica</span> y <span class="font-kuunari-bold text-accent-500">Diseño y Dirección de Obra</span>.
+          <br />
+          Nos destacamos por la calidad excepcional de nuestras imágenes, tiempos de entrega eficientes y un firme compromiso con cada proyecto.
+        </p>
+
+        {/* Stats with original styling */}
+        <div class="flex gap-16 pt-12">
+          <div>
+            <div class="text-[3rem] font-kuunari-bold text-accent-500 mb-2">10+</div>
+            <div class="text-[1.5rem] text-white font-kuunari-light">Años de Experiencia</div>
+          </div>
+          <div>
+            <div class="text-[3rem] font-kuunari-bold text-accent-500 mb-2">50+</div>
+            <div class="text-[1.5rem] text-white font-kuunari-light">Proyectos Completados</div>
+          </div>
+        </div>
+
+        {/* CTA with original styling */}
+        <a
+          href="/about"
+          class="inline-flex items-center gap-4 text-white text-[2rem] font-kuunari-regular hover:text-accent-500 transition-colors duration-300 group"
+        >
+          Conoce más sobre nosotros
+          <svg
+            class="w-6 h-6 transform group-hover:translate-x-1 transition-transform duration-300"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M17 8l4 4m0 0l-4 4m4-4H3"
+            />
+          </svg>
+        </a>
+      </div>
+    </div>
+  </Container>
+</section>

@@ -1,54 +1,128 @@
 ---
-import background from "../assets/background.webp";
-import Container from "../layouts/Container";
+import { Image } from "astro:assets";
+import heroImage from "../assets/background.webp";
+import Container from "../layouts/Container.astro";
+import Background3D from "./3d/Background3D";
 ---
 
-<Container classNames="relative max-w-8xl">
-  <div
-    class="w-[100%] h-[100%] bg-gradientOverlayHero absolute z-10 rounded-md"
-  >
+<section class="relative h-screen flex items-center justify-center overflow-hidden">
+  {/* Background Image with Enhanced Gradient Overlay */}
+  <div class="absolute inset-0">
+    <Image
+      src={heroImage}
+      alt="Hero background"
+      class="w-full h-full object-cover"
+      width={1920}
+      height={1080}
+      priority
+    />
+    {/* Multi-layer gradient overlay for depth */}
+    <div class="absolute inset-0 bg-gradient-to-b from-black/90 via-black/80 to-black/90" />
+    {/* Subtle radial gradient for spotlight effect */}
+    <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.05)_0%,transparent_70%)]" />
   </div>
-  <img
-    class="absolute w-[100%] h-full z-0 rounded-md object-cover"
-    src={background.src}
-    alt=""
-    fetchpriority="high"
-  />
-  <main class="py-20 px-20 mx-auto z-20 relative h-full main">
-    <section
-      class="text-white text-shadow-sm shadow-black flex flex-col gap-y-6 h-full justify-between"
-    >
-      <div class="flex flex-col">
-        <h1 class="text-[120px] font-bold font-kuunari-bold-condensed">
-          Export<span class="text-accent-500">3D</span>.
-        </h1>
-        <h2
-          class="text-[2rem] tracking-tight text-white font-kuunari-regular mt-[-30px]"
-        >
-          Selected Works 2024 - 2025.
-        </h2>
+
+  {/* 3D Effects Layer */}
+  <div class="absolute inset-0 opacity-40">
+    <Background3D client:load />
+  </div>
+
+  {/* Content Container */}
+  <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+    {/* Animated Decorative Elements */}
+    <div class="absolute -top-20 -left-20 w-40 h-40 bg-accent-500/10 rounded-full blur-3xl animate-pulse" />
+    <div class="absolute -bottom-20 -right-20 w-40 h-40 bg-accent-500/10 rounded-full blur-3xl animate-pulse delay-1000" />
+
+    {/* Main Content */}
+    <div class="space-y-8">
+      {/* Pre-title with accent */}
+      <div class="inline-block">
+        <span class="inline-flex items-center px-4 py-1.5 rounded-full text-sm font-medium bg-accent-500/20 text-accent-500 border border-accent-500/30">
+          <span class="relative flex h-2 w-2 mr-2">
+            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent-500 opacity-75"></span>
+            <span class="relative inline-flex rounded-full h-2 w-2 bg-accent-500"></span>
+          </span>
+          Innovación Arquitectónica
+        </span>
       </div>
 
-      <div class="">
-        <h2 class="text-[3.5rem] tracking-tight text-white font-kuunari-bold">
-          Diseños exportados a la realidad.
-        </h2>
-        <p
-          class="text-[2rem] text-white font-kuunari-bold-condensed mt-[-60px]"
+      {/* Main Title with Gradient Text */}
+      <h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight">
+        <span class="block text-white mb-2">Transformamos Espacios</span>
+        <span class="block bg-gradient-to-r from-accent-500 via-accent-400 to-accent-500 bg-clip-text text-transparent">
+          en Experiencias
+        </span>
+      </h1>
+
+      {/* Subtitle with Enhanced Typography */}
+      <p class="max-w-2xl mx-auto text-lg sm:text-xl text-gray-300 leading-relaxed">
+        Diseño arquitectónico innovador que fusiona estética y funcionalidad para crear espacios que inspiran y transforman.
+      </p>
+
+      {/* CTA Buttons with Hover Effects */}
+      <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
+        <a
+          href="/contact"
+          class="group relative px-8 py-4 bg-accent-500 text-white rounded-full font-medium overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-accent-500/25"
         >
-          <span class="font-kuunari-bold text-accent-500"
-            ><br />
-            Visualización Arquitectónica</span
-          > / <span class="font-kuunari-bold text-accent-500">
-            Diseño y Dirección de Obra</span
-          >.
-        </p>
-        <button
-          ><a class="text-white text-[2rem] font-kuunari-regular" href=""
-            >Contactanos</a
-          ></button
+          <span class="relative z-10">Iniciar Proyecto</span>
+          <div class="absolute inset-0 bg-gradient-to-r from-accent-600 to-accent-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+        </a>
+        <a
+          href="/projects"
+          class="group px-8 py-4 bg-transparent text-white rounded-full font-medium border-2 border-white/20 hover:border-accent-500 transition-all duration-300 hover:scale-105"
         >
+          Ver Proyectos
+          <span class="inline-block ml-2 transform group-hover:translate-x-1 transition-transform duration-300">→</span>
+        </a>
       </div>
-    </section>
-  </main>
-</Container>
+
+      {/* Social Proof */}
+      <div class="mt-12 flex flex-wrap justify-center gap-8 text-sm text-gray-400">
+        <div class="flex items-center">
+          <span class="text-2xl font-bold text-white mr-2">10+</span>
+          <span>Años de Experiencia</span>
+        </div>
+        <div class="flex items-center">
+          <span class="text-2xl font-bold text-white mr-2">50+</span>
+          <span>Proyectos Completados</span>
+        </div>
+        <div class="flex items-center">
+          <span class="text-2xl font-bold text-white mr-2">100%</span>
+          <span>Clientes Satisfechos</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {/* Scroll Indicator */}
+  <a 
+    href="#about" 
+    class="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-20 group cursor-pointer"
+    onclick="event.preventDefault(); document.getElementById('about').scrollIntoView({ behavior: 'smooth' });"
+  >
+    <div class="flex flex-col items-center gap-2">
+      <span class="text-sm text-white/70 group-hover:text-white transition-colors duration-300">Scroll Down</span>
+      <div class="w-6 h-10 border-2 border-white/30 rounded-full p-1 group-hover:border-white/50 transition-colors duration-300">
+        <div class="w-1.5 h-1.5 bg-white rounded-full mx-auto animate-scroll" />
+      </div>
+    </div>
+  </a>
+</section>
+
+<style>
+  @keyframes scroll {
+    0% {
+      transform: translateY(0);
+      opacity: 1;
+    }
+    100% {
+      transform: translateY(20px);
+      opacity: 0;
+    }
+  }
+
+  .animate-scroll {
+    animation: scroll 2s infinite;
+  }
+</style>

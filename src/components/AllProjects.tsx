@@ -1,30 +1,21 @@
 import Container from "../layouts/Container.tsx";
 import ProjectList from "./ProjectList.tsx";
 import { tags, projects } from "../data/data.ts";
-import { useState, useEffect } from "react";
-import { filterProjects } from "./ProjectsFilter.tsx";
+import { useState } from "react";
+import { useProjectFilters } from "../hooks/useProjectFilters";
+import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 
 export default function AllProjects() {
-  const [activeFilters, setActiveFilters] = useState([]);
-  const [filteredProjects, setFilteredProjects] = useState(projects);
+  const [searchTerm, setSearchTerm] = useState("");
+  const { filters, filteredProjects, toggleFilter, clearFilters, availableTags } = useProjectFilters(projects);
 
-  useEffect(() => {
-    filterProjects(projects, activeFilters, setFilteredProjects);
-  }, [activeFilters]);
-
-  const handleFilterChange = (filter) => {
-    setActiveFilters((prevFilters) => {
-      if (prevFilters.includes(filter)) {
-        return prevFilters.filter((f) => f !== filter);
-      } else {
-        return [...prevFilters, filter];
-      }
-    });
+  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchTerm(e.target.value);
   };
 
-  const resetFilters = () => {
-    setActiveFilters([]);
-  };
+  const filteredBySearch = filteredProjects.filter((project) =>
+    project.metadata.title.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   return (
     <Container classNames="p-4 sm:p-8 md:p-12 lg:p-20 bg-lightgray">
@@ -47,7 +38,7 @@ export default function AllProjects() {
                       key={tag}
                       className="text-sm sm:text-base lg:text-[18px] font-kuunari-medium text-accent-500 rounded-[28px] py-1.5 sm:py-2 px-4 sm:px-8 border-accent-500 border-solid border-2 cursor-pointer filter-tag"
                       data-filter={tag}
-                      onClick={() => handleFilterChange(tag)}
+                      onClick={() => toggleFilter(category as keyof typeof filters, tag)}
                     >
                       {tag}
                     </p>
@@ -59,24 +50,43 @@ export default function AllProjects() {
           <button
             id="reset-filters"
             className="text-base sm:text-lg lg:text-[20px] font-kuunari-medium text-white cursor-pointer mb-4 sm:mb-6 lg:mb-8"
-            onClick={resetFilters}
+            onClick={clearFilters}
           >
-            Reset Filters
+            Limpiar Filtros
           </button>
         </div>
 
-        <ProjectList projects={filteredProjects} />
-        {filteredProjects.length === 0 && (
-          <div id="no-projects" className="text-center py-8">
-            <p className="text-white text-base sm:text-lg mb-4">
+        {/* Barra de búsqueda */}
+        <div className="relative">
+          <input
+            type="text"
+            placeholder="Buscar proyectos..."
+            value={searchTerm}
+            onChange={handleSearch}
+            className="w-full px-4 py-2 bg-accent-500/20 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-accent-500"
+          />
+        </div>
+
+        {filteredBySearch.length > 0 ? (
+          <ProjectList projects={filteredBySearch} />
+        ) : (
+          <div id="no-projects" className="flex flex-col items-center justify-center min-h-[800px] text-center bg-darkgray/30 rounded-2xl p-8 sm:p-12">
+            <div className="w-24 h-24 mb-8 rounded-full bg-accent-500/10 flex items-center justify-center">
+              <MagnifyingGlassIcon className="w-12 h-12 text-accent-500" />
+            </div>
+            <h3 className="text-2xl sm:text-3xl font-kuunari-bold text-accent-500 mb-4">
+              No se encontraron proyectos
+            </h3>
+            <p className="text-white text-base sm:text-lg mb-8 max-w-2xl">
               Vaya! Todavía no contamos con ningún proyecto con dichas
-              características, sé el primero!
+              características. ¿Te gustaría ser el primero en colaborar con nosotros?
             </p>
             <button
               type="button"
-              className="rounded-md bg-indigo-600 px-4 py-2 text-sm sm:text-base font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+              className="group relative inline-flex items-center justify-center px-8 py-4 text-base sm:text-lg font-kuunari-medium text-white bg-accent-500 rounded-full hover:bg-accent-400 transition-colors duration-300 shadow-lg hover:shadow-accent-500/25"
             >
               Contactar
+              <span className="ml-2 group-hover:translate-x-1 transition-transform duration-300">→</span>
             </button>
           </div>
         )}

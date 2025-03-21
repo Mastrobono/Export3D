@@ -29,11 +29,27 @@ export const tags = {
   role: TagRole ? Object.values(TagRole) : [],
 };
 
+export interface Project {
+  imageRef: any; // Using any for ImageMetadata type
+  imageUrl: string;
+  metadata: {
+    title: string;
+    tags?: string[];
+    location?: string;
+    client?: string;
+    date?: string;
+    role?: string;
+    buildingType?: string;
+    status?: string;
+    featured?: boolean;
+  };
+}
+
 // Projects
-export const projects = [
+export const projects: Project[] = [
   {
     imageRef: hutchImage,
-    imageUrl: "../src/assets/features/hutch.png",
+    imageUrl: hutchImage.src,
     metadata: {
       title: "HUTCH",
       location: "Ciudad Jardin, Buenos Aires, Argentina",
@@ -47,7 +63,7 @@ export const projects = [
   },
   {
     imageRef: hausImage,
-    imageUrl: "../src/assets/features/haus.jpg",
+    imageUrl: hausImage.src,
     metadata: {
       title: "HAUS",
       location: "Buenos Aires, Argentina",
@@ -61,7 +77,7 @@ export const projects = [
   },
   {
     imageRef: arceImage,
-    imageUrl: "../src/assets/features/hutch.png",
+    imageUrl: arceImage.src,
     metadata: {
       title: "ARCE",
       location: "Buenos Aires, Argentina",
@@ -75,7 +91,7 @@ export const projects = [
   },
   {
     imageRef: frisbeeImage,
-    imageUrl: "../src/assets/features/frisbee.jpg",
+    imageUrl: frisbeeImage.src,
     metadata: {
       title: "<br/> Meat Frisbee",
       location: "Buenos Aires, Argentina",
@@ -89,7 +105,7 @@ export const projects = [
   },
   {
     imageRef: hutchImage,
-    imageUrl: "../src/assets/features/arce.png",
+    imageUrl: hutchImage.src,
     metadata: {
       title: "HUTCH",
       location: "Ciudad Jardin, Buenos Aires, Argentina",
@@ -103,7 +119,7 @@ export const projects = [
   },
   {
     imageRef: hausImage,
-    imageUrl: "../src/assets/features/haus.jpg",
+    imageUrl: hausImage.src,
     metadata: {
       title: "HAUS",
       location: "Buenos Aires, Argentina",
@@ -117,7 +133,7 @@ export const projects = [
   },
   {
     imageRef: arceImage,
-    imageUrl: "../src/assets/features/hutch.png",
+    imageUrl: arceImage.src,
     metadata: {
       title: "ARCE",
       location: "Buenos Aires, Argentina",
@@ -132,7 +148,7 @@ export const projects = [
   },
   {
     imageRef: frisbeeImage,
-    imageUrl: "../src/assets/features/frisbee.jpg",
+    imageUrl: frisbeeImage.src,
     metadata: {
       title: "<br/> Meat Frisbee",
       location: "Buenos Aires, Argentina",

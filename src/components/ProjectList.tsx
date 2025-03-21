@@ -1,44 +1,74 @@
-interface Project {
-  imageRef: string;
-  imageUrl: string;
-  metadata: {
-    title: string;
-    tags?: string[];
-  };
-}
+import { motion, AnimatePresence } from "framer-motion";
+import type { Project } from "../data/data";
 
 interface ProjectListProps {
   projects: Project[];
 }
 
-const ProjectList: React.FC<ProjectListProps> = ({ projects }) => {
+const ProjectList = ({ projects }: ProjectListProps) => {
+  const generateSlug = (title: string) => {
+    return title
+      .toLowerCase()
+      .replace(/<br\/>/g, '') // Removemos <br/>
+      .replace(/[^a-z0-9]+/g, '-') // Reemplazamos caracteres especiales con guiones
+      .replace(/^-+|-+$/g, ''); // Removemos guiones al inicio y final
+  };
+
   return (
-    <ul
-      role="list"
-      className="grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-3 sm:gap-x-6 lg:grid-cols-4 xl:gap-x-8 min-h-[600px]"
-      id="project-list"
-    >
-      {projects.map((project, idx) => (
-        <li
-          key={project.metadata.title + idx}
-          className="relative project-item transition-all duration-500"
-          data-tags={
-            project.metadata.tags ? project.metadata.tags.join(" ") : ""
-          }
-        >
-          <div className="mb-4 group overflow-hidden rounded-lg bg-gray-100 focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-offset-2 focus-within:ring-offset-gray-100">
-            <img
-              src={project.imageUrl}
-              alt={project.metadata.title}
-              className="pointer-events-none aspect-[10/7] object-cover group-hover:opacity-75"
-            />
-          </div>
-          <p className="pointer-events-none block text-md font-medium text-white font-kuunari-light">
-            {project.metadata.title.replace("<br/>", "")}
-          </p>
-        </li>
-      ))}
-    </ul>
+    <AnimatePresence mode="wait">
+      <motion.ul
+        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+        layout
+      >
+        <AnimatePresence mode="popLayout">
+          {projects.map((project, index) => {
+            const slug = generateSlug(project.metadata.title);
+            return (
+              <motion.li
+                key={project.metadata.title}
+                layout
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.8 }}
+                transition={{
+                  opacity: { duration: 0.2 },
+                  scale: { duration: 0.2 },
+                  layout: { duration: 0.2, ease: "easeOut" }
+                }}
+                className="group cursor-pointer"
+              >
+                <a href={`/projects/${slug}`} className="block">
+                  <div className="relative overflow-hidden rounded-lg aspect-[4/3]">
+                    <img
+                      src={project.imageUrl}
+                      alt={project.metadata.title}
+                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                      <div className="absolute bottom-0 left-0 right-0 p-6">
+                        <h3 className="text-xl font-kuunari-bold text-white mb-2">
+                          {project.metadata.title.replace("<br/>", "")}
+                        </h3>
+                        <div className="flex flex-wrap gap-2">
+                          {project.metadata.tags?.map((tag) => (
+                            <span
+                              key={tag}
+                              className="px-3 py-1 bg-accent-500/20 text-accent-500 rounded-full text-sm font-kuunari-medium"
+                            >
+                              {tag}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </a>
+              </motion.li>
+            );
+          })}
+        </AnimatePresence>
+      </motion.ul>
+    </AnimatePresence>
   );
 };
 
