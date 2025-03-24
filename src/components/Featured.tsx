@@ -89,7 +89,7 @@ const Feature: React.FC<FeatureProps> = ({ projects }) => {
         const objectPosition = useTransform(
           scrollYProgress,
           [0, 1],
-          ["center 40%", "center 100%"]
+          ["center 20%", "center 100%"]
         );
 
         return (
@@ -102,36 +102,87 @@ const Feature: React.FC<FeatureProps> = ({ projects }) => {
                   slideRef.current = el;
                 }
               }}
-              className="w-full relative rounded-2xl w-f mb-8 overflow-hidden group h-[75vh]"
+              className="w-full relative rounded-2xl w-f mb-8 overflow-hidden group h-[90vh] md:h-[86vh]"
             >
-              {/* Background Image with object-position parallax */}
+              {/* Background Image with parallax and zoom effect */}
               <motion.div
-                className="absolute inset-0 z-0 h-full w-full"
+                className="absolute inset-0 z-0 w-full h-full"
+                initial={{ scale: 1.1, filter: "blur(6px) brightness(0.8)" }}
+                whileInView={{ 
+                  scale: 1,
+                  filter: "blur(0px) brightness(1)",
+                  transition: {
+                    duration: 1.25,
+                    ease: [0.25, 0.1, 0.25, 1],
+                    filter: {
+                      duration: 1.25,
+                      ease: [0.25, 0.1, 0.25, 1]
+                    }
+                  }
+                }}
+                whileHover={{
+                  scale: 1.05,
+                  transition: {
+                    duration: 0.8,
+                    ease: [0.25, 0.1, 0.25, 1]
+                  }
+                }}
+                exit={{
+                  scale: 1.1,
+                  filter: "blur(6px) brightness(0.8)",
+                  transition: {
+                    duration: 1.5,
+                    ease: [0.25, 0.1, 0.25, 1]
+                  }
+                }}
               >
                 <motion.img
                   src={slide.imageUrl}
                   alt={`Slide ${index + 1}`}
                   style={{
-                    objectPosition
+                    objectPosition,
+                    width: "100%",
+                    height: "100%",
+                    objectFit: "cover"
                   }}
-                  className="w-full h-[120%] object-cover rounded-2xl transition-transform duration-700"
+                  className="transition-transform duration-700"
+                  whileHover={{
+                    scale: 1.1,
+                    transition: {
+                      duration: 0.8,
+                      ease: [0.25, 0.1, 0.25, 1]
+                    }
+                  }}
                 />
               </motion.div>
 
-              {/* Enhanced edge vignette with stronger opacity */}
-              <div className="absolute inset-0 z-10 rounded-2xl">
+              {/* Enhanced edge vignette with stronger opacity and hover effect */}
+              <motion.div 
+                className="absolute inset-0 z-10 rounded-2xl"
+                whileHover={{
+                  opacity: 0.8,
+                  transition: { duration: 0.3 }
+                }}
+              >
                 <div className="absolute inset-y-0 left-0 w-[20%] bg-gradient-to-r from-black/70 to-transparent"></div>
                 <div className="absolute inset-y-0 right-0 w-[20%] bg-gradient-to-l from-black/70 to-transparent"></div>
                 <div className="absolute inset-x-0 top-0 h-[30%] bg-gradient-to-b from-black/70 to-transparent"></div>
                 <div className="absolute inset-x-0 bottom-0 h-[40%] bg-gradient-to-t from-black/90 via-black/60 to-transparent"></div>
-              </div>
+              </motion.div>
 
-              {/* Content Container */}
+              {/* Content Container with hover effects */}
               <motion.div 
-                className="relative z-20 h-full flex flex-col justify-between p-16"
+                className="relative z-20 h-full flex flex-col justify-between p-8 md:p-16"
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.2 }}
+                whileHover={{
+                  scale: 1.02,
+                  transition: {
+                    duration: 0.3,
+                    ease: [0.25, 0.1, 0.25, 1]
+                  }
+                }}
               >
                 {/* Top Content */}
                 <div className="flex justify-between items-start">
@@ -140,7 +191,7 @@ const Feature: React.FC<FeatureProps> = ({ projects }) => {
                       initial={{ opacity: 0, x: -20 }}
                       whileInView={{ opacity: 1, x: 0 }}
                       transition={{ duration: 0.6, delay: 0.3 }}
-                      className="text-xl text-white/90 font-kuunari-medium"
+                      className="text-lg md:text-xl text-white/90 font-kuunari-medium"
                     >
                       {slide.metadata.date}
                     </motion.p>
@@ -148,7 +199,7 @@ const Feature: React.FC<FeatureProps> = ({ projects }) => {
                       initial={{ opacity: 0, x: -20 }}
                       whileInView={{ opacity: 1, x: 0 }}
                       transition={{ duration: 0.6, delay: 0.4 }}
-                      className="text-2xl text-accent-500 font-kuunari-bold"
+                      className="text-xl md:text-2xl text-accent-500 font-kuunari-bold"
                     >
                       {slide.metadata.role}
                     </motion.h4>
@@ -158,19 +209,19 @@ const Feature: React.FC<FeatureProps> = ({ projects }) => {
                     initial={{ opacity: 0 }}
                     whileInView={{ opacity: 1 }}
                     transition={{ duration: 0.6, delay: 0.5 }}
-                    className="text-3xl text-white font-kuunari-bold drop-shadow-[0_2px_3px_rgba(0,0,0,0.5)]"
+                    className="text-2xl md:text-3xl text-white font-kuunari-bold drop-shadow-[0_2px_3px_rgba(0,0,0,0.5)]"
                   >
-                    0{index + 1} <span className="text-white/70 text-xl">/ 0{projects.length}</span>
+                    0{index + 1} <span className="text-white/70 text-lg md:text-xl">/ 0{projects.length}</span>
                   </motion.p>
                 </div>
 
                 {/* Bottom Content */}
-                <div className="space-y-8">
+                <div className="space-y-6 md:space-y-8">
                   <motion.h2
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.6, delay: 0.6 }}
-                    className="text-[5rem] text-white font-kuunari-bold leading-none drop-shadow-[0_2px_4px_rgba(0,0,0,0.6)]"
+                    className="text-[3.5rem] md:text-[5rem] text-white font-kuunari-bold leading-none drop-shadow-[0_2px_4px_rgba(0,0,0,0.6)]"
                   >
                     {slide.metadata.title}
                   </motion.h2>
@@ -180,7 +231,7 @@ const Feature: React.FC<FeatureProps> = ({ projects }) => {
                     whileInView={{ opacity: 1, y: 0 }}
                     whileHover={{ x: 10 }}
                     transition={{ duration: 0.3 }}
-                    className="flex items-center gap-4 text-2xl text-white font-kuunari-medium group/button drop-shadow-[0_2px_3px_rgba(0,0,0,0.5)]"
+                    className="flex items-center gap-4 text-xl md:text-2xl text-white font-kuunari-medium group/button drop-shadow-[0_2px_3px_rgba(0,0,0,0.5)]"
                   >
                     Ver Proyecto
                     <span className="transform transition-transform duration-300 group-hover/button:translate-x-2">
@@ -191,19 +242,19 @@ const Feature: React.FC<FeatureProps> = ({ projects }) => {
               </motion.div>
 
               {/* Navigation Dots */}
-              <div className="absolute top-1/2 right-8 transform -translate-y-1/2 flex flex-col gap-4 z-30">
+              <div className="absolute top-1/2 right-4 md:right-8 transform -translate-y-1/2 flex flex-col gap-3 md:gap-4 z-30">
                 {projects.map((_, dotIndex) => (
                   <motion.button
                     key={dotIndex}
                     initial={{ opacity: 0, x: 20 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: dotIndex * 0.1 }}
-                    className="group relative flex items-center gap-4"
+                    className="group relative flex items-center gap-2 md:gap-4"
                     onClick={() => handleDotClick(dotIndex)}
                   >
                     <div className="relative">
                       <div 
-                        className={`w-4 h-4 rounded-full transition-all duration-300 ${
+                        className={`w-3 h-3 md:w-4 md:h-4 rounded-full transition-all duration-300 ${
                           dotIndex === currentSlide 
                             ? "bg-accent-500 shadow-[0_0_10px_rgba(255,102,0,0.5)]" 
                             : "bg-white/30 hover:bg-white/50"
@@ -213,7 +264,7 @@ const Feature: React.FC<FeatureProps> = ({ projects }) => {
                         <div className="absolute inset-0 rounded-full bg-accent-500 animate-ping opacity-50" />
                       )}
                     </div>
-                    <span className="opacity-0 group-hover:opacity-100 transition-opacity duration-300 text-white text-sm whitespace-nowrap">
+                    <span className="opacity-0 group-hover:opacity-100 transition-opacity duration-300 text-white text-xs md:text-sm whitespace-nowrap">
                       0{dotIndex + 1}
                     </span>
                   </motion.button>
