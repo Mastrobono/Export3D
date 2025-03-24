@@ -102,7 +102,7 @@ const Feature: React.FC<FeatureProps> = ({ projects }) => {
                   slideRef.current = el;
                 }
               }}
-              className="w-full relative rounded-2xl w-f mb-8 overflow-hidden group h-[90vh] md:h-[86vh]"
+              className="w-full relative rounded-2xl w-f mb-8 overflow-hidden group h-[86vh] md:h-[86vh]"
             >
               {/* Background Image with parallax and zoom effect */}
               <motion.div
