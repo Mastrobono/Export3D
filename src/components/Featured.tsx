@@ -2,18 +2,22 @@ import { useRef, useState, useEffect } from "react";
 import Container from "../layouts/Container";
 import { motion, useScroll, useTransform, useSpring, AnimatePresence } from "framer-motion";
 
-interface Slide {
-  imageRef: HTMLImageElement;
+interface ProjectMetadata {
+  title: string;
+  date: string;
+  role: string;
+  featured: boolean;
+  // ... otros campos que puedas necesitar
+}
+
+interface ProjectData {
+  imageRef: any;
   imageUrl: string;
-  metadata: {
-    title: string;
-    date: string;
-    role: "Visualización Arquitectónica" | "Dirección de Obra";
-  };
+  metadata: ProjectMetadata;
 }
 
 interface FeatureProps {
-  projects: Slide[];
+  projects: ProjectData[];
 }
 
 const ChevronRightIcon = () => (

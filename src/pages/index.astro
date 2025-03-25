@@ -1,26 +1,17 @@
 ---
-import Hero from "../components/Hero.astro";
-import AboutUs from "../components/AboutUs.astro";
-import Services from "../components/Services.astro";
 import Layout from "../layouts/Layout.astro";
 import Featured from "../components/Featured";
 import AllProjects from "../components/AllProjects.tsx";
-
-import Footer from "../components/Footer.astro";
 import CTA from "../components/CTA.astro";
+import { projects } from "../data/data";
 
-import { projects } from "../data/data.ts";
+const featuredProjects = projects.filter((project) => project.metadata.featured);
 ---
 
-<Layout>
-  <Hero />
-  <AboutUs />
-  <Services />
-  <Featured
-    projects={projects.filter((project) => project.metadata.featured == true)}
-    client:load
-  />
-  <AllProjects projects={projects} client:load />
-  <CTA />
-  <Footer />
+<Layout title="Export3D">
+  <main>
+    <Featured client:load projects={featuredProjects} />
+    <AllProjects client:load projects={projects} />
+    <CTA />
+  </main>
 </Layout>

@@ -1,6 +1,7 @@
 ---
 import Navbar from "./Navbar.tsx";
 import { LenisProvider } from "../components/LenisProvider";
+import Footer from "../components/Footer";
 ---
 
 <!doctype html>
@@ -16,6 +17,7 @@ import { LenisProvider } from "../components/LenisProvider";
     <LenisProvider client:load>
       <Navbar client:load />
       <slot />
+      <Footer client:load />
     </LenisProvider>
   </body>
 </html>
