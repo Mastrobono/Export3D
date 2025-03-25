@@ -17,7 +17,7 @@ const transformProject = (rawProject: any, index: number): Project => {
     id: uniqueId,
     title: rawProject.metadata.title.replace("<br/>", ""),
     description: rawProject.metadata.location,
-    imageUrl: rawProject.imageUrl,
+    imageUrl: rawProject.image.src,
     type: rawProject.metadata.buildingType,
     date: rawProject.metadata.date,
     role: rawProject.metadata.role,
@@ -293,53 +293,32 @@ const AllProjects: React.FC<AllProjectsProps> = ({ projects: rawProjects }) => {
                 delay: 0.2
               }
             }}
-            className="overflow-hidden"
+            className="overflow-visible"
           >
             <motion.a
               href="/projects"
-              initial={{ x: -20 }}
-              whileInView={{ x: 0 }}
-              viewport={{ once: true, margin: "-100px" }}
-              transition={{ duration: 0.4, delay: 0.4 }}
-              whileHover={{ scale: 1.01 }}
-              whileTap={{ scale: 0.98 }}
-              className="group relative inline-flex items-center gap-3 text-2xl text-white/90 font-kuunari-medium px-6 py-2"
+              className="group relative inline-flex items-center gap-3 px-4 py-2"
             >
-              <motion.span 
-                className="relative z-10"
-                initial={{ opacity: 0 }}
-                whileInView={{ opacity: 1 }}
-                viewport={{ once: true, margin: "-100px" }}
-                transition={{ duration: 0.3, delay: 0.6 }}
-              >
+              <span className="relative text-2xl text-accent-500 font-kuunari-medium">
                 Explorar Galería Completa
-              </motion.span>
-              <motion.svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth={2}
-                stroke="currentColor"
-                className="w-6 h-6 relative z-10"
-                initial={{ opacity: 0, x: -10 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true, margin: "-100px" }}
-                transition={{ duration: 0.3, delay: 0.7 }}
-                whileHover={{ rotate: 15, x: 5 }}
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3"
-                />
-              </motion.svg>
-              <motion.span 
-                className="absolute inset-0 border border-white/0 group-hover:border-white/40 transition-all duration-500 rounded-lg"
-                initial={{ scale: 0.8, opacity: 0 }}
-                whileInView={{ scale: 1, opacity: 1 }}
-                viewport={{ once: true, margin: "-100px" }}
-                transition={{ duration: 0.5, delay: 0.5 }}
-              />
+                <span className="absolute bottom-0 left-1/2 w-0 h-[2px] bg-accent-500 transition-all duration-300 group-hover:w-full group-hover:left-0"/>
+              </span>
+              <div className="overflow-hidden w-8">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth={2}
+                  stroke="currentColor"
+                  className="w-6 h-6 text-accent-500 transform transition-transform duration-300 ease-out group-hover:translate-x-2"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3"
+                  />
+                </svg>
+              </div>
             </motion.a>
           </motion.div>
         </motion.div>

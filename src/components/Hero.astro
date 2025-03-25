@@ -79,13 +79,12 @@ import Container from "../layouts/Container";
 
       {/* Scroll indicator */}
       <div class="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 animate-fade-in-up-last">
-        <a 
-          href="#services" 
-          class="flex flex-col items-center gap-2 text-white/80 hover:text-white transition-colors duration-300 group"
+        <button 
+          class="scroll-to-about flex flex-col items-center gap-2 text-white/80 hover:text-white transition-colors duration-300 group"
         >
           <span class="text-sm uppercase tracking-widest font-kuunari-regular">Explorar</span>
           <div class="w-px h-12 bg-gradient-to-b from-accent-500 to-transparent scroll-line"></div>
-        </a>
+        </button>
       </div>
 
       {/* Wave divider */}
@@ -390,6 +389,19 @@ import Container from "../layouts/Container";
     }, { threshold: 0.1 });
 
     observer.observe(mainHeadingContainer);
+  }
+
+  // Scroll to services functionality
+  const scrollButton = document.querySelector('.scroll-to-about');
+  const servicesSection = document.getElementById('about');
+
+  if (scrollButton && servicesSection) {
+    scrollButton.addEventListener('click', () => {
+      servicesSection.scrollIntoView({ 
+        behavior: 'smooth',
+        block: 'start'
+      });
+    });
   }
 </script>
 

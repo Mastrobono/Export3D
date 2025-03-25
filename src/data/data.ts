@@ -32,8 +32,7 @@ export const tags = {
 // Projects
 export const projects = [
   {
-    imageRef: hutchImage,
-    imageUrl: "../src/assets/features/hutch.png",
+    image: hutchImage,
     metadata: {
       title: "HUTCH",
       location: "Ciudad Jardin, Buenos Aires, Argentina",
@@ -46,8 +45,7 @@ export const projects = [
     },
   },
   {
-    imageRef: hausImage,
-    imageUrl: "../src/assets/features/haus.jpg",
+    image: hausImage,
     metadata: {
       title: "HAUS",
       location: "Buenos Aires, Argentina",
@@ -60,8 +58,7 @@ export const projects = [
     },
   },
   {
-    imageRef: arceImage,
-    imageUrl: "../src/assets/features/hutch.png",
+    image: arceImage,
     metadata: {
       title: "ARCE",
       location: "Buenos Aires, Argentina",
@@ -74,8 +71,7 @@ export const projects = [
     },
   },
   {
-    imageRef: frisbeeImage,
-    imageUrl: "../src/assets/features/frisbee.jpg",
+    image: frisbeeImage,
     metadata: {
       title: "<br/> Meat Frisbee",
       location: "Buenos Aires, Argentina",
@@ -88,8 +84,7 @@ export const projects = [
     },
   },
   {
-    imageRef: hutchImage,
-    imageUrl: "../src/assets/features/arce.png",
+    image: hutchImage,
     metadata: {
       title: "HUTCH",
       location: "Ciudad Jardin, Buenos Aires, Argentina",
@@ -102,8 +97,7 @@ export const projects = [
     },
   },
   {
-    imageRef: hausImage,
-    imageUrl: "../src/assets/features/haus.jpg",
+    image: hausImage,
     metadata: {
       title: "HAUS",
       location: "Buenos Aires, Argentina",
@@ -116,8 +110,7 @@ export const projects = [
     },
   },
   {
-    imageRef: arceImage,
-    imageUrl: "../src/assets/features/hutch.png",
+    image: arceImage,
     metadata: {
       title: "ARCE",
       location: "Buenos Aires, Argentina",
@@ -131,8 +124,7 @@ export const projects = [
     },
   },
   {
-    imageRef: frisbeeImage,
-    imageUrl: "../src/assets/features/frisbee.jpg",
+    image: frisbeeImage,
     metadata: {
       title: "<br/> Meat Frisbee",
       location: "Buenos Aires, Argentina",
