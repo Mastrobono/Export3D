@@ -94,17 +94,42 @@ const ProjectCard = ({ project }: { project: Project }) => {
     <motion.div
       key={`card-${project.id}`}
       layout
-      initial={{ opacity: 0, scale: 0.9 }}
-      animate={{ opacity: 1, scale: 1 }}
-      exit={{ opacity: 0, scale: 0.9 }}
-      transition={{ duration: 0.3 }}
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ 
+        opacity: 1, 
+        y: 0,
+        transition: {
+          duration: 0.8,
+          ease: [0.25, 0.1, 0.25, 1]
+        }
+      }}
+      viewport={{ once: true }}
       className="relative overflow-hidden rounded-lg aspect-[4/3] opacity-90 hover:opacity-100 transition-opacity duration-300"
     >
       <motion.div
         key={`image-container-${project.id}`}
         className="absolute inset-0 overflow-hidden"
-        whileHover={{ scale: 1.1 }}
-        transition={{ duration: 0.6, ease: "easeOut" }}
+        initial={{ scale: 1.1, filter: "blur(6px) brightness(0.8)" }}
+        whileInView={{ 
+          scale: 1,
+          filter: "blur(0px) brightness(1)",
+          transition: {
+            duration: 1.25,
+            ease: [0.25, 0.1, 0.25, 1],
+            filter: {
+              duration: 1.25,
+              ease: [0.25, 0.1, 0.25, 1]
+            }
+          }
+        }}
+        viewport={{ once: true }}
+        whileHover={{ 
+          scale: 1.1,
+          transition: {
+            duration: 0.8,
+            ease: [0.25, 0.1, 0.25, 1]
+          }
+        }}
       >
         <img
           src={project.imageUrl}
@@ -116,21 +141,56 @@ const ProjectCard = ({ project }: { project: Project }) => {
         key={`overlay-${project.id}`}
         className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent"
         initial={{ opacity: 0 }}
-        whileHover={{ opacity: 1 }}
-        transition={{ duration: 0.3 }}
+        whileInView={{ 
+          opacity: 1,
+          transition: {
+            duration: 0.8,
+            ease: [0.25, 0.1, 0.25, 1]
+          }
+        }}
+        viewport={{ once: true }}
+        whileHover={{ 
+          opacity: 0.9,
+          transition: { duration: 0.3 }
+        }}
       >
-        <div className="absolute bottom-0 left-0 p-8 text-white w-full">
+        <motion.div 
+          className="absolute bottom-0 left-0 p-8 text-white w-full"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ 
+            opacity: 1, 
+            y: 0,
+            transition: {
+              duration: 0.6,
+              delay: 0.2,
+              ease: [0.25, 0.1, 0.25, 1]
+            }
+          }}
+          viewport={{ once: true }}
+        >
           <h3 className="text-2xl font-bold mb-3">{project.title}</h3>
           <p className="text-sm opacity-90 mb-4">{project.description}</p>
           <div className="flex flex-wrap gap-2">
             {project.tags.map((tag, index) => (
-              <ProjectTag 
-                key={`${project.id}-tag-${index}`} 
-                tag={tag} 
-              />
+              <motion.div
+                key={`${project.id}-tag-${index}`}
+                initial={{ opacity: 0, y: 10 }}
+                whileInView={{ 
+                  opacity: 1, 
+                  y: 0,
+                  transition: {
+                    duration: 0.4,
+                    delay: 0.3 + index * 0.05,
+                    ease: [0.25, 0.1, 0.25, 1]
+                  }
+                }}
+                viewport={{ once: true }}
+              >
+                <ProjectTag tag={tag} />
+              </motion.div>
             ))}
           </div>
-        </div>
+        </motion.div>
       </motion.div>
     </motion.div>
   );
@@ -142,7 +202,20 @@ const AllProjects: React.FC<AllProjectsProps> = ({ projects: rawProjects }) => {
   const { activeFilters, filteredProjects, handleFilterChange, resetFilters } = useProjectFilters(projects);
 
   return (
-    <Container classNames="p-20 bg-lightgray" data-section="all-projects">
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ 
+        opacity: 1, 
+        y: 0,
+        transition: {
+          duration: 0.8,
+          ease: [0.25, 0.1, 0.25, 1]
+        }
+      }}
+      viewport={{ once: true }}
+      className="mx-auto w-[calc(100%-6rem)] rounded-md bg-lightgray shadow-xl my-12 p-20"
+      data-section="all-projects"
+    >
       <motion.h2
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -261,7 +334,7 @@ const AllProjects: React.FC<AllProjectsProps> = ({ projects: rawProjects }) => {
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, margin: "-100px" }}
-                  transition={{ duration: 0.4, delay: 0.4 + index * 0.1 }}
+                  transition={{ duration: 0.4, delay: 0.2 + index * 0.05 }}
                 >
                   <ProjectCard project={project} />
                 </motion.div>
@@ -275,7 +348,7 @@ const AllProjects: React.FC<AllProjectsProps> = ({ projects: rawProjects }) => {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.6 }}
+          transition={{ duration: 0.6, delay: 0.2 + filteredProjects.length * 0.05 + 0.3 }}
           className="flex justify-center mt-8"
         >
           <motion.div
@@ -284,13 +357,14 @@ const AllProjects: React.FC<AllProjectsProps> = ({ projects: rawProjects }) => {
             viewport={{ once: true, margin: "-100px" }}
             transition={{ 
               duration: 0.8,
+              delay: 0.2 + filteredProjects.length * 0.05 + 0.3,
               width: {
                 duration: 0.4,
                 ease: "easeOut"
               },
               opacity: {
                 duration: 0.6,
-                delay: 0.2
+                delay: 0.2 + filteredProjects.length * 0.05 + 0.5
               }
             }}
             className="overflow-visible"
@@ -323,7 +397,7 @@ const AllProjects: React.FC<AllProjectsProps> = ({ projects: rawProjects }) => {
           </motion.div>
         </motion.div>
       </div>
-    </Container>
+    </motion.div>
   );
 };
 

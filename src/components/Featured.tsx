@@ -93,11 +93,35 @@ const Feature: React.FC<FeatureProps> = ({ projects }) => {
                   slideRef.current = el;
                 }
               }}
-              className="w-full relative rounded-2xl w-f mb-8 overflow-hidden group h-[80vh]  shadow-[0_10px_30px_-15px_rgba(0,0,0,0.3)] transition-shadow duration-500 hover:shadow-[0_20px_40px_-15px_rgba(0,0,0,0.4)]"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ 
+                opacity: 1, 
+                y: 0,
+                transition: {
+                  duration: 0.8,
+                  ease: [0.25, 0.1, 0.25, 1]
+                }
+              }}
+              viewport={{ once: true }}
+              className="w-full relative rounded-2xl w-f mb-8 overflow-hidden group h-[80vh] shadow-[0_10px_30px_-15px_rgba(0,0,0,0.3)] transition-shadow duration-500 hover:shadow-[0_20px_40px_-15px_rgba(0,0,0,0.4)]"
             >
               {/* Background Image */}
               <motion.div 
                 className="absolute inset-0 z-0 w-full h-full overflow-hidden group"
+                initial={{ scale: 1.1, filter: "blur(6px) brightness(0.8)" }}
+                whileInView={{ 
+                  scale: 1,
+                  filter: "blur(0px) brightness(1)",
+                  transition: {
+                    duration: 1.25,
+                    ease: [0.25, 0.1, 0.25, 1],
+                    filter: {
+                      duration: 1.25,
+                      ease: [0.25, 0.1, 0.25, 1]
+                    }
+                  }
+                }}
+                viewport={{ once: true }}
                 whileHover={{
                   scale: 1.02,
                   transition: {
