@@ -252,7 +252,7 @@ const AllProjects: React.FC<AllProjectsProps> = ({ projects: rawProjects }) => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-100px" }}
             transition={{ duration: 0.6, delay: 0.3 }}
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16"
           >
             <AnimatePresence mode="popLayout">
               {filteredProjects.map((project, index) => (
@@ -269,6 +269,39 @@ const AllProjects: React.FC<AllProjectsProps> = ({ projects: rawProjects }) => {
             </AnimatePresence>
           </motion.div>
         )}
+
+        {/* Explore Full Gallery Button */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.6 }}
+          className="flex justify-center mt-8"
+        >
+          <motion.a
+            href="/projects"
+            whileHover={{ scale: 1.01 }}
+            whileTap={{ scale: 0.98 }}
+            className="group relative inline-flex items-center gap-3 text-2xl text-white/90 font-kuunari-medium px-6 py-2"
+          >
+            <span className="relative z-10">Explorar Galería Completa</span>
+            <motion.svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={2}
+              stroke="currentColor"
+              className="w-6 h-6 relative z-10 transition-transform duration-500 group-hover:rotate-[15deg]"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3"
+              />
+            </motion.svg>
+            <span className="absolute inset-0 border border-white/0 group-hover:border-white/40 transition-all duration-500 rounded-lg"></span>
+          </motion.a>
+        </motion.div>
       </div>
     </Container>
   );
