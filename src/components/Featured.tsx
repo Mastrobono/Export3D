@@ -3,8 +3,9 @@ import Container from "../layouts/Container";
 import { motion, useScroll, useTransform, useSpring, AnimatePresence } from "framer-motion";
 
 interface Slide {
-  imageRef: HTMLImageElement;
-  imageUrl: string;
+  image: {
+    src: string;
+  };
   metadata: {
     title: string;
     date: string;
@@ -122,7 +123,7 @@ const Feature: React.FC<FeatureProps> = ({ projects }) => {
                   className="relative w-full h-full"
                 >
                   <img
-                    src={slide.imageUrl}
+                    src={slide.image.src}
                     alt={`Slide ${index + 1}`}
                     className="w-full h-full object-cover"
                   />
