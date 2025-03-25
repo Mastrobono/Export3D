@@ -2,11 +2,11 @@
 import Container from "../layouts/Container";
 
 const containerProps = {
-  classNames: "relative min-h-[max-content] overflow-hidden",
+  classNames: "relative min-h-[max-content] overflow-hidden bg-darkgray",
 };
 ---
 
-<Container classNames="relative min-h-[max-content] overflow-hidden">
+<section class="relative min-h-[max-content] overflow-hidden bg-darkgray w-full" data-section="cta">
   {/* Background effects */}
   <div class="absolute inset-0 z-0">
     <div class="absolute inset-0 bg-gradient-to-b from-darkgray/50 to-darkgray">
@@ -127,7 +127,7 @@ const containerProps = {
       </form>
     </div>
   </div>
-</Container>
+</section>
 
 <style>
   /* Subtle animation for the gradient */

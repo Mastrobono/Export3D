@@ -1,12 +1,15 @@
 // Smooth scroll Navbar
-export const scrollToFn = (e, id) => {
+export const scrollToFn = (e: React.MouseEvent, id: string) => {
   e.preventDefault();
-  const element = document.getElementById(id);
+  const element = document.querySelector(`[data-section="${id}"]`);
   if (element) {
-    const rect = element.getBoundingClientRect();
+    const offset = 80; // Ajuste para el navbar fijo
+    const elementPosition = element.getBoundingClientRect().top;
+    const offsetPosition = elementPosition + window.pageYOffset - offset;
+
     window.scrollTo({
-      top: rect.top + window.scrollY - 80, // Adjust the offset as needed
-      behavior: "smooth",
+      top: offsetPosition,
+      behavior: "smooth"
     });
     if (id.includes("caso-")) {
       setTimeout(() => {

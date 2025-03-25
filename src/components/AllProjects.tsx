@@ -142,7 +142,7 @@ const AllProjects: React.FC<AllProjectsProps> = ({ projects: rawProjects }) => {
   const { activeFilters, filteredProjects, handleFilterChange, resetFilters } = useProjectFilters(projects);
 
   return (
-    <Container classNames="p-20 bg-lightgray">
+    <Container classNames="p-20 bg-lightgray" data-section="all-projects">
       <motion.h2
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -205,9 +205,9 @@ const AllProjects: React.FC<AllProjectsProps> = ({ projects: rawProjects }) => {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               className="text-[20px] font-kuunari-medium text-white cursor-pointer flex items-center gap-2"
-              onClick={resetFilters}
-            >
-              Reset Filters
+            onClick={resetFilters}
+          >
+            Reset Filters
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className="h-5 w-5"
@@ -278,29 +278,70 @@ const AllProjects: React.FC<AllProjectsProps> = ({ projects: rawProjects }) => {
           transition={{ duration: 0.6 }}
           className="flex justify-center mt-8"
         >
-          <motion.a
-            href="/projects"
-            whileHover={{ scale: 1.01 }}
-            whileTap={{ scale: 0.98 }}
-            className="group relative inline-flex items-center gap-3 text-2xl text-white/90 font-kuunari-medium px-6 py-2"
+          <motion.div
+            initial={{ width: 0, opacity: 0 }}
+            whileInView={{ width: "auto", opacity: 1 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ 
+              duration: 0.8,
+              width: {
+                duration: 0.4,
+                ease: "easeOut"
+              },
+              opacity: {
+                duration: 0.6,
+                delay: 0.2
+              }
+            }}
+            className="overflow-hidden"
           >
-            <span className="relative z-10">Explorar Galería Completa</span>
-            <motion.svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth={2}
-              stroke="currentColor"
-              className="w-6 h-6 relative z-10 transition-transform duration-500 group-hover:rotate-[15deg]"
+            <motion.a
+              href="/projects"
+              initial={{ x: -20 }}
+              whileInView={{ x: 0 }}
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ duration: 0.4, delay: 0.4 }}
+              whileHover={{ scale: 1.01 }}
+              whileTap={{ scale: 0.98 }}
+              className="group relative inline-flex items-center gap-3 text-2xl text-white/90 font-kuunari-medium px-6 py-2"
             >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3"
+              <motion.span 
+                className="relative z-10"
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                viewport={{ once: true, margin: "-100px" }}
+                transition={{ duration: 0.3, delay: 0.6 }}
+              >
+                Explorar Galería Completa
+              </motion.span>
+              <motion.svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth={2}
+                stroke="currentColor"
+                className="w-6 h-6 relative z-10"
+                initial={{ opacity: 0, x: -10 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true, margin: "-100px" }}
+                transition={{ duration: 0.3, delay: 0.7 }}
+                whileHover={{ rotate: 15, x: 5 }}
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3"
+                />
+              </motion.svg>
+              <motion.span 
+                className="absolute inset-0 border border-white/0 group-hover:border-white/40 transition-all duration-500 rounded-lg"
+                initial={{ scale: 0.8, opacity: 0 }}
+                whileInView={{ scale: 1, opacity: 1 }}
+                viewport={{ once: true, margin: "-100px" }}
+                transition={{ duration: 0.5, delay: 0.5 }}
               />
-            </motion.svg>
-            <span className="absolute inset-0 border border-white/0 group-hover:border-white/40 transition-all duration-500 rounded-lg"></span>
-          </motion.a>
+            </motion.a>
+          </motion.div>
         </motion.div>
       </div>
     </Container>
