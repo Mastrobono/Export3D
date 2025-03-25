@@ -81,19 +81,9 @@ const Feature: React.FC<FeatureProps> = ({ projects }) => {
 
       {projects.map((slide, index) => {
         const slideRef = useRef(null);
-        const { scrollYProgress } = useScroll({
-          target: slideRef,
-          offset: ["start end", "end start"]
-        });
-
-        const objectPosition = useTransform(
-          scrollYProgress,
-          [0, 1],
-          ["center 20%", "center 100%"]
-        );
 
         return (
-          <Container key={index} data-section="featured" id="featured">
+          <Container key={index} data-section="featured" id="featured" classNames="bg-transparent">
             <motion.div
               ref={(el) => {
                 slideRefs.current[index] = el;
@@ -102,66 +92,50 @@ const Feature: React.FC<FeatureProps> = ({ projects }) => {
                   slideRef.current = el;
                 }
               }}
-              className="w-full relative rounded-2xl w-f mb-8 overflow-hidden group h-[86vh] md:h-[86vh]"
+              className="w-full relative rounded-2xl w-f mb-8 overflow-hidden group h-[86vh] md:h-[86vh] shadow-[0_10px_30px_-15px_rgba(0,0,0,0.3)] transition-shadow duration-500 hover:shadow-[0_20px_40px_-15px_rgba(0,0,0,0.4)]"
             >
-              {/* Background Image with parallax and zoom effect */}
-              <motion.div
-                className="absolute inset-0 z-0 w-full h-full"
-                initial={{ scale: 1.1, filter: "blur(6px) brightness(0.8)" }}
-                whileInView={{ 
-                  scale: 1,
-                  filter: "blur(0px) brightness(1)",
-                  transition: {
-                    duration: 1.25,
-                    ease: [0.25, 0.1, 0.25, 1],
-                    filter: {
-                      duration: 1.25,
-                      ease: [0.25, 0.1, 0.25, 1]
-                    }
-                  }
-                }}
+              {/* Background Image */}
+              <motion.div 
+                className="absolute inset-0 z-0 w-full h-full overflow-hidden group"
                 whileHover={{
-                  scale: 1.05,
+                  scale: 1.02,
                   transition: {
                     duration: 0.8,
                     ease: [0.25, 0.1, 0.25, 1]
                   }
                 }}
-                exit={{
-                  scale: 1.1,
-                  filter: "blur(6px) brightness(0.8)",
-                  transition: {
-                    duration: 1.5,
-                    ease: [0.25, 0.1, 0.25, 1]
-                  }
-                }}
               >
-                <motion.img
-                  src={slide.imageUrl}
-                  alt={`Slide ${index + 1}`}
-                  style={{
-                    objectPosition,
-                    width: "100%",
-                    height: "100%",
-                    objectFit: "cover"
-                  }}
-                  className="transition-transform duration-700"
-                  whileHover={{
-                    scale: 1.1,
+                <motion.div
+                  initial={{ scale: 1.1, filter: "blur(6px) brightness(0.8)" }}
+                  whileInView={{ 
+                    scale: 1,
+                    filter: "blur(0px) brightness(1)",
                     transition: {
-                      duration: 0.8,
-                      ease: [0.25, 0.1, 0.25, 1]
+                      duration: 1.25,
+                      ease: [0.25, 0.1, 0.25, 1],
+                      filter: {
+                        duration: 1.25,
+                        ease: [0.25, 0.1, 0.25, 1]
+                      }
                     }
                   }}
-                />
+                  className="relative w-full h-full"
+                >
+                  <img
+                    src={slide.imageUrl}
+                    alt={`Slide ${index + 1}`}
+                    className="w-full h-full object-cover"
+                  />
+                </motion.div>
               </motion.div>
 
-              {/* Enhanced edge vignette with stronger opacity and hover effect */}
+              {/* Enhanced edge vignette with hover effect */}
               <motion.div 
-                className="absolute inset-0 z-10 rounded-2xl"
-                whileHover={{
-                  opacity: 0.8,
-                  transition: { duration: 0.3 }
+                className="absolute inset-0 z-10 rounded-2xl pointer-events-none"
+                initial={{ opacity: 0.7 }}
+                whileHover={{ 
+                  opacity: 0.5,
+                  transition: { duration: 0.4 }
                 }}
               >
                 <div className="absolute inset-y-0 left-0 w-[20%] bg-gradient-to-r from-black/70 to-transparent"></div>
@@ -170,19 +144,12 @@ const Feature: React.FC<FeatureProps> = ({ projects }) => {
                 <div className="absolute inset-x-0 bottom-0 h-[40%] bg-gradient-to-t from-black/90 via-black/60 to-transparent"></div>
               </motion.div>
 
-              {/* Content Container with hover effects */}
+              {/* Content Container */}
               <motion.div 
                 className="relative z-20 h-full flex flex-col justify-between p-8 md:p-16"
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.2 }}
-                whileHover={{
-                  scale: 1.02,
-                  transition: {
-                    duration: 0.3,
-                    ease: [0.25, 0.1, 0.25, 1]
-                  }
-                }}
               >
                 {/* Top Content */}
                 <div className="flex justify-between items-start">
@@ -226,18 +193,18 @@ const Feature: React.FC<FeatureProps> = ({ projects }) => {
                     {slide.metadata.title}
                   </motion.h2>
 
-                  <motion.button
+                  <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
-                    whileHover={{ x: 10 }}
-                    transition={{ duration: 0.3 }}
-                    className="flex items-center gap-4 text-xl md:text-2xl text-white font-kuunari-medium group/button drop-shadow-[0_2px_3px_rgba(0,0,0,0.5)]"
+                    className="inline-flex"
                   >
-                    Ver Proyecto
-                    <span className="transform transition-transform duration-300 group-hover/button:translate-x-2">
-                      <ChevronRightIcon />
-                    </span>
-                  </motion.button>
+                    <button className="group/btn flex items-center gap-4 text-xl md:text-2xl text-white font-kuunari-medium drop-shadow-[0_2px_3px_rgba(0,0,0,0.5)] group-hover:text-accent-500 hover:text-accent-500 transition-colors duration-300">
+                      Ver Proyecto
+                      <span className="text-inherit transition-transform duration-300 group-hover/btn:translate-x-2">
+                        <ChevronRightIcon />
+                      </span>
+                    </button>
+                  </motion.div>
                 </div>
               </motion.div>
 

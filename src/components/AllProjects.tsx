@@ -76,6 +76,19 @@ const FilterChip = ({
   </motion.button>
 );
 
+const ProjectTag = ({ tag }: { tag: string }) => (
+  <span
+    style={{
+      backgroundColor: 'rgba(255, 255, 255, 0.1)',
+      backdropFilter: 'blur(4px)',
+      WebkitBackdropFilter: 'blur(4px)'
+    }}
+    className="text-[14px] font-kuunari-medium text-accent-500 rounded-[20px] py-1 px-4 border-accent-500 border-solid border-2"
+  >
+    {tag}
+  </span>
+);
+
 const ProjectCard = ({ project }: { project: Project }) => {
   return (
     <motion.div
@@ -101,21 +114,20 @@ const ProjectCard = ({ project }: { project: Project }) => {
       </motion.div>
       <motion.div
         key={`overlay-${project.id}`}
-        className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300"
+        className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent"
         initial={{ opacity: 0 }}
         whileHover={{ opacity: 1 }}
+        transition={{ duration: 0.3 }}
       >
         <div className="absolute bottom-0 left-0 p-8 text-white w-full">
           <h3 className="text-2xl font-bold mb-3">{project.title}</h3>
           <p className="text-sm opacity-90 mb-4">{project.description}</p>
           <div className="flex flex-wrap gap-2">
             {project.tags.map((tag, index) => (
-              <span
-                key={`${project.id}-tag-${index}`}
-                className="text-[14px] font-kuunari-medium text-accent-500 rounded-[20px] py-1 px-4 border-accent-500 border-solid border-2 bg-white/10 backdrop-blur-sm"
-              >
-                {tag}
-              </span>
+              <ProjectTag 
+                key={`${project.id}-tag-${index}`} 
+                tag={tag} 
+              />
             ))}
           </div>
         </div>
