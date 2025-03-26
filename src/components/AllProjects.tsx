@@ -103,8 +103,8 @@ const ProjectCard = ({ project }: { project: Project }) => {
           ease: [0.25, 0.1, 0.25, 1]
         }
       }}
-      viewport={{ once: true }}
-      className="relative overflow-hidden rounded-lg aspect-[4/3] opacity-90 hover:opacity-100 transition-opacity duration-300"
+      viewport={{ once: true, margin: "-100px" }}
+      className="relative overflow-hidden rounded-lg aspect-[4/3] opacity-90 hover:opacity-100 transition-opacity duration-300 group"
     >
       <motion.div
         key={`image-container-${project.id}`}
@@ -122,7 +122,7 @@ const ProjectCard = ({ project }: { project: Project }) => {
             }
           }
         }}
-        viewport={{ once: true }}
+        viewport={{ once: true, margin: "-100px" }}
         whileHover={{ 
           scale: 1.1,
           transition: {
@@ -139,58 +139,19 @@ const ProjectCard = ({ project }: { project: Project }) => {
       </motion.div>
       <motion.div
         key={`overlay-${project.id}`}
-        className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent"
-        initial={{ opacity: 0 }}
-        whileInView={{ 
-          opacity: 1,
-          transition: {
-            duration: 0.8,
-            ease: [0.25, 0.1, 0.25, 1]
-          }
-        }}
-        viewport={{ once: true }}
-        whileHover={{ 
-          opacity: 0.9,
-          transition: { duration: 0.3 }
-        }}
+        className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-300"
       >
-        <motion.div 
-          className="absolute bottom-0 left-0 p-8 text-white w-full"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ 
-            opacity: 1, 
-            y: 0,
-            transition: {
-              duration: 0.6,
-              delay: 0.2,
-              ease: [0.25, 0.1, 0.25, 1]
-            }
-          }}
-          viewport={{ once: true }}
-        >
+        <div className="absolute bottom-0 left-0 p-8 text-white w-full opacity-0 group-hover:opacity-100 transition-all duration-300">
           <h3 className="text-2xl font-bold mb-3">{project.title}</h3>
           <p className="text-sm opacity-90 mb-4">{project.description}</p>
           <div className="flex flex-wrap gap-2">
             {project.tags.map((tag, index) => (
-              <motion.div
-                key={`${project.id}-tag-${index}`}
-                initial={{ opacity: 0, y: 10 }}
-                whileInView={{ 
-                  opacity: 1, 
-                  y: 0,
-                  transition: {
-                    duration: 0.4,
-                    delay: 0.3 + index * 0.05,
-                    ease: [0.25, 0.1, 0.25, 1]
-                  }
-                }}
-                viewport={{ once: true }}
-              >
+              <div key={`${project.id}-tag-${index}`}>
                 <ProjectTag tag={tag} />
-              </motion.div>
+              </div>
             ))}
           </div>
-        </motion.div>
+        </div>
       </motion.div>
     </motion.div>
   );
@@ -278,9 +239,9 @@ const AllProjects: React.FC<AllProjectsProps> = ({ projects: rawProjects }) => {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               className="text-[20px] font-kuunari-medium text-white cursor-pointer flex items-center gap-2"
-            onClick={resetFilters}
-          >
-            Reset Filters
+              onClick={resetFilters}
+            >
+              Reset Filters
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className="h-5 w-5"

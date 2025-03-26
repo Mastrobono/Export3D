@@ -132,6 +132,58 @@ const AboutUs = () => {
                 </motion.div>
               ))}
             </div>
+
+            <div className="grid grid-cols-2 lg:grid-cols-3 gap-8 pt-8">
+              <div className="space-y-4">
+                <div className="text-accent-500 text-4xl font-kuunari-bold">+10</div>
+                <div className="text-white/70 text-xl font-kuunari-light">Años de experiencia</div>
+              </div>
+              <div className="space-y-4">
+                <div className="text-accent-500 text-4xl font-kuunari-bold">+200</div>
+                <div className="text-white/70 text-xl font-kuunari-light">Proyectos realizados</div>
+              </div>
+              <div className="space-y-4">
+                <div className="text-accent-500 text-4xl font-kuunari-bold">100%</div>
+                <div className="text-white/70 text-xl font-kuunari-light">Clientes satisfechos</div>
+              </div>
+            </div>
+
+            {/* CTA Button */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 1.2 }}
+              viewport={{ once: true, margin: "-100px" }}
+              className="flex justify-start mt-12"
+            >
+              <div className="overflow-visible">
+                <a
+                  href="/contact"
+                  className="group relative inline-flex items-center gap-3 px-4 py-2"
+                >
+                  <span className="relative text-2xl text-accent-500 font-kuunari-medium">
+                    Que tu proyecto sea el próximo
+                    <span className="absolute bottom-0 left-1/2 w-0 h-[2px] bg-accent-500 transition-all duration-300 group-hover:w-full group-hover:left-0"/>
+                  </span>
+                  <div className="overflow-hidden w-8">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth="2"
+                      stroke="currentColor"
+                      className="w-6 h-6 text-accent-500 transform transition-transform duration-300 ease-out group-hover:translate-x-2"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3"
+                      />
+                    </svg>
+                  </div>
+                </a>
+              </div>
+            </motion.div>
           </motion.div>
         </div>
       </Container>
