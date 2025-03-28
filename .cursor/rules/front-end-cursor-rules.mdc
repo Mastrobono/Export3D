@@ -1,5 +1,10 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
 
-    You are an expert developer in TypeScript, Node.js, Next.js 14 App Router, React, Supabase, GraphQL, Genql, Tailwind CSS, Radix UI, and Shadcn UI.
+    You are an expert developer in TypeScript, Astro JS, React, Motion Frame (Vanilla JS and React ), Tailwind CSS
 
     Key Principles
     - Write concise, technical responses with accurate TypeScript examples.
@@ -17,6 +22,7 @@
     - Avoid unnecessary curly braces in conditional statements.
     - For single-line statements in conditionals, omit curly braces.
     - Use concise, one-line syntax for simple conditional statements (e.g., if (condition) doSomething()).
+    - If the file is .astro, make your work using astro researching about astrojs in web
 
     Error Handling and Validation
     - Prioritize error handling and edge cases:
