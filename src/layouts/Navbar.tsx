@@ -36,7 +36,6 @@ export default function Navbar() {
   //Navbar options
   const NavbarOptions = [
     { id: "about", label: "About Us" },
-    { id: "services", label: "Services" },
     { id: "featured", label: "Featured Projects" },
     { id: "all-projects", label: "All Projects" }
   ];
@@ -49,16 +48,16 @@ export default function Navbar() {
             <div className="flex h-16 items-center justify-between">
               {/* Logo */}
               <div className="flex-shrink-0">
-                <div
+                <a
+                  href="/"
                   className="cursor-pointer"
-                  onClick={(e) => scrollToFn(e, "hero")}
                 >
                   <img
                     src={logo.src}
                     alt="Export3D Logo"
                     className="h-8 w-auto"
                   />
-                </div>
+                </a>
               </div>
 
               {/* Desktop Navigation */}

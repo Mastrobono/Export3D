@@ -1,3 +1,6 @@
+import { slugify } from '../utils/slugify';
+import type { Project } from '../types/project';
+
 // Import images directly
 import hutchImage from "../assets/features/hutch.webp";
 import hausImage from "../assets/features/haus.webp";
@@ -24,28 +27,37 @@ const TagRole = {
 };
 
 export const tags = {
-  type: TagType ? Object.values(TagType) : [],
-  date: TagDate ? Object.values(TagDate) : [],
-  role: TagRole ? Object.values(TagRole) : [],
+  buildingType: ['Residencial', 'Comercial', 'Industrial', 'Institucional'],
+  role: ['Visualización Arquitectónica', 'Diseño', 'Dirección de Obra'],
+  date: ['2023', '2022', '2021'],
+  status: ['Completado', 'En Progreso', 'Planificado']
 };
 
 // Projects
-export const projects = [
+export const projects: Project[] = [
   {
+    id: '1',
+    slug: slugify('HUTCH'),
     image: hutchImage,
+    gallery: [hutchImage],
     metadata: {
       title: "HUTCH",
       location: "Ciudad Jardin, Buenos Aires, Argentina",
-      date: TagDate.YEAR_2024,
+      date: "2024",
       client: "HUTCH",
-      role: TagRole.VISUALIZACION,
+      role: "Visualización",
       buildingType: "Comercial",
       status: "Finalizado",
       featured: true,
-    },
+      description: "Un espacio comercial moderno y versátil diseñado para maximizar la experiencia del cliente.",
+      tags: ['comercial', 'moderno', 'versatil']
+    }
   },
   {
+    id: '3',
+    slug: slugify('HAUS'),
     image: hausImage,
+    gallery: [hausImage],
     metadata: {
       title: "HAUS",
       location: "Buenos Aires, Argentina",
@@ -58,7 +70,10 @@ export const projects = [
     },
   },
   {
+    id: '4',
+    slug: slugify('ARCE'),
     image: arceImage,
+    gallery: [arceImage],
     metadata: {
       title: "ARCE",
       location: "Buenos Aires, Argentina",
@@ -71,7 +86,10 @@ export const projects = [
     },
   },
   {
+    id: '5',
+    slug: slugify('Meat Frisbee'),
     image: frisbeeImage,
+    gallery: [frisbeeImage],
     metadata: {
       title: "<br/> Meat Frisbee",
       location: "Buenos Aires, Argentina",
@@ -84,7 +102,10 @@ export const projects = [
     },
   },
   {
+    id: '6',
+    slug: slugify('HUTCH 2'),
     image: hutchImage,
+    gallery: [hutchImage],
     metadata: {
       title: "HUTCH",
       location: "Ciudad Jardin, Buenos Aires, Argentina",
@@ -97,7 +118,10 @@ export const projects = [
     },
   },
   {
+    id: '7',
+    slug: slugify('HAUS 2'),
     image: hausImage,
+    gallery: [hausImage],
     metadata: {
       title: "HAUS",
       location: "Buenos Aires, Argentina",
@@ -110,7 +134,10 @@ export const projects = [
     },
   },
   {
+    id: '8',
+    slug: slugify('ARCE 2'),
     image: arceImage,
+    gallery: [arceImage],
     metadata: {
       title: "ARCE",
       location: "Buenos Aires, Argentina",
@@ -124,7 +151,10 @@ export const projects = [
     },
   },
   {
+    id: '9',
+    slug: slugify('Meat Frisbee 2'),
     image: frisbeeImage,
+    gallery: [frisbeeImage],
     metadata: {
       title: "<br/> Meat Frisbee",
       location: "Buenos Aires, Argentina",

@@ -1,10 +1,20 @@
+import { ImageMetadata } from 'astro';
+
 export interface Project {
   id: string;
-  title: string;
-  description: string;
-  imageUrl: string;
-  type: string;
-  date: string;
-  role: string;
-  tags: string[];
+  slug: string;
+  image: ImageMetadata;
+  gallery?: ImageMetadata[];
+  metadata: {
+    title: string;
+    location: string;
+    date: string;
+    client: string;
+    role: string;
+    buildingType: string;
+    status: string;
+    featured: boolean;
+    tags?: string[];
+    description?: string;
+  };
 } 

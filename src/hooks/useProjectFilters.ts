@@ -1,9 +1,11 @@
-import { useState, useCallback, useMemo } from 'react';
 import { Project } from '../types/project';
+import { useState, useMemo } from 'react';
 
-interface FilterState {
+interface UseProjectFiltersResult {
   activeFilters: string[];
   filteredProjects: Project[];
+  handleFilterChange: (filter: string) => void;
+  resetFilters: () => void;
 }
 
 export const useProjectFilters = (projects: Project[]) => {
@@ -16,33 +18,32 @@ export const useProjectFilters = (projects: Project[]) => {
     }
 
     return projects.filter(project => {
-      return activeFilters.some(filter => {
-        return (
-          project.type === filter ||
-          project.date === filter ||
-          project.role === filter ||
-          (project.tags && project.tags.some(tag => tag === filter))
-        );
-      });
+      return activeFilters.some(filter => 
+        project.metadata.buildingType === filter ||
+        project.metadata.date === filter ||
+        project.metadata.role === filter
+      );
     });
   }, [projects, activeFilters]);
 
-  const handleFilterChange = useCallback((filter: string) => {
+  const handleFilterChange = (filter: string) => {
     setActiveFilters(prev => {
-      return prev.includes(filter)
-        ? prev.filter(f => f !== filter)
-        : [...prev, filter];
+      if (prev.includes(filter)) {
+        return prev.filter(f => f !== filter);
+      } else {
+        return [...prev, filter];
+      }
     });
-  }, []);
+  };
 
-  const resetFilters = useCallback(() => {
+  const resetFilters = () => {
     setActiveFilters([]);
-  }, []);
+  };
 
   return {
     activeFilters,
     filteredProjects,
     handleFilterChange,
-    resetFilters
+    resetFilters,
   };
 }; 

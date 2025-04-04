@@ -1,6 +1,5 @@
 ---
 import Navbar from "./Navbar.tsx";
-import { LenisProvider } from "../components/LenisProvider";
 import Footer from "../components/Footer";
 ---
 
@@ -14,11 +13,9 @@ import Footer from "../components/Footer";
     <title>Astro Basics</title>
   </head>
   <body>
-    <LenisProvider client:load>
       <Navbar client:load />
       <slot />
       <Footer client:load />
-    </LenisProvider>
   </body>
 </html>
 

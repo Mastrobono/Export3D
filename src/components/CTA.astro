@@ -9,27 +9,21 @@ const containerProps = {
 <section class="relative min-h-[max-content] overflow-hidden bg-darkgray w-full" data-section="cta">
   {/* Background effects */}
   <div class="absolute inset-0 z-0">
-    <div class="absolute inset-0 bg-gradient-to-b from-darkgray/50 to-darkgray">
-    </div>
-    <div
-      class="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.03)_0%,transparent_70%)]"
-    >
-    </div>
+    <div class="absolute inset-0 bg-gradient-to-b from-darkgray/50 to-darkgray"></div>
+    <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.03)_0%,transparent_70%)]"></div>
   </div>
 
   <div class="relative z-10 mx-auto max-w-7xl px-6 py-24 sm:py-32">
     <div class="grid lg:grid-cols-2 gap-16 items-start">
       {/* Left side - Content */}
-      <div class="animate-fade-in-up">
-        <h2
-          class="text-4xl font-semibold tracking-tight text-white sm:text-5xl font-kuunari-medium"
-        >
+      <div class="fade-in-up">
+        <h2 class="text-4xl font-semibold tracking-tight text-white sm:text-5xl font-kuunari-medium">
           Let's Get In Touch.<br />
-          <span class="text-2xl sm:text-3xl text-accent-500 mt-2 block animate-fade-in-up-delayed"
-            >Transform your vision into reality.</span
-          >
+          <span class="text-2xl sm:text-3xl text-accent-500 mt-2 block fade-in-up-delayed">
+            Transform your vision into reality.
+          </span>
         </h2>
-        <p class="mt-6 text-lg leading-8 text-white/80 animate-fade-in-up-delayed-2">
+        <p class="mt-6 text-lg leading-8 text-white/80 fade-in-up-delayed-2">
           Your next architectural masterpiece awaits. Whether you need stunning
           visualizations or expert project guidance, we're here to help bring
           your ideas to life.
@@ -37,15 +31,10 @@ const containerProps = {
       </div>
 
       {/* Right side - Contact Form */}
-      <form
-        class="bg-darkgray/30 backdrop-blur-sm rounded-2xl p-8 border border-white/10 animate-fade-in-up-delayed-3"
-      >
+      <form class="bg-darkgray/30 backdrop-blur-sm rounded-2xl p-8 border border-white/10 fade-in-up-delayed-3">
         <div class="space-y-6">
-          <div class="animate-fade-in-up-delayed-4">
-            <label
-              for="name"
-              class="block text-sm font-kuunari-medium text-white">Nombre</label
-            >
+          <div class="fade-in-up-delayed-4">
+            <label for="name" class="block text-sm font-kuunari-medium text-white">Nombre</label>
             <input
               type="text"
               name="name"
@@ -55,11 +44,8 @@ const containerProps = {
             />
           </div>
 
-          <div class="animate-fade-in-up-delayed-5">
-            <label
-              for="email"
-              class="block text-sm font-kuunari-medium text-white">Email</label
-            >
+          <div class="fade-in-up-delayed-5">
+            <label for="email" class="block text-sm font-kuunari-medium text-white">Email</label>
             <input
               type="email"
               name="email"
@@ -69,40 +55,32 @@ const containerProps = {
             />
           </div>
 
-          <div class="animate-fade-in-up-delayed-6">
-            <label
-              for="project_type"
-              class="block text-sm font-kuunari-medium text-white"
-              >Tipo de Proyecto</label
-            >
+          <div class="fade-in-up-delayed-6">
+            <label for="project_type" class="block text-sm font-kuunari-medium text-white">Tipo de Proyecto</label>
             <select
               id="project_type"
               name="project_type"
               class="mt-2 block w-full rounded-md border-0 bg-white/5 px-4 py-3 text-white shadow-sm ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-accent-500 sm:text-sm sm:leading-6"
             >
               <option value="" disabled selected>Selecciona una opción</option>
-              <option value="visualization">Visualización Arquitectónica</option
-              >
+              <option value="visualization">Visualización Arquitectónica</option>
               <option value="project_management">Dirección de Obra</option>
               <option value="both">Ambos Servicios</option>
             </select>
           </div>
 
-          <div class="animate-fade-in-up-delayed-7">
-            <label
-              for="message"
-              class="block text-sm font-kuunari-medium text-white"
-              >Mensaje</label
-            >
+          <div class="fade-in-up-delayed-7">
+            <label for="message" class="block text-sm font-kuunari-medium text-white">Mensaje</label>
             <textarea
               id="message"
               name="message"
               rows="4"
               class="mt-2 block w-full rounded-md border-0 bg-white/5 px-4 py-3 text-white shadow-sm ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-accent-500 sm:text-sm sm:leading-6"
-              placeholder="Cuéntanos sobre tu proyecto..."></textarea>
+              placeholder="Cuéntanos sobre tu proyecto..."
+            ></textarea>
           </div>
 
-          <div class="animate-fade-in-up-delayed-8">
+          <div class="fade-in-up-delayed-8">
             <button
               type="submit"
               class="w-full inline-flex items-center justify-center rounded-md bg-accent-500 px-5 py-3.5 text-base font-semibold text-darkgray shadow-sm hover:bg-accent-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-500 transition-all duration-300 font-kuunari-medium"
@@ -119,7 +97,8 @@ const containerProps = {
                 <path
                   stroke-linecap="round"
                   stroke-linejoin="round"
-                  d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3"></path>
+                  d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3"
+                ></path>
               </svg>
             </button>
           </div>
@@ -129,6 +108,41 @@ const containerProps = {
   </div>
 </section>
 
+<script>
+  import { animate, scroll } from "motion";
+
+  // Función para animar elementos cuando entran en el viewport
+  const animateElements = () => {
+    // Animación principal
+    animate(
+      ".fade-in-up",
+      { opacity: [0, 1], y: [20, 0] },
+      { duration: 0.8, easing: "ease-out" }
+    );
+
+    // Animaciones con delays
+    const delays = [0.2, 0.4, 0.6, 0.8, 1.0, 1.2, 1.4, 1.6];
+    delays.forEach((delay, index) => {
+      animate(
+        `.fade-in-up-delayed-${index + 1}`,
+        { opacity: [0, 1], y: [20, 0] },
+        { duration: 0.8, delay, easing: "ease-out" }
+      );
+    });
+  };
+
+  // Observar cuando el componente entra en el viewport
+  scroll(({ y }) => {
+    const ctaSection = document.querySelector('[data-section="cta"]');
+    if (ctaSection) {
+      const rect = ctaSection.getBoundingClientRect();
+      if (rect.top < window.innerHeight * 0.8) {
+        animateElements();
+      }
+    }
+  });
+</script>
+
 <style>
   /* Subtle animation for the gradient */
   .bg-gradient-to-b {
@@ -136,8 +150,7 @@ const containerProps = {
   }
 
   @keyframes gradientShift {
-    0%,
-    100% {
+    0%, 100% {
       background-position: 0% 0%;
     }
     50% {
@@ -158,62 +171,5 @@ const containerProps = {
     -webkit-text-fill-color: white;
     -webkit-box-shadow: 0 0 0px 1000px transparent inset;
     transition: background-color 5000s ease-in-out 0s;
-  }
-
-  /* Animation classes */
-  .animate-fade-in-up {
-    animation: fadeInUp 0.8s ease-out forwards;
-    opacity: 0;
-  }
-
-  .animate-fade-in-up-delayed {
-    animation: fadeInUp 0.8s ease-out 0.2s forwards;
-    opacity: 0;
-  }
-
-  .animate-fade-in-up-delayed-2 {
-    animation: fadeInUp 0.8s ease-out 0.4s forwards;
-    opacity: 0;
-  }
-
-  .animate-fade-in-up-delayed-3 {
-    animation: fadeInUp 0.8s ease-out 0.6s forwards;
-    opacity: 0;
-  }
-
-  .animate-fade-in-up-delayed-4 {
-    animation: fadeInUp 0.8s ease-out 0.8s forwards;
-    opacity: 0;
-  }
-
-  .animate-fade-in-up-delayed-5 {
-    animation: fadeInUp 0.8s ease-out 1.0s forwards;
-    opacity: 0;
-  }
-
-  .animate-fade-in-up-delayed-6 {
-    animation: fadeInUp 0.8s ease-out 1.2s forwards;
-    opacity: 0;
-  }
-
-  .animate-fade-in-up-delayed-7 {
-    animation: fadeInUp 0.8s ease-out 1.4s forwards;
-    opacity: 0;
-  }
-
-  .animate-fade-in-up-delayed-8 {
-    animation: fadeInUp 0.8s ease-out 1.6s forwards;
-    opacity: 0;
-  }
-
-  @keyframes fadeInUp {
-    from {
-      opacity: 0;
-      transform: translateY(20px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
   }
 </style>

@@ -30,7 +30,12 @@ export const filterProjects = (
     setFilteredProjects(projects);
   } else {
     const filtered = projects.filter((project) =>
-      activeFilters.every((filter) => project.metadata.tags?.includes(filter))
+      activeFilters.some((filter) => 
+        project.metadata.tags?.includes(filter) ||
+        project.metadata.buildingType === filter ||
+        project.metadata.role === filter ||
+        project.metadata.date === filter
+      )
     );
     setFilteredProjects(filtered);
   }
@@ -60,7 +65,7 @@ export default function ProjectsFilter() {
   };
 
   return (
-    <div className="bg-white">
+    <div className="bg-darkgray">
       <div>
         {/* Mobile filter dialog */}
         <Dialog
@@ -70,22 +75,22 @@ export default function ProjectsFilter() {
         >
           <DialogBackdrop
             transition
-            className="fixed inset-0 bg-black/25 transition-opacity duration-300 ease-linear data-[closed]:opacity-0"
+            className="fixed inset-0 bg-black/50 transition-opacity duration-300 ease-linear data-[closed]:opacity-0"
           />
 
           <div className="fixed inset-0 z-40 flex">
             <DialogPanel
               transition
-              className="relative ml-auto flex size-full max-w-xs transform flex-col overflow-y-auto bg-white py-4 pb-6 shadow-xl transition duration-300 ease-in-out data-[closed]:translate-x-full"
+              className="relative ml-auto flex size-full max-w-xs transform flex-col overflow-y-auto bg-darkgray py-4 pb-6 shadow-xl transition duration-300 ease-in-out data-[closed]:translate-x-full"
             >
               <div className="flex items-center justify-between px-4">
-                <h2 className="text-lg font-medium text-gray-900">Filters</h2>
+                <h2 className="text-lg font-kuunari-medium text-white">Filtros</h2>
                 <button
                   type="button"
                   onClick={() => setMobileFiltersOpen(false)}
-                  className="-mr-2 flex size-10 items-center justify-center p-2 text-gray-400 hover:text-gray-500"
+                  className="-mr-2 flex size-10 items-center justify-center p-2 text-white/60 hover:text-accent-500"
                 >
-                  <span className="sr-only">Close menu</span>
+                  <span className="sr-only">Cerrar menú</span>
                   <XMarkIcon aria-hidden="true" className="size-6" />
                 </button>
               </div>
@@ -96,12 +101,12 @@ export default function ProjectsFilter() {
                   <Disclosure
                     key={section.name}
                     as="div"
-                    className="border-t border-gray-200 pb-4 pt-4"
+                    className="border-t border-white/10 pb-4 pt-4"
                   >
                     <fieldset>
                       <legend className="w-full px-2">
-                        <DisclosureButton className="group flex w-full items-center justify-between p-2 text-gray-400 hover:text-gray-500">
-                          <span className="text-sm font-medium text-gray-900">
+                        <DisclosureButton className="group flex w-full items-center justify-between p-2 text-white/60 hover:text-accent-500">
+                          <span className="text-sm font-kuunari-medium text-white">
                             {section.name}
                           </span>
                           <span className="ml-6 flex h-7 items-center">
@@ -132,12 +137,12 @@ export default function ProjectsFilter() {
                                         e.target.checked
                                       )
                                     }
-                                    className="col-start-1 row-start-1 appearance-none rounded border border-gray-300 bg-white checked:border-indigo-600 checked:bg-indigo-600 indeterminate:border-indigo-600 indeterminate:bg-indigo-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:border-gray-300 disabled:bg-gray-100 disabled:checked:bg-gray-100 forced-colors:appearance-auto"
+                                    className="col-start-1 row-start-1 appearance-none rounded border border-white/20 bg-darkgray checked:border-accent-500 checked:bg-accent-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-500"
                                   />
                                   <svg
                                     fill="none"
                                     viewBox="0 0 14 14"
-                                    className="pointer-events-none col-start-1 row-start-1 size-3.5 self-center justify-self-center stroke-white group-has-[:disabled]:stroke-gray-950/25"
+                                    className="pointer-events-none col-start-1 row-start-1 size-3.5 self-center justify-self-center stroke-white"
                                   >
                                     <path
                                       d="M3 8L6 11L11 3.5"
@@ -146,19 +151,12 @@ export default function ProjectsFilter() {
                                       strokeLinejoin="round"
                                       className="opacity-0 group-has-[:checked]:opacity-100"
                                     />
-                                    <path
-                                      d="M3 7H11"
-                                      strokeWidth={2}
-                                      strokeLinecap="round"
-                                      strokeLinejoin="round"
-                                      className="opacity-0 group-has-[:indeterminate]:opacity-100"
-                                    />
                                   </svg>
                                 </div>
                               </div>
                               <label
                                 htmlFor={`${section.id}-${optionIdx}-mobile`}
-                                className="text-sm text-gray-500"
+                                className="text-sm text-white/80 font-kuunari-light"
                               >
                                 {option.label}
                               </label>
@@ -174,44 +172,41 @@ export default function ProjectsFilter() {
           </div>
         </Dialog>
 
-        <main className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
-          <div className="border-b border-gray-200 pb-10">
-            <h1 className="text-4xl font-bold tracking-tight text-gray-900">
-              New Arrivals
-            </h1>
-            <p className="mt-4 text-base text-gray-500">
-              Checkout out the latest release of Basic Tees, new and improved
-              with four openings!
-            </p>
-          </div>
-
-          <div className="pt-12 lg:grid lg:grid-cols-3 lg:gap-x-8 xl:grid-cols-4">
-            <aside>
-              <h2 className="sr-only">Filters</h2>
-
+        <main className="mx-auto max-w-7xl px-4 py-16 sm:px-6 sm:py-24 lg:px-8">
+          <div className="border-b border-white/10 pb-10">
+            <div className="flex items-center justify-between">
+              <h1 className="text-4xl font-kuunari-medium tracking-tight text-white">
+                Proyectos
+              </h1>
               <button
                 type="button"
                 onClick={() => setMobileFiltersOpen(true)}
                 className="inline-flex items-center lg:hidden"
               >
-                <span className="text-sm font-medium text-gray-700">
-                  Filters
+                <span className="text-sm font-kuunari-medium text-white/80">
+                  Filtros
                 </span>
                 <PlusIcon
                   aria-hidden="true"
-                  className="ml-1 size-5 shrink-0 text-gray-400"
+                  className="ml-1 size-5 shrink-0 text-white/60"
                 />
               </button>
+            </div>
+          </div>
+
+          <div className="pt-12 lg:grid lg:grid-cols-3 lg:gap-x-8 xl:grid-cols-4">
+            <aside>
+              <h2 className="sr-only">Filtros</h2>
 
               <div className="hidden lg:block">
-                <form className="divide-y divide-gray-200">
+                <form className="divide-y divide-white/10">
                   {filters.map((section) => (
                     <div
                       key={section.name}
                       className="py-10 first:pt-0 last:pb-0"
                     >
                       <fieldset>
-                        <legend className="block text-sm font-medium text-gray-900">
+                        <legend className="block text-sm font-kuunari-medium text-white">
                           {section.name}
                         </legend>
                         <div className="space-y-3 pt-6">
@@ -233,12 +228,12 @@ export default function ProjectsFilter() {
                                         e.target.checked
                                       )
                                     }
-                                    className="col-start-1 row-start-1 appearance-none rounded border border-gray-300 bg-white checked:border-indigo-600 checked:bg-indigo-600 indeterminate:border-indigo-600 indeterminate:bg-indigo-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:border-gray-300 disabled:bg-gray-100 disabled:checked:bg-gray-100 forced-colors:appearance-auto"
+                                    className="col-start-1 row-start-1 appearance-none rounded border border-white/20 bg-darkgray checked:border-accent-500 checked:bg-accent-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-500"
                                   />
                                   <svg
                                     fill="none"
                                     viewBox="0 0 14 14"
-                                    className="pointer-events-none col-start-1 row-start-1 size-3.5 self-center justify-self-center stroke-white group-has-[:disabled]:stroke-gray-950/25"
+                                    className="pointer-events-none col-start-1 row-start-1 size-3.5 self-center justify-self-center stroke-white"
                                   >
                                     <path
                                       d="M3 8L6 11L11 3.5"
@@ -247,19 +242,12 @@ export default function ProjectsFilter() {
                                       strokeLinejoin="round"
                                       className="opacity-0 group-has-[:checked]:opacity-100"
                                     />
-                                    <path
-                                      d="M3 7H11"
-                                      strokeWidth={2}
-                                      strokeLinecap="round"
-                                      strokeLinejoin="round"
-                                      className="opacity-0 group-has-[:indeterminate]:opacity-100"
-                                    />
                                   </svg>
                                 </div>
                               </div>
                               <label
                                 htmlFor={`${section.id}-${optionIdx}`}
-                                className="text-sm text-gray-600"
+                                className="text-sm text-white/80 font-kuunari-light"
                               >
                                 {option.label}
                               </label>
@@ -273,23 +261,9 @@ export default function ProjectsFilter() {
               </div>
             </aside>
 
-            {/* Product grid */}
+            {/* Project grid */}
             <div className="mt-6 lg:col-span-2 lg:mt-0 xl:col-span-3">
               <ProjectList projects={filteredProjects} />
-              {filteredProjects.length === 0 && (
-                <div id="no-projects">
-                  <p className="text-center text-lg">
-                    Vaya! Todavía no contamos con ningún proyecto con dichas
-                    características, sé el primero!
-                  </p>
-                  <button
-                    type="button"
-                    className="rounded-md bg-indigo-600 px-2.5 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                  >
-                    Contactar
-                  </button>
-                </div>
-              )}
             </div>
           </div>
         </main>

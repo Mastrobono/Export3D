@@ -10,24 +10,21 @@ interface AllProjectsProps {
 
 // Transform raw project data to match our Project type
 const transformProject = (rawProject: any, index: number): Project => {
-  // Generar un ID único combinando el título y el índice
   const uniqueId = `${rawProject.metadata.title.toLowerCase().replace(/\s+/g, '-')}-${index}`;
   
   return {
     id: uniqueId,
-    title: rawProject.metadata.title.replace("<br/>", ""),
-    description: rawProject.metadata.location,
-    imageUrl: rawProject.image.src,
-    type: rawProject.metadata.buildingType,
-    date: rawProject.metadata.date,
-    role: rawProject.metadata.role,
-    tags: [
-      rawProject.metadata.type,
-      rawProject.metadata.date,
-      rawProject.metadata.role,
-      rawProject.metadata.buildingType,
-      ...(rawProject.metadata.tags || [])
-    ].filter(Boolean)
+    image: rawProject.image.src,
+    metadata: {
+      title: rawProject.metadata.title.replace("<br/>", ""),
+      location: rawProject.metadata.location,
+      date: rawProject.metadata.date,
+      client: rawProject.metadata.client,
+      role: rawProject.metadata.role,
+      buildingType: rawProject.metadata.buildingType,
+      status: rawProject.metadata.status,
+      featured: rawProject.metadata.featured
+    }
   };
 };
 
@@ -91,69 +88,33 @@ const ProjectTag = ({ tag }: { tag: string }) => (
 
 const ProjectCard = ({ project }: { project: Project }) => {
   return (
-    <motion.div
+    <div
       key={`card-${project.id}`}
-      layout
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ 
-        opacity: 1, 
-        y: 0,
-        transition: {
-          duration: 0.8,
-          ease: [0.25, 0.1, 0.25, 1]
-        }
-      }}
-      viewport={{ once: true, margin: "-100px" }}
-      className="relative overflow-hidden rounded-lg aspect-[4/3] opacity-90 hover:opacity-100 transition-opacity duration-300 group"
+      className="relative group overflow-hidden rounded-lg shadow-lg transition-all duration-300 hover:shadow-xl"
     >
-      <motion.div
+      <div
         key={`image-container-${project.id}`}
-        className="absolute inset-0 overflow-hidden"
-        initial={{ scale: 1.1, filter: "blur(6px) brightness(0.8)" }}
-        whileInView={{ 
-          scale: 1,
-          filter: "blur(0px) brightness(1)",
-          transition: {
-            duration: 1.25,
-            ease: [0.25, 0.1, 0.25, 1],
-            filter: {
-              duration: 1.25,
-              ease: [0.25, 0.1, 0.25, 1]
-            }
-          }
-        }}
-        viewport={{ once: true, margin: "-100px" }}
-        whileHover={{ 
-          scale: 1.1,
-          transition: {
-            duration: 0.8,
-            ease: [0.25, 0.1, 0.25, 1]
-          }
-        }}
+        className="relative w-full h-64 overflow-hidden"
       >
         <img
-          src={project.imageUrl}
-          alt={project.title}
-          className="w-full h-full object-cover"
+          src={project.image}
+          alt={project.metadata.title}
+          className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
         />
-      </motion.div>
-      <motion.div
-        key={`overlay-${project.id}`}
-        className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-300"
-      >
-        <div className="absolute bottom-0 left-0 p-8 text-white w-full opacity-0 group-hover:opacity-100 transition-all duration-300">
-          <h3 className="text-2xl font-bold mb-3">{project.title}</h3>
-          <p className="text-sm opacity-90 mb-4">{project.description}</p>
+        <div
+          key={`overlay-${project.id}`}
+          className="absolute inset-0 bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6"
+        >
+          <h3 className="text-2xl font-bold mb-3">{project.metadata.title}</h3>
+          <p className="text-sm opacity-90 mb-4">{project.metadata.location}</p>
           <div className="flex flex-wrap gap-2">
-            {project.tags.map((tag, index) => (
-              <div key={`${project.id}-tag-${index}`}>
-                <ProjectTag tag={tag} />
-              </div>
-            ))}
+            <ProjectTag tag={project.metadata.buildingType} />
+            <ProjectTag tag={project.metadata.date} />
+            <ProjectTag tag={project.metadata.role} />
           </div>
         </div>
-      </motion.div>
-    </motion.div>
+      </div>
+    </div>
   );
 };
 

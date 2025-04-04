@@ -1,22 +1,21 @@
 ---
 import Hero from "../components/Hero.astro";
-import AboutUs from "../components/AboutUs.astro";
+import AboutUs from "../components/AboutUs.tsx";
 import Services from "../components/Services.astro";
 import Layout from "../layouts/Layout.astro";
 import Featured from "../components/Featured";
 import AllProjects from "../components/AllProjects.tsx";
-import CTA from "../components/CTA.astro";
+import CTA from "../components/CTA.tsx";
 import { projects } from "../data/data.ts";
 ---
 
 <Layout>
   <Hero />
-  <AboutUs />
-  <Services />
+  <AboutUs client:load />
   <Featured
     projects={projects.filter((project) => project.metadata.featured == true)}
     client:load
   />
   <AllProjects projects={projects} client:load />
-  <CTA />
+  <CTA client:load />
 </Layout>
