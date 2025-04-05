@@ -15,8 +15,8 @@ export default {
         lightgray: "#1a1a1a",
         darkgray: "#121212",
         "accent-400": "#f9c461",
-        "accent-500": "#f3d227",
-        "accent-600": "#f3d227",
+        "accent-500": "#f9c461",
+        "accent-600": "#f9c461",
       },
       backgroundImage: {
         gradientOverlayHero:

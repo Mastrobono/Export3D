@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { motion } from "framer-motion";
 import {
   Dialog,
   DialogBackdrop,
@@ -173,15 +174,28 @@ export default function ProjectsFilter() {
         </Dialog>
 
         <main className="mx-auto max-w-7xl px-4 py-16 sm:px-6 sm:py-24 lg:px-8">
-          <div className="border-b border-white/10 pb-10">
+          <motion.div 
+            className="border-b border-white/10 pb-10"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, ease: "easeOut" }}
+          >
             <div className="flex items-center justify-between">
-              <h1 className="text-4xl font-kuunari-medium tracking-tight text-white">
+              <motion.h1 
+                className="text-4xl font-kuunari-medium tracking-tight text-white"
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.6, delay: 0.2, ease: "easeOut" }}
+              >
                 Proyectos
-              </h1>
-              <button
+              </motion.h1>
+              <motion.button
                 type="button"
                 onClick={() => setMobileFiltersOpen(true)}
                 className="inline-flex items-center lg:hidden"
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.6, delay: 0.2, ease: "easeOut" }}
               >
                 <span className="text-sm font-kuunari-medium text-white/80">
                   Filtros
@@ -190,20 +204,27 @@ export default function ProjectsFilter() {
                   aria-hidden="true"
                   className="ml-1 size-5 shrink-0 text-white/60"
                 />
-              </button>
+              </motion.button>
             </div>
-          </div>
+          </motion.div>
 
           <div className="pt-12 lg:grid lg:grid-cols-3 lg:gap-x-8 xl:grid-cols-4">
-            <aside>
+            <motion.aside
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.6, delay: 0.4, ease: "easeOut" }}
+            >
               <h2 className="sr-only">Filtros</h2>
 
               <div className="hidden lg:block">
                 <form className="divide-y divide-white/10">
-                  {filters.map((section) => (
-                    <div
+                  {filters.map((section, index) => (
+                    <motion.div
                       key={section.name}
                       className="py-10 first:pt-0 last:pb-0"
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.5, delay: 0.5 + index * 0.1 }}
                     >
                       <fieldset>
                         <legend className="block text-sm font-kuunari-medium text-white">
@@ -255,16 +276,21 @@ export default function ProjectsFilter() {
                           ))}
                         </div>
                       </fieldset>
-                    </div>
+                    </motion.div>
                   ))}
                 </form>
               </div>
-            </aside>
+            </motion.aside>
 
             {/* Project grid */}
-            <div className="mt-6 lg:col-span-2 lg:mt-0 xl:col-span-3">
+            <motion.div 
+              className="mt-6 lg:col-span-2 lg:mt-0 xl:col-span-3"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.6, ease: "easeOut" }}
+            >
               <ProjectList projects={filteredProjects} />
-            </div>
+            </motion.div>
           </div>
         </main>
       </div>

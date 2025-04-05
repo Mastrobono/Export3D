@@ -3,19 +3,19 @@ import { motion } from "framer-motion";
 const Footer = () => {
   const footerSections = {
     main: [
-      { name: "Home", href: "/" },
-      { name: "About Us", href: "/about" },
-      { name: "Contact", href: "/contact" }
+      { name: "Home", href: "/about" },
+      { name: "Sobre Nosotros", href: "/about" },
+      { name: "Proyectos Destacados", href: "/contact" },
+      { name: "Todoos los Proyectos", href: "/contact" },
     ],
-    services: [
+    projects: [
+      { name: "Galería de Proyectos", href: "/projects" }
+    ],
+    contact: [
       { name: "Visualización Arquitectónica", href: "/services/visualization" },
       { name: "Proyecto y Dirección de Obra", href: "/services/project-management" }
     ],
-    projects: [
-      { name: "Proyectos Destacados", href: "/#featured" },
-      { name: "Más Proyectos", href: "/#projects" },
-      { name: "Galería de Proyectos", href: "/projects" }
-    ]
+
   };
 
   const socialLinks = [
@@ -53,7 +53,7 @@ const Footer = () => {
   ];
 
   return (
-    <motion.footer 
+    <motion.footer
       className="bg-darkgray relative"
       initial={{ opacity: 0, y: 50 }}
       whileInView={{ opacity: 1, y: 0 }}
@@ -61,7 +61,7 @@ const Footer = () => {
       transition={{ duration: 0.8 }}
     >
       <div className="mx-auto max-w-7xl px-6 py-20 sm:py-24 lg:px-8">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-12 mb-16">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-12 mb-16 max-w-4xl mx-auto">
           {/* Main Navigation */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -72,25 +72,6 @@ const Footer = () => {
             <h3 className="text-accent-500 font-kuunari-bold text-xl mb-4">Navegación</h3>
             <ul className="space-y-3">
               {footerSections.main.map((item) => (
-                <li key={item.name}>
-                  <a href={item.href} className="text-gray-400 hover:text-white transition-colors duration-200">
-                    {item.name}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </motion.div>
-
-          {/* Services */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.3 }}
-          >
-            <h3 className="text-accent-500 font-kuunari-bold text-xl mb-4">Servicios</h3>
-            <ul className="space-y-3">
-              {footerSections.services.map((item) => (
                 <li key={item.name}>
                   <a href={item.href} className="text-gray-400 hover:text-white transition-colors duration-200">
                     {item.name}
@@ -118,10 +99,29 @@ const Footer = () => {
               ))}
             </ul>
           </motion.div>
+
+          {/* Contact */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.3 }}
+          >
+            <h3 className="text-accent-500 font-kuunari-bold text-xl mb-4">Contacto</h3>
+            <ul className="space-y-3">
+              {footerSections.contact.map((item) => (
+                <li key={item.name}>
+                  <a href={item.href} className="text-gray-400 hover:text-white transition-colors duration-200">
+                    {item.name}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </motion.div>
         </div>
 
         {/* Social Links */}
-        <motion.div 
+        <motion.div
           className="flex justify-center space-x-10 mb-10"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -151,10 +151,10 @@ const Footer = () => {
           <p className="text-sm text-gray-400">
             &copy; 2025 Export3D. All rights reserved.
           </p>
-          <a 
-            href="https://mastrobono.dev" 
-            target="_blank" 
-            rel="noopener noreferrer" 
+          <a
+            href="https://mastrobono.dev"
+            target="_blank"
+            rel="noopener noreferrer"
             className="inline-block text-sm text-accent-500 hover:text-accent-400 transition-colors duration-300"
           >
             Developed by mastrobono.dev
@@ -163,7 +163,7 @@ const Footer = () => {
       </div>
 
       {/* Decorative gradient line */}
-      <motion.div 
+      <motion.div
         className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-accent-500/50 to-transparent"
         initial={{ scaleX: 0, opacity: 0 }}
         whileInView={{ scaleX: 1, opacity: 1 }}

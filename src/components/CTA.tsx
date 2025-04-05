@@ -13,7 +13,7 @@ const CTA = () => {
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.03)_0%,transparent_70%)]"></div>
       </div>
 
-      <motion.div 
+      <motion.div
         className="relative z-10 mx-auto max-w-7xl px-6 py-24 sm:py-32"
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
@@ -22,11 +22,11 @@ const CTA = () => {
       >
         <div className="grid lg:grid-cols-2 gap-16 items-start">
           {/* Left side - Content */}
-          <motion.div 
+          <motion.div
             className="space-y-6"
             initial={{ opacity: 0, y: 50 }}
-            whileInView={{ 
-              opacity: 1, 
+            whileInView={{
+              opacity: 1,
               y: 0,
               transition: {
                 duration: 0.8,
@@ -35,10 +35,10 @@ const CTA = () => {
             }}
             viewport={{ once: true, margin: "-100px" }}
           >
-            <motion.h2 
+            <motion.h2
               initial={{ opacity: 0, y: 30 }}
-              whileInView={{ 
-                opacity: 1, 
+              whileInView={{
+                opacity: 1,
                 y: 0,
                 transition: {
                   duration: 0.6,
@@ -48,11 +48,11 @@ const CTA = () => {
               viewport={{ once: true, margin: "-100px" }}
               className="text-4xl font-semibold tracking-tight text-white sm:text-5xl font-kuunari-medium"
             >
-              Let's Get In Touch.<br />
-              <motion.span 
+              Pongámonos en Contacto.<br />
+              <motion.span
                 initial={{ opacity: 0, y: 30 }}
-                whileInView={{ 
-                  opacity: 1, 
+                whileInView={{
+                  opacity: 1,
                   y: 0,
                   transition: {
                     duration: 0.6,
@@ -62,13 +62,13 @@ const CTA = () => {
                 viewport={{ once: true, margin: "-100px" }}
                 className="text-2xl sm:text-3xl text-accent-500 mt-2 block"
               >
-                Transform your vision into reality.
+                Transforma tu visión en realidad.
               </motion.span>
             </motion.h2>
-            <motion.p 
+            <motion.p
               initial={{ opacity: 0, y: 30 }}
-              whileInView={{ 
-                opacity: 1, 
+              whileInView={{
+                opacity: 1,
                 y: 0,
                 transition: {
                   duration: 0.6,
@@ -78,18 +78,16 @@ const CTA = () => {
               viewport={{ once: true, margin: "-100px" }}
               className="mt-6 text-lg leading-8 text-white/80"
             >
-              Your next architectural masterpiece awaits. Whether you need stunning
-              visualizations or expert project guidance, we're here to help bring
-              your ideas to life.
+              Tu próxima obra maestra arquitectónica te espera. Ya sea que necesites visualizaciones impactantes o dirección experta de obra, estamos aquí para dar vida a tus ideas.
             </motion.p>
           </motion.div>
 
           {/* Right side - Contact Form */}
-          <motion.form 
+          <motion.form
             className="bg-darkgray/30 backdrop-blur-sm rounded-2xl p-8 border border-white/10"
             initial={{ opacity: 0, y: 50 }}
-            whileInView={{ 
-              opacity: 1, 
+            whileInView={{
+              opacity: 1,
               y: 0,
               transition: {
                 duration: 0.8,
@@ -99,10 +97,10 @@ const CTA = () => {
             viewport={{ once: true, margin: "-100px" }}
           >
             <div className="space-y-6">
-              <motion.div 
+              <motion.div
                 initial={{ opacity: 0, y: 20 }}
-                whileInView={{ 
-                  opacity: 1, 
+                whileInView={{
+                  opacity: 1,
                   y: 0,
                   transition: {
                     duration: 0.6,
@@ -121,10 +119,10 @@ const CTA = () => {
                 />
               </motion.div>
 
-              <motion.div 
+              <motion.div
                 initial={{ opacity: 0, y: 20 }}
-                whileInView={{ 
-                  opacity: 1, 
+                whileInView={{
+                  opacity: 1,
                   y: 0,
                   transition: {
                     duration: 0.6,
@@ -143,10 +141,10 @@ const CTA = () => {
                 />
               </motion.div>
 
-              <motion.div 
+              <motion.div
                 initial={{ opacity: 0, y: 20 }}
-                whileInView={{ 
-                  opacity: 1, 
+                whileInView={{
+                  opacity: 1,
                   y: 0,
                   transition: {
                     duration: 0.6,
@@ -159,19 +157,19 @@ const CTA = () => {
                 <select
                   id="project_type"
                   name="project_type"
-                  className="mt-2 block w-full rounded-md border-0 bg-white/5 px-4 py-3 text-white shadow-sm ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-accent-500 sm:text-sm sm:leading-6"
+                  className="mt-2 block w-full rounded-md border-0 bg-white/5 px-4 py-3 text-white shadow-sm ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-accent-500 sm:text-sm sm:leading-6 [&>option]:bg-darkgray [&>option]:text-white"
                 >
-                  <option value="" disabled selected>Selecciona una opción</option>
+                  <option value="" disabled selected className="text-white/50">Selecciona una opción</option>
                   <option value="visualization">Visualización Arquitectónica</option>
                   <option value="project_management">Dirección de Obra</option>
                   <option value="both">Ambos Servicios</option>
                 </select>
               </motion.div>
 
-              <motion.div 
+              <motion.div
                 initial={{ opacity: 0, y: 20 }}
-                whileInView={{ 
-                  opacity: 1, 
+                whileInView={{
+                  opacity: 1,
                   y: 0,
                   transition: {
                     duration: 0.6,
@@ -190,10 +188,10 @@ const CTA = () => {
                 ></textarea>
               </motion.div>
 
-              <motion.div 
+              <motion.div
                 initial={{ opacity: 0, y: 20 }}
-                whileInView={{ 
-                  opacity: 1, 
+                whileInView={{
+                  opacity: 1,
                   y: 0,
                   transition: {
                     duration: 0.6,
@@ -231,4 +229,12 @@ const CTA = () => {
   );
 };
 
-export default CTA; 
+export default CTA;
+
+/*
+
+Pongámonos en Contacto.
+Transforma tu visión en realidad.
+Tu próxima obra maestra arquitectónica te espera. Ya sea que necesites visualizaciones impactantes o dirección experta de obra, estamos aquí para dar vida a tus ideas.
+
+*/

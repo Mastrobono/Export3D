@@ -36,10 +36,10 @@ import Container from "../layouts/Container";
     <main class="relative z-10 h-[90vh]">
       {/* Company Info */}
       <div class="absolute top-24 left-0 right-0 text-center">
-        <h2 class="text-[3.5rem] font-kuunari-bold text-white leading-none drop-shadow-[0_2px_10px_rgba(0,0,0,0.4)] animate-fade-in-down">
-          Export<span class="text-accent-500">3D</span>
+        <h2 class="text-[4rem] font-kuunari-bold text-white leading-none drop-shadow-[0_2px_10px_rgba(0,0,0,0.4)] animate-fade-in-down">
+          Export<span class="text-accent-500">3d</span>.
         </h2>
-        <div class="mt-3 flex items-center justify-center gap-2 text-lg font-kuunari-medium animate-fade-in-up">
+        <div class="mt-3 flex items-center justify-center gap-2 text-[21.5px] tracking-[0.5px] font-kuunari-medium animate-fade-in-up">
           <button
             id="service-viz"
             class="service-btn text-accent-500 transition-all duration-300 hover:text-white active"
@@ -48,7 +48,7 @@ import Container from "../layouts/Container";
           >
             Visualización Arquitectónica
           </button>
-          <span class="opacity-50">/</span>
+          <span class="opacity-50 text-white">/</span>
           <button
             id="service-proj"
             class="service-btn text-white/90 transition-all duration-300 hover:text-white"
@@ -70,7 +70,7 @@ import Container from "../layouts/Container";
               <br />
               <span class="heading-text bg-gradient-to-r from-accent-500 to-accent-400 text-transparent bg-clip-text"></span>
             </h1>
-            <p id="heading-description" class="mt-8 text-xl text-white/80 font-kuunari-light max-w-2xl description-text">
+            <p id="heading-description" class="mt-8 text-xl text-white/90 text-[22.5px] tracking-[.7px] font-kuunari-light max-w-2xl description-text">
               Transformamos tus ideas en experiencias visuales impactantes
             </p>
           </div>
@@ -490,7 +490,6 @@ import Container from "../layouts/Container";
   /* Service button styles */
   .service-btn {
     position: relative;
-    padding: 0.25rem 0.5rem;
     border-radius: 0.25rem;
     transition: all 0.3s ease;
   }
@@ -498,7 +497,7 @@ import Container from "../layouts/Container";
   .service-btn::after {
     content: '';
     position: absolute;
-    bottom: -2px;
+    bottom: -1.5px;
     left: 50%;
     width: 0;
     height: 2px;
@@ -507,24 +506,21 @@ import Container from "../layouts/Container";
     transform: translateX(-50%);
   }
 
-  .service-btn:not(.active):hover {
-    text-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+  .service-btn:not(.active) {
+    text-shadow: 0 0 8px rgba(0, 0, 0, 0.5);
   }
 
-  .service-btn:not(.active):hover::after {
-    width: 100%;
+  .service-btn:not(.active):hover {
+    text-shadow: 0 0 12px rgba(0, 0, 0, 0.7);
   }
 
   .service-btn.active {
-    text-shadow: 0 0 10px rgba(255, 102, 0, 0.5);
+    text-shadow: 0 0 8px rgba(0, 0, 0, 0.7);
   }
 
   .service-btn.active:hover {
-    color: #f3d227;
-  }
-
-  .service-btn.active::hover::after {
-    color: #f3d227;
+    color: #f9c461;
+    text-shadow: 0 0 12px rgba(0, 0, 0, 0.8);
   }
 
   .service-btn.active::after {

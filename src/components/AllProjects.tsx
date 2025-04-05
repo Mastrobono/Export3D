@@ -94,19 +94,20 @@ const ProjectCard = ({ project }: { project: Project }) => {
     >
       <div
         key={`image-container-${project.id}`}
-        className="relative w-full h-64 overflow-hidden"
+        className="relative w-full h-64 overflow-hidden cursor-pointer"
       >
         <img
           src={project.image}
           alt={project.metadata.title}
           className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
+          loading="lazy"
         />
         <div
           key={`overlay-${project.id}`}
           className="absolute inset-0 bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6"
         >
-          <h3 className="text-2xl font-bold mb-3">{project.metadata.title}</h3>
-          <p className="text-sm opacity-90 mb-4">{project.metadata.location}</p>
+          <h3 className="text-2xl font-bold mb-3 text-white">{project.metadata.title}</h3>
+          <p className="text-sm opacity-90 mb-4 text-white">{project.metadata.location}</p>
           <div className="flex flex-wrap gap-2">
             <ProjectTag tag={project.metadata.buildingType} />
             <ProjectTag tag={project.metadata.date} />

@@ -150,6 +150,7 @@ const Feature: React.FC<FeatureProps> = ({ projects }) => {
                     src={slide.image.src}
                     alt={`Slide ${index + 1}`}
                     className="w-full h-full object-cover"
+                    loading="lazy"
                   />
                 </motion.div>
               </motion.div>

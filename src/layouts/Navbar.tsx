@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { Disclosure, DisclosureButton } from "@headlessui/react";
+import logoTransparent from "../assets/logoTransparent.png";
 import logo from "../assets/logo.png";
 import { scrollToFn } from "../utils/utils.tsx";
 import classNames from "classnames";
@@ -8,10 +9,14 @@ import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 
 export default function Navbar() {
   const [activeSection, setActiveSection] = useState("");
+  const [isScrolled, setIsScrolled] = useState(false);
 
   // Handle scroll event and current section
   useEffect(() => {
     const handleScroll = () => {
+      const scrollPosition = window.scrollY;
+      setIsScrolled(scrollPosition > 50);
+
       const sections = document.querySelectorAll("[data-section]");
       let currentSection = "";
       sections.forEach((section) => {
@@ -35,9 +40,9 @@ export default function Navbar() {
 
   //Navbar options
   const NavbarOptions = [
-    { id: "about", label: "About Us" },
-    { id: "featured", label: "Featured Projects" },
-    { id: "all-projects", label: "All Projects" }
+    { id: "about", label: "Sobre Nosotros" },
+    { id: "featured", label: "Proyectos Destacados" },
+    { id: "all-projects", label: "Todos los Proyectos" }
   ];
 
   return (
@@ -52,11 +57,26 @@ export default function Navbar() {
                   href="/"
                   className="cursor-pointer"
                 >
-                  <img
-                    src={logo.src}
-                    alt="Export3D Logo"
-                    className="h-8 w-auto"
-                  />
+                  <div className="relative h-8 w-32 overflow-hidden">
+                    <img
+                      src={logo.src}
+                      alt="Export3D Logo"
+                      className={`absolute inset-0 h-8 w-auto transition-all ease-[cubic-bezier(0.4,0,0.2,1)] [transition-duration:500ms] ${
+                        activeSection !== "" 
+                          ? 'opacity-0 translate-y-[-15px]' 
+                          : 'opacity-100 translate-y-0'
+                      }`}
+                    />
+                    <img
+                      src={logoTransparent.src}
+                      alt="Export3D Logo"
+                      className={`absolute inset-0 h-8 w-auto transition-all ease-[cubic-bezier(0.4,0,0.2,1)] [transition-duration:500ms] ${
+                        activeSection !== "" 
+                          ? 'opacity-100 translate-y-0' 
+                          : 'opacity-0 translate-y-[15px]'
+                      }`}
+                    />
+                  </div>
                 </a>
               </div>
 
@@ -79,7 +99,7 @@ export default function Navbar() {
                 ))}
                 <button
                   onClick={(e) => scrollToFn(e, "cta")}
-                  className="ml-4 rounded-full bg-accent-500 px-6 py-2 text-sm font-medium text-white hover:bg-accent-400 transition-colors duration-200"
+                  className="ml-4 rounded-xl bg-accent-500 px-6 py-2 text-sm font-medium text-white hover:bg-accent-400 transition-colors duration-200"
                 >
                   Iniciar Proyecto
                 </button>
