@@ -3,13 +3,13 @@ import background from "../assets/background.webp";
 import Container from "../layouts/Container";
 ---
 
-<Container classNames="relative max-w-8xl">
-  <div id="hero-container" class="relative h-[90vh] overflow-hidden">
+<Container classNames="mt-12 mb-24 relative max-w-8xl rounded-md">
+  <div id="hero-container" class="relative h-[90vh] overflow-hidden rounded-md">
     {/* Background with effects */}
     <div class="absolute inset-0 z-0">
       <div id="parallax-image" class="relative w-full h-full">
         <img
-          class="w-full h-full object-cover object-[center_65%]"
+          class="w-full h-full object-cover object-[center_65%] rounded-md"
           src={background.src}
           alt="Architectural visualization"
           fetchpriority="high"

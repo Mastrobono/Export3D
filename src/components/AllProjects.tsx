@@ -15,6 +15,7 @@ const transformProject = (rawProject: any, index: number): Project => {
   return {
     id: uniqueId,
     image: rawProject.image.src,
+    slug: uniqueId, // Add missing slug property
     metadata: {
       title: rawProject.metadata.title.replace("<br/>", ""),
       location: rawProject.metadata.location,
@@ -42,7 +43,7 @@ const FilterChip = ({
     animate={{ opacity: 1, scale: 1 }}
     whileHover={{ scale: 1.05 }}
     whileTap={{ scale: 0.95 }}
-    className={`relative text-[18px] font-kuunari-medium rounded-[28px] py-2 px-8 border-2 cursor-pointer transition-all duration-300
+    className={`relative text-[17px] font-kuunari-medium rounded-[28px] py-1 px-6 border-2 cursor-pointer transition-all duration-300
       ${isActive 
         ? 'bg-accent-500 text-white border-accent-500' 
         : 'text-accent-500 border-accent-500 hover:bg-accent-500/10'
@@ -88,22 +89,24 @@ const ProjectTag = ({ tag }: { tag: string }) => (
 
 const ProjectCard = ({ project }: { project: Project }) => {
   return (
-    <div
-      key={`card-${project.id}`}
+    <motion.div
+      layout
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.3 }}
       className="relative group overflow-hidden rounded-lg shadow-lg transition-all duration-300 hover:shadow-xl"
     >
       <div
-        key={`image-container-${project.id}`}
         className="relative w-full h-64 overflow-hidden cursor-pointer"
       >
         <img
-          src={project.image}
+          src={project.image.toString()}
           alt={project.metadata.title}
           className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
           loading="lazy"
         />
         <div
-          key={`overlay-${project.id}`}
           className="absolute inset-0 bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6"
         >
           <h3 className="text-2xl font-bold mb-3 text-white">{project.metadata.title}</h3>
@@ -115,7 +118,7 @@ const ProjectCard = ({ project }: { project: Project }) => {
           </div>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 };
 
@@ -136,7 +139,7 @@ const AllProjects: React.FC<AllProjectsProps> = ({ projects: rawProjects }) => {
         }
       }}
       viewport={{ once: true }}
-      className="mx-auto w-[calc(100%-6rem)] rounded-md bg-lightgray shadow-xl my-12 p-20"
+      className="mx-auto w-[calc(100%-6rem)] rounded-md bg-lightgray shadow-xl my-12 p-12"
       data-section="all-projects"
     >
       <motion.h2
@@ -171,7 +174,7 @@ const AllProjects: React.FC<AllProjectsProps> = ({ projects: rawProjects }) => {
                 <h4 className="text-[22px] text-white font-kuunari-bold">
                   {category.charAt(0).toUpperCase() + category.slice(1)}
                 </h4>
-                <div className="flex flex-row gap-x-4 flex-wrap">
+                <div className="flex flex-row gap-x-4 gap-y-2 flex-wrap">
                   {tags[category].map((tag, tagIndex) => (
                     <motion.div
                       key={tag}
@@ -242,22 +245,18 @@ const AllProjects: React.FC<AllProjectsProps> = ({ projects: rawProjects }) => {
           </motion.div>
         ) : (
           <motion.div
-            key="projects-grid-container"
             layout
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.6, delay: 0.3 }}
             className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16"
           >
             <AnimatePresence mode="popLayout">
-              {filteredProjects.map((project, index) => (
+              {filteredProjects.map((project) => (
                 <motion.div
-                  key={`project-${project.id}`}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: "-100px" }}
-                  transition={{ duration: 0.4, delay: 0.2 + index * 0.05 }}
+                  key={project.id}
+                  layout
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.3 }}
                 >
                   <ProjectCard project={project} />
                 </motion.div>

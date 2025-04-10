@@ -49,7 +49,7 @@ export default function Navbar() {
     <Disclosure as="nav">
       {({ open }) => (
         <nav className="fixed w-full top-0 z-50 bg-darkgray/95 backdrop-blur-sm">
-          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="mx-auto max-w-8xl px-20 ">
             <div className="flex h-16 items-center justify-between">
               {/* Logo */}
               <div className="flex-shrink-0">
@@ -97,6 +97,30 @@ export default function Navbar() {
                     {option.label}
                   </a>
                 ))}
+                <a
+                  href="/projects"
+                  className="relative group px-6 py-2 text-sm font-medium text-white transition-all duration-300"
+                >
+                  <span className="relative z-10 flex items-center gap-2">
+                    Galería
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth={2}
+                      stroke="currentColor"
+                      className="w-4 h-4 transform transition-transform duration-300 group-hover:translate-x-1"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3"
+                      />
+                    </svg>
+                  </span>
+                  <span className="absolute inset-0 rounded-lg bg-accent-500/10" />
+                  <span className="absolute bottom-0 left-0 w-full h-[2px] bg-accent-500 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left" />
+                </a>
                 <button
                   onClick={(e) => scrollToFn(e, "cta")}
                   className="ml-4 rounded-xl bg-accent-500 px-6 py-2 text-sm font-medium text-white hover:bg-accent-400 transition-colors duration-200"

@@ -43,7 +43,16 @@ const Feature: React.FC<FeatureProps> = ({ projects }) => {
   const handleDotClick = (index: number) => {
     if (isTransitioning || index === currentSlide) return;
     setIsTransitioning(true);
-    slideRefs.current[index]?.scrollIntoView({ behavior: "smooth" });
+    const element = slideRefs.current[index];
+    if (element) {
+      const offset = 100;
+      const elementPosition = element.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.pageYOffset - offset;
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: "smooth"
+      });
+    }
     setCurrentSlide(index);
     setTimeout(() => setIsTransitioning(false), 800);
   };
@@ -69,22 +78,28 @@ const Feature: React.FC<FeatureProps> = ({ projects }) => {
     <motion.div 
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      className="w-full py-20 bg-darkgray"
+      className="w-full py-12 my-12 bg-darkgray"
     >
       <motion.h2 
         initial={{ y: 20, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.6 }}
-        className="text-[4rem] my-12 font-semibold tracking-tight font-kuunari-medium text-accent-500 text-center"
+        whileInView={{ y: 0, opacity: 1 }}
+        viewport={{ once: true, margin: "-200px"}}
+        transition={{ 
+          duration: 1,
+          ease: [0.25, 0.1, 0.25, 1]
+        }}
+        className="text-[4rem] mb-16 font-semibold tracking-tight font-kuunari-medium text-accent-500 text-center"
       >
         Proyectos Destacados
       </motion.h2>
 
       {projects.map((slide, index) => {
         const slideRef = useRef(null);
+        const isLastSlide = index === projects.length - 1;
+        const isFirstSlide = index === 0;
 
         return (
-          <Container key={index} data-section="featured" id="featured" classNames="bg-transparent">
+          <div key={index} data-section="featured" id="featured" className={`bg-transparent my-12 max-w-8xl mx-auto rounded-md ${isLastSlide ? 'mb-0' : 'mb-8'} ${isFirstSlide ? 'mt-0' : 'mt-12'}`}>
             <motion.div
               ref={(el) => {
                 slideRefs.current[index] = el;
@@ -103,7 +118,7 @@ const Feature: React.FC<FeatureProps> = ({ projects }) => {
                 }
               }}
               viewport={{ once: true }}
-              className="w-full relative rounded-2xl w-f mb-8 overflow-hidden group h-[80vh] shadow-[0_10px_30px_-15px_rgba(0,0,0,0.3)] transition-shadow duration-500 hover:shadow-[0_20px_40px_-15px_rgba(0,0,0,0.4)]"
+              className={`w-full relative rounded-md w-f overflow-hidden group h-[80vh] shadow-[0_10px_30px_-15px_rgba(0,0,0,0.3)] transition-shadow duration-500 hover:shadow-[0_20px_40px_-15px_rgba(0,0,0,0.4)] ${isLastSlide ? 'mb-0' : 'mb-8'}`}
             >
               {/* Background Image */}
               <motion.div 
@@ -172,7 +187,7 @@ const Feature: React.FC<FeatureProps> = ({ projects }) => {
 
               {/* Content Container */}
               <motion.div 
-                className="relative z-20 h-full flex flex-col justify-between p-8 md:p-16"
+                className="relative z-20 h-full flex flex-col justify-between p-20"
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.2 }}
@@ -264,7 +279,7 @@ const Feature: React.FC<FeatureProps> = ({ projects }) => {
                 ))}
               </div>
             </motion.div>
-          </Container>
+          </div>
         );
       })}
     </motion.div>
