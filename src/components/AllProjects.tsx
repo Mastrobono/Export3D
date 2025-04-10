@@ -249,14 +249,22 @@ const AllProjects: React.FC<AllProjectsProps> = ({ projects: rawProjects }) => {
             className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16"
           >
             <AnimatePresence mode="popLayout">
-              {filteredProjects.map((project) => (
+              {filteredProjects.map((project, index) => (
                 <motion.div
                   key={project.id}
                   layout
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.3 }}
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ 
+                    opacity: 1, 
+                    y: 0,
+                    transition: {
+                      duration: 0.8,
+                      delay: 0.4 + index * 0.1,
+                      ease: [0.25, 0.1, 0.25, 1]
+                    }
+                  }}
+                  viewport={{ once: true, margin: "-100px" }}
+                  exit={{ opacity: 0, y: 30 }}
                 >
                   <ProjectCard project={project} />
                 </motion.div>

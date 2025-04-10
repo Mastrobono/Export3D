@@ -81,13 +81,16 @@ const Feature: React.FC<FeatureProps> = ({ projects }) => {
       className="w-full py-12 my-12 bg-darkgray"
     >
       <motion.h2 
-        initial={{ y: 20, opacity: 0 }}
-        whileInView={{ y: 0, opacity: 1 }}
-        viewport={{ once: true, margin: "-200px"}}
-        transition={{ 
-          duration: 1,
-          ease: [0.25, 0.1, 0.25, 1]
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ 
+          opacity: 1, 
+          y: 0,
+          transition: {
+            duration: 0.8,
+            ease: [0.25, 0.1, 0.25, 1]
+          }
         }}
+        viewport={{ once: true, margin: "-100px" }}
         className="text-[4rem] mb-16 font-semibold tracking-tight font-kuunari-medium text-accent-500 text-center"
       >
         Proyectos Destacados
@@ -108,16 +111,17 @@ const Feature: React.FC<FeatureProps> = ({ projects }) => {
                   slideRef.current = el;
                 }
               }}
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 30 }}
               whileInView={{ 
                 opacity: 1, 
                 y: 0,
                 transition: {
                   duration: 0.8,
+                  delay: 0.4 + index * 0.1,
                   ease: [0.25, 0.1, 0.25, 1]
                 }
               }}
-              viewport={{ once: true }}
+              viewport={{ once: true, margin: "-100px" }}
               className={`w-full relative rounded-md w-f overflow-hidden group h-[80vh] shadow-[0_10px_30px_-15px_rgba(0,0,0,0.3)] transition-shadow duration-500 hover:shadow-[0_20px_40px_-15px_rgba(0,0,0,0.4)] ${isLastSlide ? 'mb-0' : 'mb-8'}`}
             >
               {/* Background Image */}
@@ -159,6 +163,7 @@ const Feature: React.FC<FeatureProps> = ({ projects }) => {
                       }
                     }
                   }}
+                  viewport={{ once: true }}
                   className="relative w-full h-full"
                 >
                   <img
@@ -190,6 +195,7 @@ const Feature: React.FC<FeatureProps> = ({ projects }) => {
                 className="relative z-20 h-full flex flex-col justify-between p-20"
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
                 transition={{ duration: 0.6, delay: 0.2 }}
               >
                 {/* Top Content */}
@@ -198,6 +204,7 @@ const Feature: React.FC<FeatureProps> = ({ projects }) => {
                     <motion.p 
                       initial={{ opacity: 0, x: -20 }}
                       whileInView={{ opacity: 1, x: 0 }}
+                      viewport={{ once: true }}
                       transition={{ duration: 0.6, delay: 0.3 }}
                       className="text-lg md:text-xl text-white/90 font-kuunari-medium"
                     >
@@ -206,6 +213,7 @@ const Feature: React.FC<FeatureProps> = ({ projects }) => {
                     <motion.h4 
                       initial={{ opacity: 0, x: -20 }}
                       whileInView={{ opacity: 1, x: 0 }}
+                      viewport={{ once: true }}
                       transition={{ duration: 0.6, delay: 0.4 }}
                       className="text-xl md:text-2xl text-accent-500 font-kuunari-bold"
                     >
@@ -216,6 +224,7 @@ const Feature: React.FC<FeatureProps> = ({ projects }) => {
                   <motion.p 
                     initial={{ opacity: 0 }}
                     whileInView={{ opacity: 1 }}
+                    viewport={{ once: true }}
                     transition={{ duration: 0.6, delay: 0.5 }}
                     className="text-2xl md:text-3xl text-white font-kuunari-bold drop-shadow-[0_2px_3px_rgba(0,0,0,0.5)]"
                   >
@@ -228,6 +237,7 @@ const Feature: React.FC<FeatureProps> = ({ projects }) => {
                   <motion.h2
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
                     transition={{ duration: 0.6, delay: 0.6 }}
                     className="text-[3.5rem] md:text-[5rem] text-white font-kuunari-bold leading-none drop-shadow-[0_2px_4px_rgba(0,0,0,0.6)]"
                   >
@@ -237,6 +247,7 @@ const Feature: React.FC<FeatureProps> = ({ projects }) => {
                   <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
                     className="inline-flex"
                   >
                     <button className="group/btn flex items-center gap-4 text-xl md:text-2xl text-white font-kuunari-medium drop-shadow-[0_2px_3px_rgba(0,0,0,0.5)] group-hover:text-accent-500 hover:text-accent-500 transition-colors duration-300">

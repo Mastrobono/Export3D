@@ -14,7 +14,7 @@ export default {
       colors: {
         lightgray: "#1a1a1a",
         darkgray: "#121212",
-        "accent-400": "#f9c461",
+        "accent-400": "#fcd180",
         "accent-500": "#f9c461",
         "accent-600": "#f9c461",
       },
