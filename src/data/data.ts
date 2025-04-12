@@ -91,7 +91,7 @@ export const projects: Project[] = [
     image: frisbeeImage,
     gallery: [frisbeeImage],
     metadata: {
-      title: "<br/> Meat Frisbee",
+      title: "Meat Frisbee",
       location: "Buenos Aires, Argentina",
       date: TagDate.YEAR_2025,
       client: "Meat Frisbee",

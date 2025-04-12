@@ -12,6 +12,7 @@ import { XMarkIcon } from "@heroicons/react/24/outline";
 import { ChevronDownIcon, PlusIcon } from "@heroicons/react/20/solid";
 import { projects, tags } from "../data/data"; // Import
 import ProjectList from "./ProjectList";
+import ContactForm from "./ContactForm";
 
 const filters = Object.keys(tags).map((key) => ({
   id: key,
@@ -46,6 +47,7 @@ export default function ProjectsFilter() {
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
   const [activeFilters, setActiveFilters] = useState([]);
   const [filteredProjects, setFilteredProjects] = useState(projects);
+  const [isContactFormOpen, setIsContactFormOpen] = useState(false);
 
   useEffect(() => {
     filterProjects(projects, activeFilters, setFilteredProjects);
@@ -279,6 +281,16 @@ export default function ProjectsFilter() {
                     </motion.div>
                   ))}
                 </form>
+
+                {/* Contact Button */}
+                <div className="mt-8 pt-8 border-t border-white/10">
+                  <button
+                    onClick={() => setIsContactFormOpen(true)}
+                    className="w-full inline-flex justify-center items-center px-4 py-2 border border-transparent text-sm font-kuunari-medium rounded-md text-white bg-accent-500 hover:bg-accent-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-accent-500"
+                  >
+                    Contactar
+                  </button>
+                </div>
               </div>
             </motion.aside>
 
@@ -294,6 +306,12 @@ export default function ProjectsFilter() {
           </div>
         </main>
       </div>
+
+      {/* Contact Form Modal */}
+      <ContactForm
+        isOpen={isContactFormOpen}
+        onClose={() => setIsContactFormOpen(false)}
+      />
     </div>
   );
 }

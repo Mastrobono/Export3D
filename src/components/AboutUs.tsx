@@ -16,7 +16,7 @@ const AboutUs = () => {
 
       {/* Content */}
       <motion.div 
-        className="relative z-10 px-20 py-32"
+        className="relative z-10 px-8 py-24 md:px-20 md:py-32"
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
         viewport={{ once: true, margin: "-100px" }}
@@ -63,7 +63,7 @@ const AboutUs = () => {
                 }
               }}
               viewport={{ once: true, margin: "-100px" }}
-              className="text-[4.5rem] leading-[1.1] font-semibold tracking-tight text-white font-kuunari-medium"
+              className="text-[3rem] sm:text-[4.2rem] md:text-[4.5rem] lg:text-[4.5rem] xl:text-[4.5rem] leading-[1.1] font-semibold tracking-tight text-white font-kuunari-medium"
             >
               Innovación<br />
               arquitectónica,<br />

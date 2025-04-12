@@ -30,6 +30,7 @@ export default {
         lg: "0 8px 16px var(--tw-shadow-color)",
       },
       maxWidth: {
+        "7xl": "calc(100% - 2rem)",
         "8xl": "calc(100% - 6rem)",
       },
     },
