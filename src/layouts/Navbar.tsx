@@ -60,9 +60,10 @@ export default function Navbar() {
     if (currentPath !== '/') {
       e.preventDefault();
       window.location.href = '/';
-      // Almacenamos la sección a la que queremos scrollear
       localStorage.setItem('scrollToSection', sectionId);
     } else {
+      e.preventDefault();
+      setActiveSection(sectionId);
       scrollToFn(e, sectionId);
     }
   };
@@ -73,6 +74,7 @@ export default function Navbar() {
     if (sectionToScroll) {
       const element = document.getElementById(sectionToScroll);
       if (element) {
+        setActiveSection(sectionToScroll);
         element.scrollIntoView({ behavior: 'smooth' });
         localStorage.removeItem('scrollToSection');
       }

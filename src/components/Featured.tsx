@@ -78,7 +78,7 @@ const Feature: React.FC<FeatureProps> = ({ projects }) => {
     <motion.div 
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      className="w-full py-12 my-12 bg-darkgray"
+      className="w-full max-w-7xl md:max-w-8xl mx-auto py-12 my-12 bg-darkgray"
     >
       <motion.h2 
         initial={{ opacity: 0, y: 20 }}
@@ -91,7 +91,7 @@ const Feature: React.FC<FeatureProps> = ({ projects }) => {
           }
         }}
         viewport={{ once: true, margin: "-100px" }}
-        className="text-[4rem] mb-16 font-semibold tracking-tight font-kuunari-medium text-accent-500 text-center"
+        className="text-title-sm md:text-title-md  mb-16 font-semibold tracking-tight font-kuunari-medium text-accent-500 text-center"
       >
         Proyectos Destacados
       </motion.h2>
@@ -102,7 +102,7 @@ const Feature: React.FC<FeatureProps> = ({ projects }) => {
         const isFirstSlide = index === 0;
 
         return (
-          <div key={index} data-section="featured" id="featured" className={`bg-transparent my-12 max-w-8xl mx-auto rounded-md ${isLastSlide ? 'mb-0' : 'mb-8'} ${isFirstSlide ? 'mt-0' : 'mt-12'}`}>
+          <div key={index} data-section="featured" id="featured" className={`bg-transparent my-12 mx-auto rounded-md ${isLastSlide ? 'mb-0' : 'mb-8'} ${isFirstSlide ? 'mt-0' : 'mt-12'}`}>
             <motion.div
               ref={(el) => {
                 slideRefs.current[index] = el;

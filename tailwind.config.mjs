@@ -33,6 +33,24 @@ export default {
         "7xl": "calc(100% - 2rem)",
         "8xl": "calc(100% - 6rem)",
       },
+      fontSize: {
+        "title-xs": ["3.4rem", {
+          lineHeight: "3.8rem"
+        }],
+        "title-sm": ["3.6rem", {
+          lineHeight: "3.8rem"
+        }],
+        "title-md": ["4.2rem", {
+          lineHeight: "4.2rem"
+        }],
+        "title-lg": ["4.2rem", {
+          lineHeight: "4.2rem"
+        }],
+        "desc-xs": "1.2rem",
+        "desc-sm": "1.4rem",
+        "desc-md": "1.6rem",
+        "desc-lg": "1.8rem",
+      },
     },
   },
   plugins: [

@@ -43,7 +43,7 @@ const FilterChip = ({
     animate={{ opacity: 1, scale: 1 }}
     whileHover={{ scale: 1.05 }}
     whileTap={{ scale: 0.95 }}
-    className={`relative text-[17px] font-kuunari-medium rounded-[28px] py-1 px-6 border-2 cursor-pointer transition-all duration-300
+    className={`relative text-[17px] font-kuunari-medium rounded-[28px] py-1 px-6 border-2 cursor-pointer transition-all duration-300 text-left
       ${isActive 
         ? 'bg-accent-500 text-white border-accent-500' 
         : 'text-accent-500 border-accent-500 hover:bg-accent-500/10'
@@ -139,7 +139,7 @@ const AllProjects: React.FC<AllProjectsProps> = ({ projects: rawProjects }) => {
         }
       }}
       viewport={{ once: true }}
-      className="mx-auto w-[calc(100%-6rem)] rounded-md bg-lightgray shadow-xl my-12 p-12"
+      className="mx-auto max-w-7xl md:max-w-8xl rounded-md bg-lightgray shadow-xl px-8 py-24 md:px-20 md:py-32"
       data-section="all-projects"
     >
       <motion.h2
@@ -147,7 +147,7 @@ const AllProjects: React.FC<AllProjectsProps> = ({ projects: rawProjects }) => {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: "-100px" }}
         transition={{ duration: 0.6 }}
-        className="text-[4rem] font-semibold tracking-tight font-kuunari-medium text-accent-500 text-center mb-16"
+        className="text-title-sm md:text-title-md font-semibold tracking-tight font-kuunari-medium text-accent-500 text-center mb-16"
       >
         Más Proyectos
       </motion.h2>
@@ -159,9 +159,9 @@ const AllProjects: React.FC<AllProjectsProps> = ({ projects: rawProjects }) => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 0.6, delay: 0.2 }}
-          className="flex flex-col gap-y-8 items-start mb-16"
+          className="flex flex-col gap-y-8 items-start mb-14"
         >
-          <div className="flex flex-row gap-x-12">
+          <div className="flex flex-col md:flex-row gap-x-12 gap-y-6">
             {Object.keys(tags).map((category, index) => (
               <motion.div 
                 key={category}
@@ -301,13 +301,13 @@ const AllProjects: React.FC<AllProjectsProps> = ({ projects: rawProjects }) => {
           >
             <motion.a
               href="/projects"
-              className="group relative inline-flex items-center gap-3 px-4 py-2"
+              className="group relative inline-flex flex-col sm:flex-row items-center gap-3 px-4 py-2 w-full sm:w-auto"
             >
-              <span className="relative text-2xl text-accent-500 font-kuunari-medium">
+              <span className="relative text-2xl text-accent-500 font-kuunari-medium text-center sm:text-left">
                 Explorar Galería Completa
-                <span className="absolute bottom-0 left-1/2 w-0 h-[2px] bg-accent-500 transition-all duration-300 group-hover:w-full group-hover:left-0"/>
+                <span className="hidden sm:block absolute bottom-0 left-0 w-full h-[2px] bg-accent-500 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"/>
               </span>
-              <div className="overflow-hidden w-8">
+              <div className="w-8 flex justify-center">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"

@@ -46,7 +46,7 @@ const CTA = () => {
                 }
               }}
               viewport={{ once: true, margin: "-100px" }}
-              className="text-4xl font-semibold tracking-tight text-white sm:text-5xl font-kuunari-medium"
+              className="text-title-xs md:text-title-sm font-semibold tracking-tight text-white  font-kuunari-medium"
             >
               Pongámonos en Contacto.<br />
               <motion.span
@@ -60,7 +60,7 @@ const CTA = () => {
                   }
                 }}
                 viewport={{ once: true, margin: "-100px" }}
-                className="text-2xl sm:text-3xl text-accent-500 mt-2 block"
+                className="text-desc-lg md:text-desc-lg  text-accent-500 block"
               >
                 Transforma tu visión en realidad.
               </motion.span>
@@ -76,7 +76,7 @@ const CTA = () => {
                 }
               }}
               viewport={{ once: true, margin: "-100px" }}
-              className="mt-6 text-lg leading-8 text-white/80"
+              className="mt-6 text-desc-xs md:text-desc-sm leading-8 text-white/80"
             >
               Tu próxima obra maestra arquitectónica te espera. Ya sea que necesites visualizaciones impactantes o dirección experta de obra, estamos aquí para dar vida a tus ideas.
             </motion.p>

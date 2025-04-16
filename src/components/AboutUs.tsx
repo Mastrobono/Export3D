@@ -63,7 +63,7 @@ const AboutUs = () => {
                 }
               }}
               viewport={{ once: true, margin: "-100px" }}
-              className="text-[3rem] sm:text-[4.2rem] md:text-[4.5rem] lg:text-[4.5rem] xl:text-[4.5rem] leading-[1.1] font-semibold tracking-tight text-white font-kuunari-medium"
+              className="text-title-sm md:text-title-md  lg:text-title-lg leading-[1.1] font-semibold tracking-tight text-white font-kuunari-medium"
             >
               Innovación<br />
               arquitectónica,<br />
@@ -96,7 +96,7 @@ const AboutUs = () => {
                 }
               }}
               viewport={{ once: true, margin: "-100px" }}
-              className="text-[2rem] leading-[1.4] text-white/90 font-kuunari-light"
+              className="text-desc-sm md:text-desc-md lg:text-desc-lg leading-[1.4] text-white/90 font-kuunari-light"
             >
               Somos un estudio especializado en <span className="font-kuunari-bold text-accent-500">
                 Visualización Arquitectónica</span> y <span className="font-kuunari-bold text-accent-500">
@@ -114,7 +114,7 @@ const AboutUs = () => {
                 }
               }}
               viewport={{ once: true, margin: "-100px" }}
-              className="text-[2rem] leading-[1.4] text-white/80 font-kuunari-light"
+              className="text-desc-sm md:text-desc-md lg:text-desc-lg leading-[1.4] text-white/80 font-kuunari-light"
             >
               Nos destacamos por la calidad excepcional de nuestras imágenes, tiempos de
               entrega eficientes y un firme compromiso con cada proyecto.
