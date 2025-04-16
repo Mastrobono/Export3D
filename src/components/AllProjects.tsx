@@ -3,31 +3,11 @@ import Container from "../layouts/Container";
 import { useProjectFilters } from "../hooks/useProjectFilters";
 import { Project } from "../types/project";
 import { tags } from "../data/data";
+import ProjectCard from './ProjectCard';
 
 interface AllProjectsProps {
-  projects: any[]; // Raw projects from data.ts
+  projects: Project[];
 }
-
-// Transform raw project data to match our Project type
-const transformProject = (rawProject: any, index: number): Project => {
-  const uniqueId = `${rawProject.metadata.title.toLowerCase().replace(/\s+/g, '-')}-${index}`;
-  
-  return {
-    id: uniqueId,
-    image: rawProject.image.src,
-    slug: uniqueId, // Add missing slug property
-    metadata: {
-      title: rawProject.metadata.title.replace("<br/>", ""),
-      location: rawProject.metadata.location,
-      date: rawProject.metadata.date,
-      client: rawProject.metadata.client,
-      role: rawProject.metadata.role,
-      buildingType: rawProject.metadata.buildingType,
-      status: rawProject.metadata.status,
-      featured: rawProject.metadata.featured
-    }
-  };
-};
 
 const FilterChip = ({ 
   tag, 
@@ -87,44 +67,7 @@ const ProjectTag = ({ tag }: { tag: string }) => (
   </span>
 );
 
-const ProjectCard = ({ project }: { project: Project }) => {
-  return (
-    <motion.div
-      layout
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      transition={{ duration: 0.3 }}
-      className="relative group overflow-hidden rounded-lg shadow-lg transition-all duration-300 hover:shadow-xl"
-    >
-      <div
-        className="relative w-full h-64 overflow-hidden cursor-pointer"
-      >
-        <img
-          src={project.image.toString()}
-          alt={project.metadata.title}
-          className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
-          loading="lazy"
-        />
-        <div
-          className="absolute inset-0 bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6"
-        >
-          <h3 className="text-2xl font-bold mb-3 text-white">{project.metadata.title}</h3>
-          <p className="text-sm opacity-90 mb-4 text-white">{project.metadata.location}</p>
-          <div className="flex flex-wrap gap-2">
-            <ProjectTag tag={project.metadata.buildingType} />
-            <ProjectTag tag={project.metadata.date} />
-            <ProjectTag tag={project.metadata.role} />
-          </div>
-        </div>
-      </div>
-    </motion.div>
-  );
-};
-
-const AllProjects: React.FC<AllProjectsProps> = ({ projects: rawProjects }) => {
-  // Transform raw projects to match our Project type, passing the index
-  const projects = rawProjects.map((project, index) => transformProject(project, index));
+const AllProjects: React.FC<AllProjectsProps> = ({ projects }) => {
   const { activeFilters, filteredProjects, handleFilterChange, resetFilters } = useProjectFilters(projects);
 
   return (
@@ -266,7 +209,7 @@ const AllProjects: React.FC<AllProjectsProps> = ({ projects: rawProjects }) => {
                   viewport={{ once: true, margin: "-100px" }}
                   exit={{ opacity: 0, y: 30 }}
                 >
-                  <ProjectCard project={project} />
+                  <ProjectCard project={project} index={index} />
                 </motion.div>
               ))}
             </AnimatePresence>
@@ -301,13 +244,13 @@ const AllProjects: React.FC<AllProjectsProps> = ({ projects: rawProjects }) => {
           >
             <motion.a
               href="/projects"
-              className="group relative inline-flex flex-col sm:flex-row items-center gap-3 px-4 py-2 w-full sm:w-auto"
+              className="group relative inline-flex items-center gap-3 px-4 py-2"
             >
-              <span className="relative text-2xl text-accent-500 font-kuunari-medium text-center sm:text-left">
+              <span className="relative text-2xl text-accent-500 font-kuunari-medium">
                 Explorar Galería Completa
-                <span className="hidden sm:block absolute bottom-0 left-0 w-full h-[2px] bg-accent-500 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"/>
+                <span className="absolute bottom-0 left-1/2 w-0 h-[2px] bg-accent-500 transition-all duration-300 group-hover:w-full group-hover:left-0"/>
               </span>
-              <div className="w-8 flex justify-center">
+              <div className="overflow-hidden w-8">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"

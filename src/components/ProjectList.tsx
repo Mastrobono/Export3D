@@ -1,9 +1,23 @@
 import { Project } from '../types/project';
 import { motion } from 'framer-motion';
+import ProjectCard from './ProjectCard';
 
 interface ProjectListProps {
   projects: Project[];
 }
+
+const ProjectTag = ({ tag }: { tag: string }) => (
+  <span
+    style={{
+      backgroundColor: 'rgba(255, 255, 255, 0.1)',
+      backdropFilter: 'blur(4px)',
+      WebkitBackdropFilter: 'blur(4px)'
+    }}
+    className="text-[14px] font-kuunari-medium text-accent-500 rounded-[20px] py-1 px-4 border-accent-500 border-solid border-2"
+  >
+    {tag}
+  </span>
+);
 
 const ProjectList: React.FC<ProjectListProps> = ({ projects }) => {
   if (projects.length === 0) {
@@ -60,38 +74,7 @@ const ProjectList: React.FC<ProjectListProps> = ({ projects }) => {
       className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 min-h-[600px]"
     >
       {projects.map((project, idx) => (
-        <a 
-          href={`/project/${project.slug}`}
-          className="block group"
-          key={project.id}
-        >
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: idx * 0.1 }}
-            className="relative project-item group"
-            data-tags={[project.metadata.buildingType, project.metadata.date, project.metadata.role].join(" ")}
-            whileHover={{ y: -5 }}
-          >
-            <div className="relative aspect-[4/3] overflow-hidden rounded-lg bg-darkgray">
-              <motion.img
-                src={project.image.src}
-                alt={project.metadata.title}
-                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                whileHover={{ scale: 1.05 }}
-                transition={{ duration: 0.3 }}
-                loading="lazy"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-darkgray/90 via-darkgray/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-            </div>
-            <div className="mt-4">
-              <h3 className="text-xl font-kuunari-medium text-white group-hover:text-accent-500 transition-colors duration-300">
-                {project.metadata.title.replace("<br/>", "")}
-              </h3>
-              <p className="text-sm text-white/60 mt-1 font-kuunari-light">{project.metadata.location}</p>
-            </div>
-          </motion.div>
-        </a>
+        <ProjectCard key={project.id} project={project} index={idx} />
       ))}
     </div>
   );

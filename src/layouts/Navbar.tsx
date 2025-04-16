@@ -17,7 +17,7 @@ export default function Navbar() {
       const heroSection = document.getElementById("hero");
 
       const sections = document.querySelectorAll("[data-section]");
-      let currentSection = activeSection; // Mantener la sección actual por defecto
+      let currentSection = "";
 
       // Si estamos en la parte superior de la página, forzamos la sección hero
       if (scrollPosition < 100) {
@@ -27,17 +27,20 @@ export default function Navbar() {
           const sectionElement = section as HTMLElement;
           const sectionTop = sectionElement.offsetTop;
           const sectionHeight = sectionElement.offsetHeight;
+          const sectionId = sectionElement.getAttribute("data-section") || "";
+          
+          // Ajustamos el umbral de detección para ser más preciso
           if (
-            window.scrollY >= sectionTop - 80 &&
-            window.scrollY < sectionTop + sectionHeight - 80
+            scrollPosition >= sectionTop - 100 &&
+            scrollPosition < sectionTop + sectionHeight - 100
           ) {
-            currentSection = sectionElement.getAttribute("data-section") || "";
+            currentSection = sectionId;
           }
         });
       }
 
-      // Solo actualizamos si encontramos una sección válida
-      if (currentSection) {
+      // Actualizamos el estado solo si encontramos una sección válida y es diferente a la actual
+      if (currentSection && currentSection !== activeSection) {
         setActiveSection(currentSection);
       }
     };
@@ -63,6 +66,7 @@ export default function Navbar() {
       localStorage.setItem('scrollToSection', sectionId);
     } else {
       e.preventDefault();
+      // Forzamos la actualización de la sección activa antes del scroll
       setActiveSection(sectionId);
       scrollToFn(e, sectionId);
     }
