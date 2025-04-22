@@ -4,10 +4,153 @@ import Container from './Container.tsx';
 import ContactForm from './ContactForm.tsx';
 import { projects } from '../data/data';
 import type { Project } from '../types/project';
+import ImageGallery from 'react-image-gallery';
+import "react-image-gallery/styles/css/image-gallery.css";
+
+const customStyles = `
+  .image-gallery-thumbnails .image-gallery-thumbnails-container {
+    text-align: left !important;
+  }
+
+  /* Main image container */
+  .image-gallery-image {
+    overflow: hidden !important;
+  }
+
+  /* Main image zoom effect */
+  .image-gallery-image img {
+    transition: transform 0.3s ease-out !important;
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+  }
+  
+  .image-gallery-image:hover img {
+    transform: scale(1.05);
+  }
+
+  /* Navigation arrows */
+  .image-gallery-left-nav,
+  .image-gallery-right-nav {
+    background: rgba(0, 0, 0, 0.3) !important;
+    border-radius: 50% !important;
+    padding: 6px !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2) !important;
+    transition: all 0.3s ease !important;
+    margin: 0 20px !important;
+  }
+
+  .image-gallery-left-nav:hover,
+  .image-gallery-right-nav:hover {
+    background: rgba(0, 0, 0, 0.5) !important;
+  }
+
+  .image-gallery-left-nav:hover svg,
+  .image-gallery-right-nav:hover svg {
+    color: #f9c461 !important;
+    stroke: #f9c461 !important;
+  }
+
+  /* Fullscreen button */
+  .image-gallery-fullscreen-button {
+    opacity: 0.7;
+    transition: all 0.3s ease !important;
+    background: rgba(0, 0, 0, 0.3) !important;
+    border-radius: 4px !important;
+    margin: 10px !important;
+  }
+
+  .image-gallery-content:hover .image-gallery-fullscreen-button {
+    opacity: 1;
+  }
+
+  .image-gallery-fullscreen-button:hover {
+    background: rgba(0, 0, 0, 0.5) !important;
+  }
+
+  .image-gallery-fullscreen-button:hover svg {
+    color: #f9c461 !important;
+    stroke: #f9c461 !important;
+  }
+
+  /* Thumbnail styles */
+  .image-gallery-thumbnail {
+    width: 100px !important;
+    height: 75px !important;
+    transition: all 0.3s ease !important;
+    border: 2px solid transparent !important;
+    border-radius: 4px;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .image-gallery-thumbnail-image {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+  }
+
+  .image-gallery-thumbnail.active {
+    border: 3px solid #f9c461 !important;
+    box-shadow: 0 0 0 2px rgba(249, 196, 97, 0.3) !important;
+  }
+
+  .image-gallery-thumbnail:hover {
+    border: 2px solid rgba(249, 196, 97, 0.5) !important;
+  }
+
+  /* Ensure all images maintain aspect ratio */
+  .image-gallery-slide {
+    height: 700px !important;
+  }
+
+  .image-gallery-image, 
+  .image-gallery-image img {
+    height: 100% !important;
+    object-fit: cover !important;
+  }
+
+  /* Override default styles */
+  .image-gallery-thumbnail.active {
+    border: 3px solid #f9c461 !important;
+  }
+
+  .image-gallery-thumbnail.active .image-gallery-thumbnail-image {
+    border: 2px solid #f9c461 !important;
+  }
+`;
 
 interface ProjectPageProps {
   slug: string;
 }
+
+// Example photos for the gallery
+const examplePhotos = [
+  {
+    original: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750",
+    thumbnail: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=160&h=120&fit=crop",
+  },
+  {
+    original: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c",
+    thumbnail: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=160&h=120&fit=crop",
+  },
+  {
+    original: "https://images.unsplash.com/photo-1600607687920-4e2a09cf159d",
+    thumbnail: "https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?w=160&h=120&fit=crop",
+  },
+  {
+    original: "https://images.unsplash.com/photo-1600607687644-c7171b4249b8",
+    thumbnail: "https://images.unsplash.com/photo-1600607687644-c7171b4249b8?w=160&h=120&fit=crop",
+  },
+  {
+    original: "https://images.unsplash.com/photo-1542038784456-1ea8e935640e",
+    thumbnail: "https://images.unsplash.com/photo-1542038784456-1ea8e935640e?w=160&h=120&fit=crop",
+  },
+  {
+    original: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c",
+    thumbnail: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=160&h=120&fit=crop",
+  }
+];
 
 export default function ProjectPage({ slug }: ProjectPageProps) {
   const [project, setProject] = useState<Project | null>(null);
@@ -16,6 +159,17 @@ export default function ProjectPage({ slug }: ProjectPageProps) {
   const [prevProject, setPrevProject] = useState<Project | null>(null);
   const [nextProject, setNextProject] = useState<Project | null>(null);
   const [relatedProjects, setRelatedProjects] = useState<Project[]>([]);
+
+  useEffect(() => {
+    // Add the custom styles to the document
+    const styleElement = document.createElement('style');
+    styleElement.textContent = customStyles;
+    document.head.appendChild(styleElement);
+
+    return () => {
+      document.head.removeChild(styleElement);
+    };
+  }, []);
 
   useEffect(() => {
     const currentProject = projects.find(p => p.slug === slug);
@@ -39,6 +193,14 @@ export default function ProjectPage({ slug }: ProjectPageProps) {
   }, [slug]);
 
   if (!project) return null;
+
+  const galleryImages = [
+    {
+      original: project.image.src,
+      thumbnail: project.image.src,
+    },
+    ...examplePhotos
+  ];
 
   return (
     <Container classNames="relative min-h-[max-content] overflow-hidden">
@@ -86,148 +248,148 @@ export default function ProjectPage({ slug }: ProjectPageProps) {
             </ol>
           </nav>
 
-          {/* Quick Navigation Menu */}
-          <motion.div 
-            initial={{ y: 20, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ duration: 0.5, delay: 0.3 }}
-            className="mb-8"
-          >
-            <div className="flex flex-wrap gap-4">
-              <a href="#overview" className="text-white/60 hover:text-accent-500 transition-colors">Vista General</a>
-              <a href="#details" className="text-white/60 hover:text-accent-500 transition-colors">Detalles</a>
-              <a href="#gallery" className="text-white/60 hover:text-accent-500 transition-colors">Galería</a>
-              <a href="#related" className="text-white/60 hover:text-accent-500 transition-colors">Proyectos Relacionados</a>
-            </div>
-          </motion.div>
-
-          {/* Back to Projects Button */}
-          <motion.div 
-            initial={{ y: 20, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ duration: 0.5, delay: 0.4 }}
-            className="mb-8"
-          >
-            <a
-              href="/projects"
-              className="inline-flex items-center text-white/60 hover:text-accent-500 transition-colors"
-            >
-              <svg
-                className="mr-2 h-5 w-5"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M15 19l-7-7 7-7"
-                />
-              </svg>
-              <span className="font-kuunari-medium">Volver a todos los proyectos</span>
-            </a>
-          </motion.div>
-
           {/* Project Header */}
           <motion.div 
             initial={{ y: 20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ duration: 0.5, delay: 0.5 }}
-            id="overview" 
             className="mb-16"
           >
-            <div className="flex justify-between items-start">
-              <div>
+            <div className="grid grid-cols-1 lg:grid-cols-[25%_75%] gap-12">
+              {/* Left Column - Project Info */}
+              <div className="lg:pr-8">
                 <h1 className="text-[4.5rem] leading-[1.1] font-semibold tracking-tight text-white font-kuunari-medium">
                   {project.metadata.title}
                 </h1>
                 <p className="mt-4 text-xl text-white/80 font-kuunari-light">
                   {project.metadata.location}
                 </p>
+                
+                {/* Project Details */}
+                <motion.div 
+                  initial={{ y: 20, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  transition={{ duration: 0.5, delay: 0.6 }}
+                  id="details" 
+                  className="mt-8"
+                >
+                  <dl className="space-y-4">
+                    <div>
+                      <dt className="text-white/60 font-kuunari-light">Cliente</dt>
+                      <dd className="text-white font-kuunari-medium">{project.metadata.client}</dd>
+                    </div>
+                    <div>
+                      <dt className="text-white/60 font-kuunari-light">Tipo</dt>
+                      <dd className="text-white font-kuunari-medium">{project.metadata.buildingType}</dd>
+                    </div>
+                    <div>
+                      <dt className="text-white/60 font-kuunari-light">Rol</dt>
+                      <dd className="text-white font-kuunari-medium">{project.metadata.role}</dd>
+                    </div>
+                    <div>
+                      <dt className="text-white/60 font-kuunari-light">Fecha</dt>
+                      <dd className="text-white font-kuunari-medium">{project.metadata.date}</dd>
+                    </div>
+                  </dl>
+                </motion.div>
+
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  onClick={() => setIsContactFormOpen(true)}
+                  className="mt-8 inline-flex items-center px-4 py-2 border border-transparent text-sm font-kuunari-medium rounded-md text-white bg-accent-500 hover:bg-accent-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-accent-500"
+                >
+                  Contactar para Proyecto Similar
+                </motion.button>
               </div>
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                onClick={() => setIsContactFormOpen(true)}
-                className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-kuunari-medium rounded-md text-white bg-accent-500 hover:bg-accent-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-accent-500"
+
+              {/* Right Column - Gallery */}
+              <motion.div 
+                initial={{ y: 20, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ duration: 0.5, delay: 0.7 }}
+                className="w-full"
               >
-                Contactar para Proyecto Similar
-              </motion.button>
+                <div className="w-full">
+                  <ImageGallery
+                    items={galleryImages}
+                    showPlayButton={false}
+                    showFullscreenButton={true}
+                    showNav={true}
+                    thumbnailPosition="top"
+                    useBrowserFullscreen={true}
+                    showBullets={false}
+                    slideDuration={450}
+                    slideInterval={3000}
+                    additionalClass="custom-image-gallery"
+                    renderLeftNav={(onClick, disabled) => (
+                      <button
+                        type="button"
+                        className="image-gallery-left-nav absolute top-0 left-0 z-10 p-2 text-white hover:text-accent-500"
+                        disabled={disabled}
+                        onClick={onClick}
+                        aria-label="Previous Slide"
+                      >
+                        <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                        </svg>
+                      </button>
+                    )}
+                    renderRightNav={(onClick, disabled) => (
+                      <button
+                        type="button"
+                        className="image-gallery-right-nav absolute top-0 right-0 z-10 p-2 text-white hover:text-accent-500"
+                        disabled={disabled}
+                        onClick={onClick}
+                        aria-label="Next Slide"
+                      >
+                        <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                        </svg>
+                      </button>
+                    )}
+                    renderFullscreenButton={(onClick, isFullscreen) => (
+                      <button
+                        type="button"
+                        className="image-gallery-fullscreen-button absolute bottom-0 right-0 z-10 p-2 text-white hover:text-accent-500"
+                        onClick={onClick}
+                        aria-label="Toggle Fullscreen"
+                      >
+                        <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 8V4m0 0h4M4 4l5 5m11-5h-4m4 0v4m0-4l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4" />
+                        </svg>
+                      </button>
+                    )}
+                    styles={{
+                      thumbnail: {
+                        width: '100px',
+                        height: '75px',
+                        objectFit: 'cover',
+                        borderRadius: '4px',
+                      },
+                      thumbnailsWrapper: {
+                        padding: '0 20px',
+                        display: 'flex',
+                        justifyContent: 'flex-end',
+                        gap: '8px',
+                      },
+                      thumbnails: {
+                        width: 'auto',
+                        display: 'flex',
+                        flexDirection: 'row',
+                        justifyContent: 'flex-end',
+                      },
+                      thumbnailContainer: {
+                        width: '100px',
+                        height: '75px',
+                        margin: '0 4px',
+                      }
+                    }}
+                  />
+                </div>
+              </motion.div>
             </div>
-            
-            {/* Project Details */}
-            <motion.div 
-              initial={{ y: 20, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              transition={{ duration: 0.5, delay: 0.6 }}
-              id="details" 
-              className="mt-8"
-            >
-              <dl className="grid grid-cols-2 gap-4">
-                <div>
-                  <dt className="text-white/60 font-kuunari-light">Cliente</dt>
-                  <dd className="text-white font-kuunari-medium">{project.metadata.client}</dd>
-                </div>
-                <div>
-                  <dt className="text-white/60 font-kuunari-light">Rol</dt>
-                  <dd className="text-white font-kuunari-medium">{project.metadata.role}</dd>
-                </div>
-                <div>
-                  <dt className="text-white/60 font-kuunari-light">Tipo</dt>
-                  <dd className="text-white font-kuunari-medium">{project.metadata.buildingType}</dd>
-                </div>
-                <div>
-                  <dt className="text-white/60 font-kuunari-light">Fecha</dt>
-                  <dd className="text-white font-kuunari-medium">{project.metadata.date}</dd>
-                </div>
-              </dl>
-            </motion.div>
           </motion.div>
-
-          {/* Main Image */}
-          <motion.div 
-            initial={{ y: 20, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ duration: 0.5, delay: 0.7 }}
-            className="relative aspect-[16/9] overflow-hidden rounded-lg mb-16"
-          >
-            <img
-              src={project.image.src}
-              alt={project.metadata.title}
-              className="w-full h-full object-cover"
-            />
-          </motion.div>
-
-          {/* Gallery Thumbnails */}
-          {project.gallery && project.gallery.length > 0 && (
-            <motion.div 
-              initial={{ y: 20, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              transition={{ duration: 0.5, delay: 0.8 }}
-              id="gallery" 
-              className="mb-16"
-            >
-              <h2 className="text-2xl font-kuunari-medium text-white mb-6">Galería</h2>
-              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                {project.gallery.map((image, index) => (
-                  <motion.div 
-                    key={index}
-                    initial={{ y: 20, opacity: 0 }}
-                    animate={{ y: 0, opacity: 1 }}
-                    transition={{ duration: 0.5, delay: 0.9 + index * 0.1 }}
-                    className="relative aspect-[4/3] overflow-hidden rounded-lg"
-                  >
-                    <img
-                      src={image.src}
-                      alt={`${project.metadata.title} - Imagen adicional`}
-                      className="w-full h-full object-cover"
-                    />
-                  </motion.div>
-                ))}
-              </div>
-            </motion.div>
-          )}
 
           {/* Related Projects */}
           {relatedProjects.length > 0 && (
@@ -239,7 +401,7 @@ export default function ProjectPage({ slug }: ProjectPageProps) {
               className="mb-16"
             >
               <h2 className="text-2xl font-kuunari-medium text-white mb-6">Proyectos Relacionados</h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {relatedProjects.map((relatedProject, index) => (
                   <motion.a
                     key={relatedProject.slug}
@@ -249,17 +411,17 @@ export default function ProjectPage({ slug }: ProjectPageProps) {
                     transition={{ duration: 0.5, delay: 1.1 + index * 0.1 }}
                     className="group block"
                   >
-                    <div className="relative aspect-[4/3] overflow-hidden rounded-lg mb-4">
+                    <div className="relative aspect-[4/3] overflow-hidden rounded-lg mb-2">
                       <img
                         src={relatedProject.image.src}
                         alt={relatedProject.metadata.title}
                         className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
                       />
                     </div>
-                    <h3 className="text-xl font-kuunari-medium text-white group-hover:text-accent-500 transition-colors">
+                    <h3 className="text-lg font-kuunari-medium text-white group-hover:text-accent-500 transition-colors">
                       {relatedProject.metadata.title}
                     </h3>
-                    <p className="text-white/60 font-kuunari-light">
+                    <p className="text-sm text-white/60 font-kuunari-light">
                       {relatedProject.metadata.buildingType}
                     </p>
                   </motion.a>
@@ -275,50 +437,47 @@ export default function ProjectPage({ slug }: ProjectPageProps) {
             transition={{ duration: 0.5, delay: 1.2 }}
             className="flex justify-between items-center border-t border-white/10 pt-8"
           >
-            {prevProject && (
-              <motion.a
-                whileHover={{ x: -5 }}
-                href={`/project/${prevProject.slug}`}
-                className="group flex items-center text-white/60 hover:text-accent-500 transition-colors"
+            <motion.a
+              whileHover={{ x: -5 }}
+              href={`/project/${prevProject ? prevProject.slug : projects[projects.length - 1].slug}`}
+              className="group flex items-center text-white/60 hover:text-accent-500 transition-colors"
+            >
+              <svg
+                className="mr-2 h-5 w-5"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
               >
-                <svg
-                  className="mr-2 h-5 w-5"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M15 19l-7-7 7-7"
-                  />
-                </svg>
-                <span className="font-kuunari-medium">Proyecto anterior</span>
-              </motion.a>
-            )}
-            {nextProject && (
-              <motion.a
-                whileHover={{ x: 5 }}
-                href={`/project/${nextProject.slug}`}
-                className="group flex items-center text-white/60 hover:text-accent-500 transition-colors"
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M15 19l-7-7 7-7"
+                />
+              </svg>
+              <span className="font-kuunari-medium">Proyecto anterior</span>
+            </motion.a>
+
+            <motion.a
+              whileHover={{ x: 5 }}
+              href={`/project/${nextProject ? nextProject.slug : projects[0].slug}`}
+              className="group flex items-center text-white/60 hover:text-accent-500 transition-colors"
+            >
+              <span className="font-kuunari-medium">Siguiente proyecto</span>
+              <svg
+                className="ml-2 h-5 w-5"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
               >
-                <span className="font-kuunari-medium">Siguiente proyecto</span>
-                <svg
-                  className="ml-2 h-5 w-5"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M9 5l7 7-7 7"
-                  />
-                </svg>
-              </motion.a>
-            )}
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M9 5l7 7-7 7"
+                />
+              </svg>
+            </motion.a>
           </motion.div>
         </div>
       </motion.div>
