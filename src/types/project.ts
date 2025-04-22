@@ -12,7 +12,6 @@ export interface Project {
     client: string;
     role: string;
     buildingType: string;
-    status: string;
     featured: boolean;
     tags?: string[];
     description?: string;

@@ -29,8 +29,7 @@ const TagRole = {
 export const tags = {
   buildingType: ['Residencial', 'Comercial', 'Industrial', 'Institucional'],
   role: ['Visualización Arquitectónica', 'Diseño', 'Dirección de Obra'],
-  date: ['2023', '2022', '2021'],
-  status: ['Completado', 'En Progreso', 'Planificado']
+  date: ['2023', '2022', '2021']
 };
 
 // Projects
@@ -47,7 +46,6 @@ export const projects: Project[] = [
       client: "HUTCH",
       role: "Visualización",
       buildingType: "Comercial",
-      status: "Finalizado",
       featured: true,
       description: "Un espacio comercial moderno y versátil diseñado para maximizar la experiencia del cliente.",
       tags: ['comercial', 'moderno', 'versatil']
@@ -65,7 +63,6 @@ export const projects: Project[] = [
       client: "Steel Tech Group",
       role: TagRole.VISUALIZACION,
       buildingType: "Residencial",
-      status: "En construcción",
       featured: true,
     },
   },
@@ -81,7 +78,6 @@ export const projects: Project[] = [
       client: "ARCE Construcciones",
       role: TagRole.VISUALIZACION,
       buildingType: "Residencial",
-      status: "En construcción",
       featured: true,
     },
   },
@@ -97,7 +93,6 @@ export const projects: Project[] = [
       client: "Meat Frisbee",
       role: "Proyecto, Dirección y Ejecución de Obra",
       buildingType: "Comercial",
-      status: "Finalizado",
       featured: true,
     },
   },
@@ -113,7 +108,6 @@ export const projects: Project[] = [
       client: "HUTCH",
       role: TagRole.VISUALIZACION,
       buildingType: "Comercial",
-      status: "Finalizado",
       featured: false,
     },
   },
@@ -129,7 +123,6 @@ export const projects: Project[] = [
       client: "Steel Tech Group",
       role: TagRole.VISUALIZACION,
       buildingType: "Residencial",
-      status: "En construcción",
       featured: false,
     },
   },
@@ -145,7 +138,6 @@ export const projects: Project[] = [
       client: "ARCE Construcciones",
       role: TagRole.VISUALIZACION,
       buildingType: "Residencial",
-      status: "En construcción",
       featured: false,
       tags: [TagType.INTERIOR],
     },
@@ -162,7 +154,6 @@ export const projects: Project[] = [
       client: "Meat Frisbee",
       role: "Proyecto, Dirección y Ejecución de Obra",
       buildingType: "Comercial",
-      status: "Finalizado",
       featured: false,
       tags: [TagType.EXTERIOR],
     },
