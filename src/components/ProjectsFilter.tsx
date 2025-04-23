@@ -13,20 +13,34 @@ import { ChevronDownIcon, PlusIcon } from "@heroicons/react/20/solid";
 import { projects, tags } from "../data/data"; // Import
 import ProjectList from "./ProjectList";
 import ContactForm from "./ContactForm";
+import { getFilterTranslation } from "../constants/translations";
+import { Project } from "../types/project";
+import { Dispatch, SetStateAction } from "react";
 
-const filters = Object.keys(tags).map((key) => ({
-  id: key,
-  name: key.charAt(0).toUpperCase() + key.slice(1),
-  options: tags[key].map((value) => ({
+interface FilterOption {
+  value: string;
+  label: string;
+}
+
+interface FilterSection {
+  id: keyof typeof tags;
+  name: string;
+  options: FilterOption[];
+}
+
+const filters: FilterSection[] = Object.keys(tags).map((key) => ({
+  id: key as keyof typeof tags,
+  name: getFilterTranslation(key),
+  options: tags[key as keyof typeof tags].map((value) => ({
     value: value,
-    label: value,
+    label: getFilterTranslation(value),
   })),
 }));
 
 export const filterProjects = (
-  projects,
-  activeFilters,
-  setFilteredProjects
+  projects: Project[],
+  activeFilters: string[],
+  setFilteredProjects: Dispatch<SetStateAction<Project[]>>
 ) => {
   if (activeFilters.length === 0) {
     setFilteredProjects(projects);
@@ -45,15 +59,15 @@ export const filterProjects = (
 
 export default function ProjectsFilter() {
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
-  const [activeFilters, setActiveFilters] = useState([]);
-  const [filteredProjects, setFilteredProjects] = useState(projects);
+  const [activeFilters, setActiveFilters] = useState<string[]>([]);
+  const [filteredProjects, setFilteredProjects] = useState<Project[]>(projects);
   const [isContactFormOpen, setIsContactFormOpen] = useState(false);
 
   useEffect(() => {
     filterProjects(projects, activeFilters, setFilteredProjects);
   }, [activeFilters]);
 
-  const handleFilterChange = (filter, value, checked) => {
+  const handleFilterChange = (filter: string, value: string, checked: boolean) => {
     setActiveFilters((prevFilters) => {
       if (checked) {
         return [...prevFilters, value];

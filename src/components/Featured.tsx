@@ -117,7 +117,7 @@ const Feature: React.FC<FeatureProps> = ({ projects }) => {
                 y: 0,
                 transition: {
                   duration: 0.8,
-                  delay: 0.4 + index * 0.1,
+                  delay: 0.2 + index * 0.05,
                   ease: [0.25, 0.1, 0.25, 1]
                 }
               }}
@@ -196,7 +196,7 @@ const Feature: React.FC<FeatureProps> = ({ projects }) => {
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: 0.2 }}
+                transition={{ duration: 0.6, delay: 0.1 }}
               >
                 {/* Top Content */}
                 <div className="flex justify-between items-start">
@@ -205,7 +205,7 @@ const Feature: React.FC<FeatureProps> = ({ projects }) => {
                       initial={{ opacity: 0, x: -20 }}
                       whileInView={{ opacity: 1, x: 0 }}
                       viewport={{ once: true }}
-                      transition={{ duration: 0.6, delay: 0.3 }}
+                      transition={{ duration: 0.6, delay: 0.15 }}
                       className="text-lg md:text-xl text-white/90 font-kuunari-medium"
                     >
                       {slide.metadata.date}
@@ -214,7 +214,7 @@ const Feature: React.FC<FeatureProps> = ({ projects }) => {
                       initial={{ opacity: 0, x: -20 }}
                       whileInView={{ opacity: 1, x: 0 }}
                       viewport={{ once: true }}
-                      transition={{ duration: 0.6, delay: 0.4 }}
+                      transition={{ duration: 0.6, delay: 0.2 }}
                       className="text-xl md:text-2xl text-accent-500 font-kuunari-bold"
                     >
                       {slide.metadata.role}
@@ -225,7 +225,7 @@ const Feature: React.FC<FeatureProps> = ({ projects }) => {
                     initial={{ opacity: 0 }}
                     whileInView={{ opacity: 1 }}
                     viewport={{ once: true }}
-                    transition={{ duration: 0.6, delay: 0.5 }}
+                    transition={{ duration: 0.6, delay: 0.25 }}
                     className="text-2xl md:text-3xl text-white font-kuunari-bold drop-shadow-[0_2px_3px_rgba(0,0,0,0.5)]"
                   >
                     0{index + 1} <span className="text-white/70 text-lg md:text-xl">/ 0{projects.length}</span>
@@ -238,7 +238,7 @@ const Feature: React.FC<FeatureProps> = ({ projects }) => {
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
-                    transition={{ duration: 0.6, delay: 0.6 }}
+                    transition={{ duration: 0.6, delay: 0.3 }}
                     className="text-[3.5rem] md:text-[5rem] text-white font-kuunari-bold leading-none drop-shadow-[0_2px_4px_rgba(0,0,0,0.6)]"
                   >
                     {slide.metadata.title}
