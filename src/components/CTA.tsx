@@ -76,7 +76,7 @@ const CTA = () => {
                 }
               }}
               viewport={{ once: true, margin: "-100px" }}
-              className="mt-6 text-desc-xs md:text-desc-sm leading-8 text-white/80"
+              className="mt-6 text-desc-xs md:text-desc-xs leading-8 text-white/80"
             >
               Tu próxima obra maestra arquitectónica te espera. Ya sea que necesites visualizaciones impactantes o dirección experta de obra, estamos aquí para dar vida a tus ideas.
             </motion.p>

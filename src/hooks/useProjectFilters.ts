@@ -1,11 +1,13 @@
 import { Project } from '../types/project';
 import { useState, useMemo } from 'react';
+import { getFilterTranslation } from '../constants/translations';
 
 interface UseProjectFiltersResult {
   activeFilters: string[];
   filteredProjects: Project[];
   handleFilterChange: (filter: string) => void;
   resetFilters: () => void;
+  getTranslatedFilter: (filter: string) => string;
 }
 
 export const useProjectFilters = (projects: Project[]) => {
@@ -40,10 +42,15 @@ export const useProjectFilters = (projects: Project[]) => {
     setActiveFilters([]);
   };
 
+  const getTranslatedFilter = (filter: string): string => {
+    return getFilterTranslation(filter);
+  };
+
   return {
     activeFilters,
     filteredProjects,
     handleFilterChange,
     resetFilters,
+    getTranslatedFilter,
   };
 }; 

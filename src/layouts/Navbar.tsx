@@ -4,11 +4,13 @@ import logoTransparent from "../assets/logoTransparent.png";
 import logo from "../assets/logo.png";
 import { scrollToFn } from "../utils/utils.tsx";
 import classNames from "classnames";
+import ContactForm from "../components/ContactForm.tsx";
 
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 
 export default function Navbar() {
   const [activeSection, setActiveSection] = useState("");
+  const [isContactFormOpen, setIsContactFormOpen] = useState(false);
 
   // Handle scroll event and current section
   useEffect(() => {
@@ -149,7 +151,7 @@ export default function Navbar() {
                 <div className="ml-8 flex items-center gap-x-4 border-l border-gray-700 pl-8">
 
                   <button
-                    onClick={(e) => scrollToFn(e, "cta")}
+                    onClick={() => setIsContactFormOpen(true)}
                     className="rounded-xl bg-accent-500 px-6 py-2 text-sm font-medium text-white hover:bg-accent-400 transition-colors duration-200"
                   >
                     Iniciar Proyecto
@@ -208,13 +210,19 @@ export default function Navbar() {
               </Disclosure.Button>
               <Disclosure.Button
                 as="button"
-                onClick={(e) => scrollToFn(e, "cta")}
+                onClick={() => setIsContactFormOpen(true)}
                 className="mt-4 w-full rounded-xl bg-accent-500 px-6 py-2 text-base font-medium text-white hover:bg-accent-400 transition-colors duration-200"
               >
                 Iniciar Proyecto
               </Disclosure.Button>
             </div>
           </Disclosure.Panel>
+
+          <ContactForm 
+            client:load 
+            isOpen={isContactFormOpen} 
+            onClose={() => setIsContactFormOpen(false)} 
+          />
         </nav>
       )}
     </Disclosure>

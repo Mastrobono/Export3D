@@ -68,7 +68,7 @@ const ProjectTag = ({ tag }: { tag: string }) => (
 );
 
 const AllProjects: React.FC<AllProjectsProps> = ({ projects }) => {
-  const { activeFilters, filteredProjects, handleFilterChange, resetFilters } = useProjectFilters(projects);
+  const { activeFilters, filteredProjects, handleFilterChange, resetFilters, getTranslatedFilter } = useProjectFilters(projects);
 
   return (
     <motion.div
@@ -115,7 +115,7 @@ const AllProjects: React.FC<AllProjectsProps> = ({ projects }) => {
                 className="flex flex-col gap-y-4"
               >
                 <h4 className="text-[22px] text-white font-kuunari-bold">
-                  {category.charAt(0).toUpperCase() + category.slice(1)}
+                  {getTranslatedFilter(category)}
                 </h4>
                 <div className="flex flex-row gap-x-4 gap-y-2 flex-wrap">
                   {tags[category].map((tag, tagIndex) => (
@@ -127,7 +127,7 @@ const AllProjects: React.FC<AllProjectsProps> = ({ projects }) => {
                       transition={{ duration: 0.4, delay: 0.4 + tagIndex * 0.05 }}
                     >
                       <FilterChip
-                        tag={tag}
+                        tag={getTranslatedFilter(tag)}
                         isActive={activeFilters.includes(tag)}
                         onClick={() => handleFilterChange(tag)}
                       />
@@ -149,7 +149,7 @@ const AllProjects: React.FC<AllProjectsProps> = ({ projects }) => {
               className="text-[20px] font-kuunari-medium text-white cursor-pointer flex items-center gap-2"
               onClick={resetFilters}
             >
-              Reset Filters
+              Reiniciar Filtros
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className="h-5 w-5"
