@@ -122,9 +122,10 @@ const Footer = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.3 }}
+            className="flex flex-col items-center md:items-start"
           >
             <h3 className="text-accent-500 font-kuunari-bold text-xl mb-4">Contacto</h3>
-            <ul className="space-y-3">
+            <ul className="space-y-3 flex flex-col items-center md:items-start">
               {footerSections.contact.map((item) => (
                 <li key={item.name} className="flex items-center gap-2">
                   {item.icon && <item.icon className="h-5 w-5 text-accent-500" />}

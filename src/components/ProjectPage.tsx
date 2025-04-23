@@ -8,25 +8,64 @@ import ImageGallery from 'react-image-gallery';
 import "react-image-gallery/styles/css/image-gallery.css";
 
 const customStyles = `
-  .image-gallery-thumbnails .image-gallery-thumbnails-container {
-    text-align: left !important;
+  /* Container styles */
+  .custom-image-gallery {
+    width: 100% !important;
+    height: 100% !important;
+    position: relative !important;
+  }
+
+  .image-gallery {
+    width: 100% !important;
+    height: 100% !important;
+    position: relative !important;
+  }
+
+  .image-gallery-content {
+    width: 100% !important;
+    height: 100% !important;
+    position: relative !important;
+  }
+
+  .image-gallery-slide-wrapper {
+    width: 100% !important;
+    height: 100% !important;
+    position: relative !important;
+  }
+
+  .image-gallery-slides {
+    width: 100% !important;
+    height: 100% !important;
+    position: relative !important;
   }
 
   /* Main image container */
   .image-gallery-image {
+    width: 100% !important;
+    height: 100% !important;
+    position: relative !important;
     overflow: hidden !important;
   }
 
-  /* Main image zoom effect */
+  /* Main image */
   .image-gallery-image img {
-    transition: transform 0.3s ease-out !important;
     width: 100% !important;
     height: 100% !important;
     object-fit: cover !important;
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
   }
-  
-  .image-gallery-image:hover img {
-    transform: scale(1.05);
+
+  /* Thumbnails container */
+  .image-gallery-thumbnails {
+    width: 100% !important;
+    position: relative !important;
+  }
+
+  .image-gallery-thumbnails .image-gallery-thumbnails-container {
+    text-align: left !important;
+    width: 100% !important;
   }
 
   /* Navigation arrows */
@@ -38,6 +77,16 @@ const customStyles = `
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2) !important;
     transition: all 0.3s ease !important;
     margin: 0 20px !important;
+    position: absolute !important;
+    z-index: 10 !important;
+  }
+
+  .image-gallery-left-nav {
+    left: 0 !important;
+  }
+
+  .image-gallery-right-nav {
+    right: 0 !important;
   }
 
   .image-gallery-left-nav:hover,
@@ -48,7 +97,6 @@ const customStyles = `
   .image-gallery-left-nav:hover svg,
   .image-gallery-right-nav:hover svg {
     color: #f9c461 !important;
-    stroke: #f9c461 !important;
   }
 
   /* Fullscreen button */
@@ -203,7 +251,7 @@ export default function ProjectPage({ slug }: ProjectPageProps) {
   ];
 
   return (
-    <Container classNames="relative min-h-[max-content] overflow-hidden">
+    <main className="w-full max-w-7xl md:max-w-8xl mx-auto py-12 my-12 bg-darkgray">
       {/* Background effects */}
       <motion.div 
         initial={{ opacity: 0 }}
@@ -222,264 +270,262 @@ export default function ProjectPage({ slug }: ProjectPageProps) {
         transition={{ duration: 0.5, delay: 0.2 }}
         className="relative z-10"
       >
-        <div className="px-20 py-32">
-          {/* Breadcrumbs */}
-          <nav className="mb-8" aria-label="Breadcrumb">
-            <ol className="flex items-center space-x-2 text-sm text-white/60">
-              <li>
-                <a href="/" className="hover:text-accent-500 transition-colors">Inicio</a>
-              </li>
-              <li>
-                <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" />
-                </svg>
-              </li>
-              <li>
-                <a href="/projects" className="hover:text-accent-500 transition-colors">Proyectos</a>
-              </li>
-              <li>
-                <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" />
-                </svg>
-              </li>
-              <li className="text-white">
+        {/* Breadcrumbs */}
+        <nav className="mb-8" aria-label="Breadcrumb">
+          <ol className="flex items-center space-x-2 text-sm text-white/60">
+            <li>
+              <a href="/" className="hover:text-accent-500 transition-colors">Inicio</a>
+            </li>
+            <li>
+              <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" />
+              </svg>
+            </li>
+            <li>
+              <a href="/projects" className="hover:text-accent-500 transition-colors">Proyectos</a>
+            </li>
+            <li>
+              <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" />
+              </svg>
+            </li>
+            <li className="text-white">
+              {project.metadata.title}
+            </li>
+          </ol>
+        </nav>
+
+        {/* Project Header */}
+        <motion.div 
+          initial={{ y: 20, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ duration: 0.5, delay: 0.5 }}
+          className="mb-16"
+        >
+          <div className="grid grid-cols-1 lg:grid-cols-[1fr_3fr] gap-12">
+            {/* Left Column - Project Info */}
+            <div className="lg:pr-8">
+              <h1 className="text-[4.5rem] leading-[1.1] font-semibold tracking-tight text-white font-kuunari-medium">
                 {project.metadata.title}
-              </li>
-            </ol>
-          </nav>
-
-          {/* Project Header */}
-          <motion.div 
-            initial={{ y: 20, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ duration: 0.5, delay: 0.5 }}
-            className="mb-16"
-          >
-            <div className="grid grid-cols-1 lg:grid-cols-[25%_75%] gap-12">
-              {/* Left Column - Project Info */}
-              <div className="lg:pr-8">
-                <h1 className="text-[4.5rem] leading-[1.1] font-semibold tracking-tight text-white font-kuunari-medium">
-                  {project.metadata.title}
-                </h1>
-                <p className="mt-4 text-xl text-white/80 font-kuunari-light">
-                  {project.metadata.location}
-                </p>
-                
-                {/* Project Details */}
-                <motion.div 
-                  initial={{ y: 20, opacity: 0 }}
-                  animate={{ y: 0, opacity: 1 }}
-                  transition={{ duration: 0.5, delay: 0.6 }}
-                  id="details" 
-                  className="mt-8"
-                >
-                  <dl className="space-y-4">
-                    <div>
-                      <dt className="text-white/60 font-kuunari-light">Cliente</dt>
-                      <dd className="text-white font-kuunari-medium">{project.metadata.client}</dd>
-                    </div>
-                    <div>
-                      <dt className="text-white/60 font-kuunari-light">Tipo</dt>
-                      <dd className="text-white font-kuunari-medium">{project.metadata.buildingType}</dd>
-                    </div>
-                    <div>
-                      <dt className="text-white/60 font-kuunari-light">Rol</dt>
-                      <dd className="text-white font-kuunari-medium">{project.metadata.role}</dd>
-                    </div>
-                    <div>
-                      <dt className="text-white/60 font-kuunari-light">Fecha</dt>
-                      <dd className="text-white font-kuunari-medium">{project.metadata.date}</dd>
-                    </div>
-                  </dl>
-                </motion.div>
-
-                <motion.button
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  onClick={() => setIsContactFormOpen(true)}
-                  className="mt-8 inline-flex items-center px-4 py-2 border border-transparent text-sm font-kuunari-medium rounded-md text-white bg-accent-500 hover:bg-accent-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-accent-500"
-                >
-                  Contactar para Proyecto Similar
-                </motion.button>
-              </div>
-
-              {/* Right Column - Gallery */}
+              </h1>
+              <p className="mt-4 text-xl text-white/80 font-kuunari-light">
+                {project.metadata.location}
+              </p>
+              
+              {/* Project Details */}
               <motion.div 
                 initial={{ y: 20, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
-                transition={{ duration: 0.5, delay: 0.7 }}
-                className="w-full"
+                transition={{ duration: 0.5, delay: 0.6 }}
+                id="details" 
+                className="mt-8"
               >
-                <div className="w-full">
-                  <ImageGallery
-                    items={galleryImages}
-                    showPlayButton={false}
-                    showFullscreenButton={true}
-                    showNav={true}
-                    thumbnailPosition="top"
-                    useBrowserFullscreen={true}
-                    showBullets={false}
-                    slideDuration={450}
-                    slideInterval={3000}
-                    additionalClass="custom-image-gallery"
-                    renderLeftNav={(onClick, disabled) => (
-                      <button
-                        type="button"
-                        className="image-gallery-left-nav absolute top-0 left-0 z-10 p-2 text-white hover:text-accent-500"
-                        disabled={disabled}
-                        onClick={onClick}
-                        aria-label="Previous Slide"
-                      >
-                        <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-                        </svg>
-                      </button>
-                    )}
-                    renderRightNav={(onClick, disabled) => (
-                      <button
-                        type="button"
-                        className="image-gallery-right-nav absolute top-0 right-0 z-10 p-2 text-white hover:text-accent-500"
-                        disabled={disabled}
-                        onClick={onClick}
-                        aria-label="Next Slide"
-                      >
-                        <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                        </svg>
-                      </button>
-                    )}
-                    renderFullscreenButton={(onClick, isFullscreen) => (
-                      <button
-                        type="button"
-                        className="image-gallery-fullscreen-button absolute bottom-0 right-0 z-10 p-2 text-white hover:text-accent-500"
-                        onClick={onClick}
-                        aria-label="Toggle Fullscreen"
-                      >
-                        <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 8V4m0 0h4M4 4l5 5m11-5h-4m4 0v4m0-4l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4" />
-                        </svg>
-                      </button>
-                    )}
-                    styles={{
-                      thumbnail: {
-                        width: '100px',
-                        height: '75px',
-                        objectFit: 'cover',
-                        borderRadius: '4px',
-                      },
-                      thumbnailsWrapper: {
-                        padding: '0 20px',
-                        display: 'flex',
-                        justifyContent: 'flex-end',
-                        gap: '8px',
-                      },
-                      thumbnails: {
-                        width: 'auto',
-                        display: 'flex',
-                        flexDirection: 'row',
-                        justifyContent: 'flex-end',
-                      },
-                      thumbnailContainer: {
-                        width: '100px',
-                        height: '75px',
-                        margin: '0 4px',
-                      }
-                    }}
-                  />
-                </div>
+                <dl className="space-y-4">
+                  <div>
+                    <dt className="text-white/60 font-kuunari-light">Cliente</dt>
+                    <dd className="text-white font-kuunari-medium">{project.metadata.client}</dd>
+                  </div>
+                  <div>
+                    <dt className="text-white/60 font-kuunari-light">Tipo</dt>
+                    <dd className="text-white font-kuunari-medium">{project.metadata.buildingType}</dd>
+                  </div>
+                  <div>
+                    <dt className="text-white/60 font-kuunari-light">Rol</dt>
+                    <dd className="text-white font-kuunari-medium">{project.metadata.role}</dd>
+                  </div>
+                  <div>
+                    <dt className="text-white/60 font-kuunari-light">Fecha</dt>
+                    <dd className="text-white font-kuunari-medium">{project.metadata.date}</dd>
+                  </div>
+                </dl>
               </motion.div>
-            </div>
-          </motion.div>
 
-          {/* Related Projects */}
-          {relatedProjects.length > 0 && (
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={() => setIsContactFormOpen(true)}
+                className="mt-8 inline-flex items-center px-4 py-2 border border-transparent text-sm font-kuunari-medium rounded-md text-white bg-accent-500 hover:bg-accent-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-accent-500"
+              >
+                Contactar para Proyecto Similar
+              </motion.button>
+            </div>
+
+            {/* Right Column - Gallery */}
             <motion.div 
               initial={{ y: 20, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
-              transition={{ duration: 0.5, delay: 1 }}
-              id="related" 
-              className="mb-16"
+              transition={{ duration: 0.5, delay: 0.7 }}
+              className="w-full h-full relative"
             >
-              <h2 className="text-2xl font-kuunari-medium text-white mb-6">Proyectos Relacionados</h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {relatedProjects.map((relatedProject, index) => (
-                  <motion.a
-                    key={relatedProject.slug}
-                    href={`/project/${relatedProject.slug}`}
-                    initial={{ y: 20, opacity: 0 }}
-                    animate={{ y: 0, opacity: 1 }}
-                    transition={{ duration: 0.5, delay: 1.1 + index * 0.1 }}
-                    className="group block"
-                  >
-                    <div className="relative aspect-[4/3] overflow-hidden rounded-lg mb-2">
-                      <img
-                        src={relatedProject.image.src}
-                        alt={relatedProject.metadata.title}
-                        className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-                      />
-                    </div>
-                    <h3 className="text-lg font-kuunari-medium text-white group-hover:text-accent-500 transition-colors">
-                      {relatedProject.metadata.title}
-                    </h3>
-                    <p className="text-sm text-white/60 font-kuunari-light">
-                      {relatedProject.metadata.buildingType}
-                    </p>
-                  </motion.a>
-                ))}
+              <div className="w-full h-full relative">
+                <ImageGallery
+                  items={galleryImages}
+                  showPlayButton={false}
+                  showFullscreenButton={true}
+                  showNav={true}
+                  thumbnailPosition="top"
+                  useBrowserFullscreen={true}
+                  showBullets={false}
+                  slideDuration={450}
+                  slideInterval={3000}
+                  additionalClass="custom-image-gallery"
+                  renderLeftNav={(onClick, disabled) => (
+                    <button
+                      type="button"
+                      className="image-gallery-left-nav absolute top-1/2 -translate-y-1/2 left-0 z-10 p-2 text-white hover:text-accent-500"
+                      disabled={disabled}
+                      onClick={onClick}
+                      aria-label="Previous Slide"
+                    >
+                      <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                      </svg>
+                    </button>
+                  )}
+                  renderRightNav={(onClick, disabled) => (
+                    <button
+                      type="button"
+                      className="image-gallery-right-nav absolute top-1/2 -translate-y-1/2 right-0 z-10 p-2 text-white hover:text-accent-500"
+                      disabled={disabled}
+                      onClick={onClick}
+                      aria-label="Next Slide"
+                    >
+                      <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                      </svg>
+                    </button>
+                  )}
+                  renderFullscreenButton={(onClick, isFullscreen) => (
+                    <button
+                      type="button"
+                      className="image-gallery-fullscreen-button absolute bottom-0 right-0 z-10 p-2 text-white hover:text-accent-500"
+                      onClick={onClick}
+                      aria-label="Toggle Fullscreen"
+                    >
+                      <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 8V4m0 0h4M4 4l5 5m11-5h-4m4 0v4m0-4l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4" />
+                      </svg>
+                    </button>
+                  )}
+                  styles={{
+                    thumbnail: {
+                      width: '100px',
+                      height: '75px',
+                      objectFit: 'cover',
+                      borderRadius: '4px',
+                    },
+                    thumbnailsWrapper: {
+                      padding: '0 20px',
+                      display: 'flex',
+                      justifyContent: 'flex-end',
+                      gap: '8px',
+                    },
+                    thumbnails: {
+                      width: 'auto',
+                      display: 'flex',
+                      flexDirection: 'row',
+                      justifyContent: 'flex-end',
+                    },
+                    thumbnailContainer: {
+                      width: '100px',
+                      height: '75px',
+                      margin: '0 4px',
+                    }
+                  }}
+                />
               </div>
             </motion.div>
-          )}
+          </div>
+        </motion.div>
 
-          {/* Navigation */}
+        {/* Related Projects */}
+        {relatedProjects.length > 0 && (
           <motion.div 
             initial={{ y: 20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
-            transition={{ duration: 0.5, delay: 1.2 }}
-            className="flex justify-between items-center border-t border-white/10 pt-8"
+            transition={{ duration: 0.5, delay: 1 }}
+            id="related" 
+            className="mb-16"
           >
-            <motion.a
-              whileHover={{ x: -5 }}
-              href={`/project/${prevProject ? prevProject.slug : projects[projects.length - 1].slug}`}
-              className="group flex items-center text-white/60 hover:text-accent-500 transition-colors"
-            >
-              <svg
-                className="mr-2 h-5 w-5"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M15 19l-7-7 7-7"
-                />
-              </svg>
-              <span className="font-kuunari-medium">Proyecto anterior</span>
-            </motion.a>
-
-            <motion.a
-              whileHover={{ x: 5 }}
-              href={`/project/${nextProject ? nextProject.slug : projects[0].slug}`}
-              className="group flex items-center text-white/60 hover:text-accent-500 transition-colors"
-            >
-              <span className="font-kuunari-medium">Siguiente proyecto</span>
-              <svg
-                className="ml-2 h-5 w-5"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M9 5l7 7-7 7"
-                />
-              </svg>
-            </motion.a>
+            <h2 className="text-2xl font-kuunari-medium text-white mb-6">Proyectos Relacionados</h2>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              {relatedProjects.map((relatedProject, index) => (
+                <motion.a
+                  key={relatedProject.slug}
+                  href={`/project/${relatedProject.slug}`}
+                  initial={{ y: 20, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  transition={{ duration: 0.5, delay: 1.1 + index * 0.1 }}
+                  className="group block"
+                >
+                  <div className="relative aspect-[3/2] overflow-hidden rounded-lg mb-2">
+                    <img
+                      src={relatedProject.image.src}
+                      alt={relatedProject.metadata.title}
+                      className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                    />
+                  </div>
+                  <h3 className="text-base font-kuunari-medium text-white group-hover:text-accent-500 transition-colors">
+                    {relatedProject.metadata.title}
+                  </h3>
+                  <p className="text-xs text-white/60 font-kuunari-light">
+                    {relatedProject.metadata.buildingType}
+                  </p>
+                </motion.a>
+              ))}
+            </div>
           </motion.div>
-        </div>
+        )}
+
+        {/* Navigation */}
+        <motion.div 
+          initial={{ y: 20, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ duration: 0.5, delay: 1.2 }}
+          className="flex justify-between items-center border-t border-white/10 pt-8"
+        >
+          <motion.a
+            whileHover={{ x: -5 }}
+            href={`/project/${prevProject ? prevProject.slug : projects[projects.length - 1].slug}`}
+            className="group flex items-center text-white/60 hover:text-accent-500 transition-colors"
+          >
+            <svg
+              className="mr-2 h-5 w-5"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M15 19l-7-7 7-7"
+              />
+            </svg>
+            <span className="font-kuunari-medium">Proyecto anterior</span>
+          </motion.a>
+
+          <motion.a
+            whileHover={{ x: 5 }}
+            href={`/project/${nextProject ? nextProject.slug : projects[0].slug}`}
+            className="group flex items-center text-white/60 hover:text-accent-500 transition-colors"
+          >
+            <span className="font-kuunari-medium">Siguiente proyecto</span>
+            <svg
+              className="ml-2 h-5 w-5"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M9 5l7 7-7 7"
+              />
+            </svg>
+          </motion.a>
+        </motion.div>
       </motion.div>
 
       <ContactForm 
@@ -491,6 +537,6 @@ export default function ProjectPage({ slug }: ProjectPageProps) {
         }} 
         projectTitle={project.metadata.title} 
       />
-    </Container>
+    </main>
   );
 } 

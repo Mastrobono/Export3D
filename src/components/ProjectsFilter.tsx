@@ -256,7 +256,7 @@ export default function ProjectsFilter() {
           </div>
         </Dialog>
 
-        <main className="mx-auto max-w-7xl px-4 py-16 sm:px-6 sm:py-24 lg:px-8">
+        <main className="w-full max-w-7xl md:max-w-8xl mx-auto py-12 my-12 bg-darkgray">
           <motion.div 
             className="border-b border-white/10 pb-10"
             initial={{ opacity: 0, y: 20 }}
