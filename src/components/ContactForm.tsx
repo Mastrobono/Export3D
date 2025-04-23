@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Dialog, DialogBackdrop, DialogPanel } from '@headlessui/react';
 import { XMarkIcon } from '@heroicons/react/24/outline';
 import { useFormSubmit } from '../services/formService';
+import { validateForm, ValidationResult } from '../services/validationService';
 
 interface ContactFormProps {
   isOpen: boolean;
@@ -20,6 +21,7 @@ export default function ContactForm({ isOpen: initialIsOpen, onClose, projectTit
     message: '',
     project: projectTitle || ''
   });
+  const [validationErrors, setValidationErrors] = useState<Record<string, string>>({});
 
   useEffect(() => {
     setIsOpen(initialIsOpen);
@@ -27,15 +29,53 @@ export default function ContactForm({ isOpen: initialIsOpen, onClose, projectTit
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    await submitForm(formData);
-    if (success) {
-      handleClose();
+    
+    // Validate form
+    const validation = validateForm(formData);
+    setValidationErrors(validation.errors);
+    
+    if (!validation.isValid) {
+      return;
+    }
+
+    try {
+      await submitForm(formData);
+      if (success) {
+        handleClose();
+      }
+    } catch (err) {
+      console.error('Error submitting form:', err);
     }
   };
 
   const handleClose = () => {
     setIsOpen(false);
     onClose();
+    // Reset form and errors
+    setFormData({
+      name: '',
+      email: '',
+      project_type: '',
+      message: '',
+      project: projectTitle || ''
+    });
+    setValidationErrors({});
+  };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+    // Clear validation error when user starts typing
+    if (validationErrors[name]) {
+      setValidationErrors(prev => {
+        const newErrors = { ...prev };
+        delete newErrors[name];
+        return newErrors;
+      });
+    }
   };
 
   return (
@@ -75,7 +115,13 @@ export default function ContactForm({ isOpen: initialIsOpen, onClose, projectTit
               </div>
             )}
 
-            <form onSubmit={handleSubmit} className="space-y-6">
+            {success && (
+              <div className="mb-4 p-4 bg-green-500/10 border border-green-500/20 rounded-md">
+                <p className="text-green-500 text-sm">¡Gracias por tu mensaje! Nos pondremos en contacto contigo pronto.</p>
+              </div>
+            )}
+
+            <form onSubmit={handleSubmit} className="space-y-6" noValidate>
               <div>
                 <label htmlFor="name" className="block text-sm font-kuunari-medium text-white">
                   Nombre
@@ -86,10 +132,15 @@ export default function ContactForm({ isOpen: initialIsOpen, onClose, projectTit
                   name="name"
                   required
                   value={formData.name}
-                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                  className="mt-2 block w-full rounded-md border-0 bg-white/5 px-4 py-3 text-white shadow-sm ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-accent-500 sm:text-sm sm:leading-6"
+                  onChange={handleInputChange}
+                  className={`mt-2 block w-full rounded-md border-0 bg-white/5 px-4 py-3 text-white shadow-sm ring-1 ring-inset ${
+                    validationErrors.name ? 'ring-red-500' : 'ring-white/10'
+                  } focus:ring-2 focus:ring-inset focus:ring-accent-500 sm:text-sm sm:leading-6`}
                   placeholder="Tu nombre"
                 />
+                {validationErrors.name && (
+                  <p className="mt-1 text-sm text-red-500">{validationErrors.name}</p>
+                )}
               </div>
 
               <div>
@@ -102,10 +153,15 @@ export default function ContactForm({ isOpen: initialIsOpen, onClose, projectTit
                   name="email"
                   required
                   value={formData.email}
-                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                  className="mt-2 block w-full rounded-md border-0 bg-white/5 px-4 py-3 text-white shadow-sm ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-accent-500 sm:text-sm sm:leading-6"
+                  onChange={handleInputChange}
+                  className={`mt-2 block w-full rounded-md border-0 bg-white/5 px-4 py-3 text-white shadow-sm ring-1 ring-inset ${
+                    validationErrors.email ? 'ring-red-500' : 'ring-white/10'
+                  } focus:ring-2 focus:ring-inset focus:ring-accent-500 sm:text-sm sm:leading-6`}
                   placeholder="tu@email.com"
                 />
+                {validationErrors.email && (
+                  <p className="mt-1 text-sm text-red-500">{validationErrors.email}</p>
+                )}
               </div>
 
               <div>
@@ -117,14 +173,19 @@ export default function ContactForm({ isOpen: initialIsOpen, onClose, projectTit
                   name="project_type"
                   required
                   value={formData.project_type}
-                  onChange={(e) => setFormData({ ...formData, project_type: e.target.value })}
-                  className="mt-2 block w-full rounded-md border-0 bg-white/5 px-4 py-3 text-white shadow-sm ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-accent-500 sm:text-sm sm:leading-6 [&>option]:bg-darkgray [&>option]:text-white"
+                  onChange={handleInputChange}
+                  className={`mt-2 block w-full rounded-md border-0 bg-white/5 px-4 py-3 text-white shadow-sm ring-1 ring-inset ${
+                    validationErrors.project_type ? 'ring-red-500' : 'ring-white/10'
+                  } focus:ring-2 focus:ring-inset focus:ring-accent-500 sm:text-sm sm:leading-6 [&>option]:bg-darkgray [&>option]:text-white`}
                 >
                   <option value="" disabled selected className="text-white/50">Selecciona una opción</option>
                   <option value="visualization">Visualización Arquitectónica</option>
                   <option value="project_management">Dirección de Obra</option>
                   <option value="both">Ambos Servicios</option>
                 </select>
+                {validationErrors.project_type && (
+                  <p className="mt-1 text-sm text-red-500">{validationErrors.project_type}</p>
+                )}
               </div>
 
               <div>
@@ -137,10 +198,15 @@ export default function ContactForm({ isOpen: initialIsOpen, onClose, projectTit
                   rows={4}
                   required
                   value={formData.message}
-                  onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                  className="mt-2 block w-full rounded-md border-0 bg-white/5 px-4 py-3 text-white shadow-sm ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-accent-500 sm:text-sm sm:leading-6"
+                  onChange={handleInputChange}
+                  className={`mt-2 block w-full rounded-md border-0 bg-white/5 px-4 py-3 text-white shadow-sm ring-1 ring-inset ${
+                    validationErrors.message ? 'ring-red-500' : 'ring-white/10'
+                  } focus:ring-2 focus:ring-inset focus:ring-accent-500 sm:text-sm sm:leading-6`}
                   placeholder="Cuéntanos sobre tu proyecto..."
                 />
+                {validationErrors.message && (
+                  <p className="mt-1 text-sm text-red-500">{validationErrors.message}</p>
+                )}
               </div>
 
               <div className="flex justify-end">

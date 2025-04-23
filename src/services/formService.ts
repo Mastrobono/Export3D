@@ -34,11 +34,8 @@ export const useFormSubmit = () => {
         name: data.name,
         email: data.email,
         project_type: data.project_type || 'No especificado',
-        project: data.project || 'No especificado',
         message: data.message,
         timestamp: new Date().toISOString(),
-        emailNotification: true,
-        emailTo: 'mastrobonoleandro@gmail.com',
        
       });
 
