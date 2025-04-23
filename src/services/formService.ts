@@ -37,21 +37,9 @@ export const useFormSubmit = () => {
         project: data.project || 'No especificado',
         message: data.message,
         timestamp: new Date().toISOString(),
-        _notify: {
-          email: {
-            to: 'mastrobonoleandro@gmail.com',
-            subject: 'Nuevo mensaje de contacto',
-            template: `
-              <h2>Nuevo mensaje de contacto</h2>
-              <p><strong>Nombre:</strong> ${data.name}</p>
-              <p><strong>Email:</strong> ${data.email}</p>
-              <p><strong>Tipo de Proyecto:</strong> ${data.project_type || 'No especificado'}</p>
-              <p><strong>Proyecto:</strong> ${data.project || 'No especificado'}</p>
-              <p><strong>Mensaje:</strong></p>
-              <p>${data.message}</p>
-            `
-          }
-        }
+        emailNotification: true,
+        emailTo: 'mastrobonoleandro@gmail.com',
+       
       });
 
       setSuccess(true);
