@@ -11,8 +11,13 @@
     "noEmit": true,
     "skipLibCheck": true,
     "allowJs": true,
-    "jsx": "react-jsx",
+    "jsx": "preserve",
     "jsxImportSource": "react",
-    "lib": ["es2017", "dom"]
+    "lib": ["es2017", "dom", "esnext"],
+    "module": "esnext",
+    "target": "esnext",
+    "moduleResolution": "node",
+    "strict": true,
+    "types": ["astro/client"]
   }
 }

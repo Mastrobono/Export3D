@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Dialog, DialogBackdrop, DialogPanel } from '@headlessui/react';
 import { XMarkIcon } from '@heroicons/react/24/outline';
+import { useFormSubmit } from '../services/formService';
 
 interface ContactFormProps {
   isOpen: boolean;
@@ -11,6 +12,7 @@ interface ContactFormProps {
 
 export default function ContactForm({ isOpen: initialIsOpen, onClose, projectTitle, 'client:load': clientLoad }: ContactFormProps) {
   const [isOpen, setIsOpen] = useState(initialIsOpen);
+  const { submitForm, isSubmitting, error, success } = useFormSubmit();
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -25,9 +27,10 @@ export default function ContactForm({ isOpen: initialIsOpen, onClose, projectTit
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Aquí iría la lógica para enviar el formulario
-    console.log('Form data:', formData);
-    handleClose();
+    await submitForm(formData);
+    if (success) {
+      handleClose();
+    }
   };
 
   const handleClose = () => {
@@ -65,6 +68,12 @@ export default function ContactForm({ isOpen: initialIsOpen, onClose, projectTit
             <p className="text-white/60 font-kuunari-light mb-6">
               Completa el formulario y nos pondremos en contacto contigo lo antes posible.
             </p>
+
+            {error && (
+              <div className="mb-4 p-4 bg-red-500/10 border border-red-500/20 rounded-md">
+                <p className="text-red-500 text-sm">{error}</p>
+              </div>
+            )}
 
             <form onSubmit={handleSubmit} className="space-y-6">
               <div>
@@ -137,23 +146,26 @@ export default function ContactForm({ isOpen: initialIsOpen, onClose, projectTit
               <div className="flex justify-end">
                 <button
                   type="submit"
-                  className="inline-flex items-center justify-center rounded-md bg-accent-500 px-5 py-3.5 text-base font-semibold text-darkgray shadow-sm hover:bg-accent-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-500 transition-all duration-300 font-kuunari-medium"
+                  disabled={isSubmitting}
+                  className="inline-flex items-center justify-center rounded-md bg-accent-500 px-5 py-3.5 text-base font-semibold text-darkgray shadow-sm hover:bg-accent-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-500 transition-all duration-300 font-kuunari-medium disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  Iniciar Proyecto
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth={2}
-                    stroke="currentColor"
-                    className="w-5 h-5 ml-2"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3"
-                    />
-                  </svg>
+                  {isSubmitting ? 'Enviando...' : 'Iniciar Proyecto'}
+                  {!isSubmitting && (
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth={2}
+                      stroke="currentColor"
+                      className="w-5 h-5 ml-2"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3"
+                      />
+                    </svg>
+                  )}
                 </button>
               </div>
             </form>

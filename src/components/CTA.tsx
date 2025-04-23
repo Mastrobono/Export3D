@@ -1,7 +1,22 @@
 import { motion } from "framer-motion";
 import Container from "../layouts/Container";
+import { useFormSubmit } from "../services/formService";
+import { useState } from "react";
 
 const CTA = () => {
+  const { submitForm, isSubmitting, error, success } = useFormSubmit();
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    project_type: '',
+    message: ''
+  });
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    await submitForm(formData);
+  };
+
   return (
     <Container
       data-section="cta"
@@ -84,6 +99,7 @@ const CTA = () => {
 
           {/* Right side - Contact Form */}
           <motion.form
+            onSubmit={handleSubmit}
             className="bg-darkgray/30 backdrop-blur-sm rounded-2xl p-8 border border-white/10"
             initial={{ opacity: 0, y: 50 }}
             whileInView={{
@@ -96,6 +112,18 @@ const CTA = () => {
             }}
             viewport={{ once: true, margin: "-100px" }}
           >
+            {error && (
+              <div className="mb-4 p-4 bg-red-500/10 border border-red-500/20 rounded-md">
+                <p className="text-red-500 text-sm">{error}</p>
+              </div>
+            )}
+
+            {success && (
+              <div className="mb-4 p-4 bg-green-500/10 border border-green-500/20 rounded-md">
+                <p className="text-green-500 text-sm">¡Gracias por tu mensaje! Nos pondremos en contacto contigo pronto.</p>
+              </div>
+            )}
+
             <div className="space-y-6">
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
@@ -114,6 +142,9 @@ const CTA = () => {
                   type="text"
                   name="name"
                   id="name"
+                  required
+                  value={formData.name}
+                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                   className="mt-2 block w-full rounded-md border-0 bg-white/5 px-4 py-3 text-white shadow-sm ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-accent-500 sm:text-sm sm:leading-6"
                   placeholder="Tu nombre"
                 />
@@ -136,6 +167,9 @@ const CTA = () => {
                   type="email"
                   name="email"
                   id="email"
+                  required
+                  value={formData.email}
+                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                   className="mt-2 block w-full rounded-md border-0 bg-white/5 px-4 py-3 text-white shadow-sm ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-accent-500 sm:text-sm sm:leading-6"
                   placeholder="tu@email.com"
                 />
@@ -157,6 +191,9 @@ const CTA = () => {
                 <select
                   id="project_type"
                   name="project_type"
+                  required
+                  value={formData.project_type}
+                  onChange={(e) => setFormData({ ...formData, project_type: e.target.value })}
                   className="mt-2 block w-full rounded-md border-0 bg-white/5 px-4 py-3 text-white shadow-sm ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-accent-500 sm:text-sm sm:leading-6 [&>option]:bg-darkgray [&>option]:text-white"
                 >
                   <option value="" disabled selected className="text-white/50">Selecciona una opción</option>
@@ -183,6 +220,9 @@ const CTA = () => {
                   id="message"
                   name="message"
                   rows={4}
+                  required
+                  value={formData.message}
+                  onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                   className="mt-2 block w-full rounded-md border-0 bg-white/5 px-4 py-3 text-white shadow-sm ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-accent-500 sm:text-sm sm:leading-6"
                   placeholder="Cuéntanos sobre tu proyecto..."
                 ></textarea>
@@ -202,23 +242,26 @@ const CTA = () => {
               >
                 <button
                   type="submit"
-                  className="w-full inline-flex items-center justify-center rounded-md bg-accent-500 px-5 py-3.5 text-base font-semibold text-darkgray shadow-sm hover:bg-accent-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-500 transition-all duration-300 font-kuunari-medium"
+                  disabled={isSubmitting}
+                  className="w-full inline-flex items-center justify-center rounded-md bg-accent-500 px-5 py-3.5 text-base font-semibold text-darkgray shadow-sm hover:bg-accent-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-500 transition-all duration-300 font-kuunari-medium disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  Iniciar Proyecto
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth={2}
-                    stroke="currentColor"
-                    className="w-5 h-5 ml-2"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3"
-                    />
-                  </svg>
+                  {isSubmitting ? 'Enviando...' : 'Iniciar Proyecto'}
+                  {!isSubmitting && (
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth={2}
+                      stroke="currentColor"
+                      className="w-5 h-5 ml-2"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3"
+                      />
+                    </svg>
+                  )}
                 </button>
               </motion.div>
             </div>
