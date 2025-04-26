@@ -1,8 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Dialog, DialogBackdrop, DialogPanel } from '@headlessui/react';
 import { XMarkIcon } from '@heroicons/react/24/outline';
-import { useFormSubmit } from '../services/formService';
-import { validateForm, ValidationResult } from '../services/validationService';
+import { validateForm } from '../services/validationService';
 
 interface ContactFormProps {
   isOpen: boolean;
@@ -11,10 +10,17 @@ interface ContactFormProps {
   'client:load'?: boolean;
 }
 
+interface FormData {
+  name: string;
+  email: string;
+  project_type: string;
+  message: string;
+  project: string;
+}
+
 export default function ContactForm({ isOpen: initialIsOpen, onClose, projectTitle, 'client:load': clientLoad }: ContactFormProps) {
   const [isOpen, setIsOpen] = useState(initialIsOpen);
-  const { submitForm, isSubmitting, error, success } = useFormSubmit();
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<FormData>({
     name: '',
     email: '',
     project_type: '',
@@ -22,6 +28,9 @@ export default function ContactForm({ isOpen: initialIsOpen, onClose, projectTit
     project: projectTitle || ''
   });
   const [validationErrors, setValidationErrors] = useState<Record<string, string>>({});
+  const [submitError, setSubmitError] = useState<string | null>(null);
+  const [submitSuccess, setSubmitSuccess] = useState(false);
+  const [isFormSubmitting, setIsFormSubmitting] = useState(false);
 
   useEffect(() => {
     setIsOpen(initialIsOpen);
@@ -29,22 +38,56 @@ export default function ContactForm({ isOpen: initialIsOpen, onClose, projectTit
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+    setIsFormSubmitting(true);
+    setSubmitError(null);
+    setSubmitSuccess(false);
+
     // Validate form
-    const validation = validateForm(formData);
-    setValidationErrors(validation.errors);
-    
-    if (!validation.isValid) {
+    const validationResult = validateForm(formData);
+    if (!validationResult.isValid) {
+      setValidationErrors(validationResult.errors);
+      setIsFormSubmitting(false);
       return;
     }
 
     try {
-      await submitForm(formData);
-      if (success) {
-        handleClose();
+      const response = await fetch('https://submitjson.com/api/v1/submit', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
       }
-    } catch (err) {
-      console.error('Error submitting form:', err);
+
+      const result = await response.json();
+      
+      // Verificar si la respuesta indica éxito
+      if (result.success) {
+        setSubmitSuccess(true);
+        setFormData({
+          name: '',
+          email: '',
+          project_type: '',
+          message: '',
+          project: ''
+        });
+        setValidationErrors({});
+      } else {
+        throw new Error(result.message || 'Error al enviar el formulario');
+      }
+    } catch (error) {
+      console.error('Error submitting form:', error);
+      setSubmitError(
+        error instanceof Error 
+          ? error.message 
+          : 'Hubo un error al enviar el formulario. Por favor, inténtalo de nuevo más tarde.'
+      );
+    } finally {
+      setIsFormSubmitting(false);
     }
   };
 
@@ -57,7 +100,7 @@ export default function ContactForm({ isOpen: initialIsOpen, onClose, projectTit
       email: '',
       project_type: '',
       message: '',
-      project: projectTitle || ''
+      project: ''
     });
     setValidationErrors({});
   };
@@ -109,13 +152,13 @@ export default function ContactForm({ isOpen: initialIsOpen, onClose, projectTit
               Completa el formulario y nos pondremos en contacto contigo lo antes posible.
             </p>
 
-            {error && (
+            {submitError && (
               <div className="mb-4 p-4 bg-red-500/10 border border-red-500/20 rounded-md">
-                <p className="text-red-500 text-sm">{error}</p>
+                <p className="text-red-500 text-sm">{submitError}</p>
               </div>
             )}
 
-            {success && (
+            {submitSuccess && (
               <div className="mb-4 p-4 bg-green-500/10 border border-green-500/20 rounded-md">
                 <p className="text-green-500 text-sm">¡Gracias por tu mensaje! Nos pondremos en contacto contigo pronto.</p>
               </div>
@@ -212,11 +255,11 @@ export default function ContactForm({ isOpen: initialIsOpen, onClose, projectTit
               <div className="flex justify-end">
                 <button
                   type="submit"
-                  disabled={isSubmitting}
+                  disabled={isFormSubmitting}
                   className="inline-flex items-center justify-center rounded-md bg-accent-500 px-5 py-3.5 text-base font-semibold text-darkgray shadow-sm hover:bg-accent-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-500 transition-all duration-300 font-kuunari-medium disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  {isSubmitting ? 'Enviando...' : 'Iniciar Proyecto'}
-                  {!isSubmitting && (
+                  {isFormSubmitting ? 'Enviando...' : 'Iniciar Proyecto'}
+                  {!isFormSubmitting && (
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       fill="none"

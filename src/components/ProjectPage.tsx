@@ -232,11 +232,15 @@ export default function ProjectPage({ slug }: ProjectPageProps) {
     setPrevProject(index > 0 ? projects[index - 1] : null);
     setNextProject(index < projects.length - 1 ? projects[index + 1] : null);
 
-    const related = projects.filter(p => 
-      p.slug !== slug && 
-      (p.metadata.buildingType === currentProject.metadata.buildingType || 
-       p.metadata.role === currentProject.metadata.role)
-    ).slice(0, 3);
+    // Filter related projects to avoid duplicates
+    const related = projects
+      .filter(p => 
+        p.slug !== slug && 
+        (p.metadata.buildingType === currentProject.metadata.buildingType || 
+         p.metadata.role === currentProject.metadata.role)
+      )
+      .filter((p, i, arr) => arr.findIndex(proj => proj.slug === p.slug) === i) // Remove duplicates
+      .slice(0, 3);
     setRelatedProjects(related);
   }, [slug]);
 
@@ -447,7 +451,7 @@ export default function ProjectPage({ slug }: ProjectPageProps) {
             id="related" 
             className="mb-16"
           >
-            <h2 className="text-2xl font-kuunari-medium text-white mb-6">Proyectos Relacionados</h2>
+            <h2 className="text-2xl font-kuunari-medium text-white mb-6">También podría interesarte</h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               {relatedProjects.map((relatedProject, index) => (
                 <motion.a
@@ -464,6 +468,30 @@ export default function ProjectPage({ slug }: ProjectPageProps) {
                       alt={relatedProject.metadata.title}
                       className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
                     />
+                    <div className="absolute inset-0 bg-accent-500/30 group-hover:bg-accent-500/0 transition-all duration-500">
+                      <div className="absolute bottom-6 left-6 right-6">
+                        <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-all duration-300 translate-y-4 group-hover:translate-y-0">
+                          <span className="text-white font-kuunari-medium text-sm">Ver detalle</span>
+                          <motion.svg 
+                            xmlns="http://www.w3.org/2000/svg" 
+                            className="h-4 w-4 text-white" 
+                            fill="none" 
+                            viewBox="0 0 24 24" 
+                            stroke="currentColor"
+                            initial={{ x: -20, opacity: 0 }}
+                            whileHover={{ x: 0, opacity: 1 }}
+                            transition={{ duration: 0.3 }}
+                          >
+                            <path 
+                              strokeLinecap="round" 
+                              strokeLinejoin="round" 
+                              strokeWidth={2} 
+                              d="M9 5l7 7-7 7" 
+                            />
+                          </motion.svg>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                   <h3 className="text-base font-kuunari-medium text-white group-hover:text-accent-500 transition-colors">
                     {relatedProject.metadata.title}

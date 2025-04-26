@@ -1,12 +1,26 @@
 import { motion } from "framer-motion";
+import { scrollToFn } from "../utils/utils.tsx";
 
 const Footer = () => {
+  const handleNavigation = (e: React.MouseEvent, sectionId: string) => {
+    const currentPath = window.location.pathname;
+
+    if (currentPath !== '/') {
+      e.preventDefault();
+      window.location.href = '/';
+      localStorage.setItem('scrollToSection', sectionId);
+    } else {
+      e.preventDefault();
+      scrollToFn(e, sectionId);
+    }
+  };
+
   const footerSections = {
     main: [
-      { name: "Home", href: "/about" },
-      { name: "Sobre Nosotros", href: "/about" },
-      { name: "Proyectos Destacados", href: "/contact" },
-      { name: "Todoos los Proyectos", href: "/contact" },
+      { name: "Home", href: "#", onClick: (e: React.MouseEvent) => handleNavigation(e, "hero") },
+      { name: "Sobre Nosotros", href: "#", onClick: (e: React.MouseEvent) => handleNavigation(e, "about") },
+      { name: "Proyectos Destacados", href: "#", onClick: (e: React.MouseEvent) => handleNavigation(e, "featured") },
+      { name: "Todos los Proyectos", href: "#", onClick: (e: React.MouseEvent) => handleNavigation(e, "all-projects") },
     ],
     projects: [
       { name: "Galería de Proyectos", href: "/projects" }
@@ -89,7 +103,11 @@ const Footer = () => {
             <ul className="space-y-3">
               {footerSections.main.map((item) => (
                 <li key={item.name}>
-                  <a href={item.href} className="text-gray-400 hover:text-white transition-colors duration-200">
+                  <a 
+                    href={item.href} 
+                    onClick={item.onClick}
+                    className="text-gray-400 hover:text-white transition-colors duration-200 cursor-pointer"
+                  >
                     {item.name}
                   </a>
                 </li>
