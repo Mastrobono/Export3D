@@ -6,6 +6,7 @@ import { projects } from '../data/data';
 import type { Project } from '../types/project';
 import ImageGallery from 'react-image-gallery';
 import "react-image-gallery/styles/css/image-gallery.css";
+import ProjectCard from './ProjectCard';
 
 const customStyles = `
   /* Container styles */
@@ -101,11 +102,31 @@ const customStyles = `
 
   /* Fullscreen button */
   .image-gallery-fullscreen-button {
-    opacity: 0.7;
-    transition: all 0.3s ease !important;
-    background: rgba(0, 0, 0, 0.3) !important;
+    position: absolute !important;
+    bottom: 1rem !important;
+    right: 1rem !important;
+    z-index: 20 !important;
+    background: rgba(0,0,0,0.7) !important;
     border-radius: 4px !important;
-    margin: 10px !important;
+    margin: 0 !important;
+    opacity: 0.85;
+    transition: bottom 0.3s, opacity 0.3s, all 0.3s ease !important;
+    width: 40px !important;
+    height: 40px !important;
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    padding: 0 !important;
+    overflow: visible !important;
+  }
+
+  .image-gallery-fullscreen-button svg {
+    width: 24px !important;
+    height: 24px !important;
+    color: #fff !important;
+    stroke: #fff !important;
+    fill: none !important;
+    display: block !important;
   }
 
   .image-gallery-content:hover .image-gallery-fullscreen-button {
@@ -113,12 +134,12 @@ const customStyles = `
   }
 
   .image-gallery-fullscreen-button:hover {
-    background: rgba(0, 0, 0, 0.5) !important;
+    background: #f9c461 !important;
   }
 
   .image-gallery-fullscreen-button:hover svg {
-    color: #f9c461 !important;
-    stroke: #f9c461 !important;
+    color: #121212 !important;
+    stroke: #121212 !important;
   }
 
   /* Thumbnail styles */
@@ -127,8 +148,8 @@ const customStyles = `
     height: 75px !important;
     transition: all 0.3s ease !important;
     border: 2px solid transparent !important;
-    border-radius: 4px;
-    overflow: hidden;
+    border-radius: 4px !important;
+    overflow: hidden !important;
     position: relative;
   }
 
@@ -139,12 +160,13 @@ const customStyles = `
   }
 
   .image-gallery-thumbnail.active {
-    border: 3px solid #f9c461 !important;
-    box-shadow: 0 0 0 2px rgba(249, 196, 97, 0.3) !important;
+    border: 2px solid #f9c461 !important;
+    box-shadow: none !important;
   }
 
-  .image-gallery-thumbnail:hover {
-    border: 2px solid rgba(249, 196, 97, 0.5) !important;
+  .image-gallery-thumbnail.active .image-gallery-thumbnail-image {
+    border: none !important;
+    box-shadow: none !important;
   }
 
   /* Ensure all images maintain aspect ratio */
@@ -166,10 +188,136 @@ const customStyles = `
   .image-gallery-thumbnail.active .image-gallery-thumbnail-image {
     border: 2px solid #f9c461 !important;
   }
+
+  /* --- REGLAS FINALES PARA FORZAR PRIORIDAD --- */
+  @media (min-width: 768px) {
+    .image-gallery-slide-wrapper,
+    .image-gallery-slide,
+    .image-gallery-image,
+    .image-gallery-image img {
+      height: 700px !important;
+      min-height: 700px !important;
+      max-height: 700px !important;
+    }
+  }
+
+  /* Borde visible en los thumbnails */
+  .image-gallery-thumbnail {
+    border: 2px solid transparent !important;
+    box-shadow: none !important;
+    border-radius: 4px !important;
+    overflow: hidden !important;
+  }
+
+  .image-gallery-thumbnail.active {
+    border: 2px solid #f9c461 !important;
+    box-shadow: none !important;
+  }
+
+  .image-gallery-thumbnail.active .image-gallery-thumbnail-image {
+    border: none !important;
+    box-shadow: none !important;
+  }
+
+  /* Centrar thumbnails horizontalmente en fullscreen */
+  .image-gallery.fullscreen .image-gallery-thumbnails-wrapper,
+  .image-gallery:fullscreen .image-gallery-thumbnails-wrapper,
+  .image-gallery:-webkit-full-screen .image-gallery-thumbnails-wrapper {
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+  }
+
+  .image-gallery.fullscreen .image-gallery-thumbnails,
+  .image-gallery:fullscreen .image-gallery-thumbnails,
+  .image-gallery:-webkit-full-screen .image-gallery-thumbnails {
+    justify-content: center !important;
+  }
+
+  /* Centrar thumbnails container en fullscreen */
+  .image-gallery.fullscreen .image-gallery-thumbnails-container,
+  .image-gallery:fullscreen .image-gallery-thumbnails-container,
+  .image-gallery:-webkit-full-screen .image-gallery-thumbnails-container {
+    display: flex !important;
+    justify-content: center !important;
+  }
+
+  /* Bajar el fullscreen button a top: 96% en fullscreen */
+  .image-gallery.fullscreen .image-gallery-fullscreen-button,
+  .image-gallery:fullscreen .image-gallery-fullscreen-button,
+  .image-gallery:-webkit-full-screen .image-gallery-fullscreen-button {
+    bottom: 2.5rem !important;
+  }
+
+  /* Transición suave de opacidad para el botón de fullscreen al entrar/salir de fullscreen */
+  .image-gallery-fullscreen-button {
+    transition: opacity 0.3s, all 0.3s ease !important;
+  }
+  .image-gallery:not(.fullscreen) .image-gallery-fullscreen-button {
+    opacity: 1 !important;
+  }
+  .image-gallery.fullscreen .image-gallery-fullscreen-button,
+  .image-gallery:fullscreen .image-gallery-fullscreen-button,
+  .image-gallery:-webkit-full-screen .image-gallery-fullscreen-button {
+    opacity: 1 !important;
+  }
+  /* Ocultar el botón durante la transición (opcional, para evitar parpadeo) */
+  .image-gallery.transitioning .image-gallery-fullscreen-button {
+    opacity: 0 !important;
+  }
+
+  /* Thumbnails responsive en fullscreen mobile */
+  @media (max-width: 768px) {
+    .image-gallery.fullscreen .image-gallery-thumbnails-wrapper,
+    .image-gallery:fullscreen .image-gallery-thumbnails-wrapper,
+    .image-gallery:-webkit-full-screen .image-gallery-thumbnails-wrapper {
+      display: flex !important;
+      justify-content: center !important;
+      align-items: center !important;
+      overflow-x: auto !important;
+      overflow-y: hidden !important;
+      -webkit-overflow-scrolling: touch;
+      gap: 6px !important;
+      padding: 0 8px !important;
+      scrollbar-width: thin;
+      scrollbar-color: #f9c461 #121212;
+    }
+    .image-gallery.fullscreen .image-gallery-thumbnails,
+    .image-gallery:fullscreen .image-gallery-thumbnails,
+    .image-gallery:-webkit-full-screen .image-gallery-thumbnails {
+      flex-wrap: nowrap !important;
+      min-width: max-content;
+      justify-content: center !important;
+      gap: 6px !important;
+    }
+    .image-gallery.fullscreen .image-gallery-thumbnail,
+    .image-gallery:fullscreen .image-gallery-thumbnail,
+    .image-gallery:-webkit-full-screen .image-gallery-thumbnail {
+      width: 60px !important;
+      height: 45px !important;
+      min-width: 60px !important;
+      min-height: 45px !important;
+      max-width: 60px !important;
+      max-height: 45px !important;
+    }
+    .image-gallery-thumbnails-wrapper::-webkit-scrollbar {
+      height: 8px;
+      background: #121212;
+    }
+    .image-gallery-thumbnails-wrapper::-webkit-scrollbar-thumb {
+      background: #f9c461;
+      border-radius: 10px;
+    }
+    .image-gallery-thumbnails-wrapper::-webkit-scrollbar-track {
+      background: #121212;
+      border-radius: 10px;
+    }
+  }
 `;
 
 interface ProjectPageProps {
   slug: string;
+  galleryImages: { original: string; thumbnail: string }[];
 }
 
 // Example photos for the gallery
@@ -200,7 +348,7 @@ const examplePhotos = [
   }
 ];
 
-export default function ProjectPage({ slug }: ProjectPageProps) {
+export default function ProjectPage({ slug, galleryImages }: ProjectPageProps) {
   const [project, setProject] = useState<Project | null>(null);
   const [isContactFormOpen, setIsContactFormOpen] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -234,10 +382,10 @@ export default function ProjectPage({ slug }: ProjectPageProps) {
 
     // Filter related projects to avoid duplicates
     const related = projects
-      .filter(p => 
-        p.slug !== slug && 
-        (p.metadata.buildingType === currentProject.metadata.buildingType || 
-         p.metadata.role === currentProject.metadata.role)
+      .filter(p =>
+        p.slug !== slug &&
+        (p.metadata.buildingType === currentProject.metadata.buildingType ||
+          p.metadata.role === currentProject.metadata.role)
       )
       .filter((p, i, arr) => arr.findIndex(proj => proj.slug === p.slug) === i) // Remove duplicates
       .slice(0, 3);
@@ -246,18 +394,10 @@ export default function ProjectPage({ slug }: ProjectPageProps) {
 
   if (!project) return null;
 
-  const galleryImages = [
-    {
-      original: project.image.src,
-      thumbnail: project.image.src,
-    },
-    ...examplePhotos
-  ];
-
   return (
     <main className="w-full max-w-7xl md:max-w-8xl mx-auto py-12 my-12 bg-darkgray">
       {/* Background effects */}
-      <motion.div 
+      <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.5 }}
@@ -268,39 +408,14 @@ export default function ProjectPage({ slug }: ProjectPageProps) {
       </motion.div>
 
       {/* Content */}
-      <motion.div 
+      <motion.div
         initial={{ y: 20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.5, delay: 0.2 }}
         className="relative z-10"
       >
-        {/* Breadcrumbs */}
-        <nav className="mb-8" aria-label="Breadcrumb">
-          <ol className="flex items-center space-x-2 text-sm text-white/60">
-            <li>
-              <a href="/" className="hover:text-accent-500 transition-colors">Inicio</a>
-            </li>
-            <li>
-              <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" />
-              </svg>
-            </li>
-            <li>
-              <a href="/projects" className="hover:text-accent-500 transition-colors">Proyectos</a>
-            </li>
-            <li>
-              <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" />
-              </svg>
-            </li>
-            <li className="text-white">
-              {project.metadata.title}
-            </li>
-          </ol>
-        </nav>
-
         {/* Project Header */}
-        <motion.div 
+        <motion.div
           initial={{ y: 20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ duration: 0.5, delay: 0.5 }}
@@ -309,19 +424,53 @@ export default function ProjectPage({ slug }: ProjectPageProps) {
           <div className="grid grid-cols-1 lg:grid-cols-[1fr_3fr] gap-12">
             {/* Left Column - Project Info */}
             <div className="lg:pr-8">
+              {/* Botón Volver a galería */}
+              <motion.a
+                href="/projects"
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.5, delay: 0.2 }}
+                className="inline-flex items-center mb-4 text-white/60 hover:text-accent-500 transition-colors font-kuunari-medium text-base group"
+                whileHover="hovered"
+                variants={{ hovered: {} }}
+              >
+                <motion.span
+                  className="mr-2 h-5 w-5 flex items-center"
+                  variants={{ hovered: { x: -6 }, initial: { x: 0 } }}
+                  initial="initial"
+                  animate="initial"
+                >
+                  <svg
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    className="h-5 w-5"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M15 19l-7-7 7-7"
+                    />
+                  </svg>
+                </motion.span>
+                <span>
+                  Volver a galería
+                </span>
+              </motion.a>
               <h1 className="text-[4.5rem] leading-[1.1] font-semibold tracking-tight text-white font-kuunari-medium">
                 {project.metadata.title}
               </h1>
               <p className="mt-4 text-xl text-white/80 font-kuunari-light">
                 {project.metadata.location}
               </p>
-              
+
               {/* Project Details */}
-              <motion.div 
+              <motion.div
                 initial={{ y: 20, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
                 transition={{ duration: 0.5, delay: 0.6 }}
-                id="details" 
+                id="details"
                 className="mt-8"
               >
                 <dl className="space-y-4">
@@ -355,7 +504,7 @@ export default function ProjectPage({ slug }: ProjectPageProps) {
             </div>
 
             {/* Right Column - Gallery */}
-            <motion.div 
+            <motion.div
               initial={{ y: 20, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ duration: 0.5, delay: 0.7 }}
@@ -423,6 +572,8 @@ export default function ProjectPage({ slug }: ProjectPageProps) {
                       display: 'flex',
                       justifyContent: 'flex-end',
                       gap: '8px',
+                      overflowX: 'auto',
+                      WebkitOverflowScrolling: 'touch',
                     },
                     thumbnails: {
                       width: 'auto',
@@ -444,69 +595,24 @@ export default function ProjectPage({ slug }: ProjectPageProps) {
 
         {/* Related Projects */}
         {relatedProjects.length > 0 && (
-          <motion.div 
+          <motion.div
             initial={{ y: 20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ duration: 0.5, delay: 1 }}
-            id="related" 
+            id="related"
             className="mb-16"
           >
             <h2 className="text-2xl font-kuunari-medium text-white mb-6">También podría interesarte</h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               {relatedProjects.map((relatedProject, index) => (
-                <motion.a
-                  key={relatedProject.slug}
-                  href={`/project/${relatedProject.slug}`}
-                  initial={{ y: 20, opacity: 0 }}
-                  animate={{ y: 0, opacity: 1 }}
-                  transition={{ duration: 0.5, delay: 1.1 + index * 0.1 }}
-                  className="group block"
-                >
-                  <div className="relative aspect-[3/2] overflow-hidden rounded-lg mb-2">
-                    <img
-                      src={relatedProject.image.src}
-                      alt={relatedProject.metadata.title}
-                      className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-                    />
-                    <div className="absolute inset-0 bg-accent-500/30 group-hover:bg-accent-500/0 transition-all duration-500">
-                      <div className="absolute bottom-6 left-6 right-6">
-                        <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-all duration-300 translate-y-4 group-hover:translate-y-0">
-                          <span className="text-white font-kuunari-medium text-sm">Ver detalle</span>
-                          <motion.svg 
-                            xmlns="http://www.w3.org/2000/svg" 
-                            className="h-4 w-4 text-white" 
-                            fill="none" 
-                            viewBox="0 0 24 24" 
-                            stroke="currentColor"
-                            initial={{ x: -20, opacity: 0 }}
-                            whileHover={{ x: 0, opacity: 1 }}
-                            transition={{ duration: 0.3 }}
-                          >
-                            <path 
-                              strokeLinecap="round" 
-                              strokeLinejoin="round" 
-                              strokeWidth={2} 
-                              d="M9 5l7 7-7 7" 
-                            />
-                          </motion.svg>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <h3 className="text-base font-kuunari-medium text-white group-hover:text-accent-500 transition-colors">
-                    {relatedProject.metadata.title}
-                  </h3>
-                  <p className="text-xs text-white/60 font-kuunari-light">
-                    {relatedProject.metadata.buildingType}
-                  </p>
-                </motion.a>
+                <ProjectCard key={relatedProject.slug} project={relatedProject} index={index} withOverlay={true} />
               ))}
             </div>
           </motion.div>
         )}
 
         {/* Navigation */}
-        <motion.div 
+        <motion.div
           initial={{ y: 20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ duration: 0.5, delay: 1.2 }}
@@ -556,15 +662,294 @@ export default function ProjectPage({ slug }: ProjectPageProps) {
         </motion.div>
       </motion.div>
 
-      <ContactForm 
-        client:load 
-        isOpen={isContactFormOpen} 
+      <ContactForm
+        client:load
+        isOpen={isContactFormOpen}
         onClose={() => {
           setIsContactFormOpen(false);
           document.body.style.overflow = 'auto';
-        }} 
-        projectTitle={project.metadata.title} 
+        }}
+        projectTitle={project.metadata.title}
       />
+      {/* Forzar scroll horizontal en thumbnails de react-image-gallery en mobile y aplicar estilos de scrollbar */}
+      <style>{`
+        /* Eliminar borders, box-shadow y padding en la galería para evitar micro-movimientos */
+        .image-gallery-content,
+        .image-gallery-slide-wrapper,
+        .image-gallery-slides,
+        .image-gallery-slide,
+        .image-gallery-image {
+          border: none !important;
+          box-shadow: none !important;
+          padding: 0 !important;
+          margin: 0 !important;
+        }
+        .image-gallery-slides,
+        .image-gallery-slide,
+        .image-gallery-slide-wrapper {
+          height: 100% !important;
+          min-height: 100% !important;
+          max-height: 100% !important;
+        }
+        /* Eliminar border y box-shadow de thumbnails activos */
+        .image-gallery-thumbnail.active,
+        .image-gallery-thumbnail.active .image-gallery-thumbnail-image {
+          border: none !important;
+          box-shadow: none !important;
+        }
+        /* Altura mínima para la imagen principal fuera de fullscreen */
+        .image-gallery-slide-wrapper,
+        .image-gallery-image {
+          min-height: 400px !important;
+          position: relative !important;
+        }
+        @media (min-width: 768px) {
+          .image-gallery-slide-wrapper,
+          .image-gallery-image {
+            min-height: 600px !important;
+          }
+        }
+        /* Botón fullscreen: posición fija en esquina inferior derecha, más abajo en fullscreen */
+        .image-gallery-fullscreen-button {
+          position: absolute !important;
+          bottom: 1rem !important;
+          right: 1rem !important;
+          z-index: 20 !important;
+          background: rgba(0,0,0,0.7) !important;
+          border-radius: 4px !important;
+          margin: 0 !important;
+          opacity: 0.85;
+          transition: bottom 0.3s, opacity 0.3s, all 0.3s ease !important;
+          width: 40px !important;
+          height: 40px !important;
+          display: flex !important;
+          align-items: center;
+          justify-content: center;
+          padding: 0 !important;
+          overflow: visible !important;
+        }
+        .image-gallery.fullscreen .image-gallery-fullscreen-button,
+        .image-gallery:fullscreen .image-gallery-fullscreen-button,
+        .image-gallery:-webkit-full-screen .image-gallery-fullscreen-button {
+          bottom: 1rem !important;
+        }
+        .image-gallery-fullscreen-button svg {
+          width: 24px !important;
+          height: 24px !important;
+          color: #fff !important;
+          stroke: #fff !important;
+          fill: none !important;
+          display: block !important;
+        }
+        .image-gallery-content:hover .image-gallery-fullscreen-button {
+          opacity: 1;
+        }
+        .image-gallery-fullscreen-button:hover {
+          background: #f9c461 !important;
+        }
+        .image-gallery-fullscreen-button:hover svg {
+          color: #121212 !important;
+          stroke: #121212 !important;
+        }
+        @media (max-width: 768px) {
+          .image-gallery-thumbnails-wrapper {
+            margin-bottom: 24px !important;
+          }
+          .image-gallery-slide-wrapper,
+          .image-gallery-slide,
+          .image-gallery-image,
+          .image-gallery-image img {
+            height: 500px !important;
+            min-height: 500px !important;
+            max-height: 500px !important;
+          }
+          .image-gallery.fullscreen .image-gallery-thumbnails-wrapper,
+          .image-gallery:fullscreen .image-gallery-thumbnails-wrapper,
+          .image-gallery:-webkit-full-screen .image-gallery-thumbnails-wrapper {
+            display: flex !important;
+            justify-content: center !important;
+            align-items: center !important;
+            overflow-x: auto !important;
+            overflow-y: hidden !important;
+            -webkit-overflow-scrolling: touch;
+            gap: 6px !important;
+            padding: 0 8px !important;
+            scrollbar-width: thin;
+            scrollbar-color: #f9c461 #121212;
+          }
+          .image-gallery.fullscreen .image-gallery-thumbnails,
+          .image-gallery:fullscreen .image-gallery-thumbnails,
+          .image-gallery:-webkit-full-screen .image-gallery-thumbnails {
+            flex-wrap: nowrap !important;
+            min-width: max-content;
+            justify-content: center !important;
+            gap: 6px !important;
+          }
+          .image-gallery.fullscreen .image-gallery-thumbnail,
+          .image-gallery:fullscreen .image-gallery-thumbnail,
+          .image-gallery:-webkit-full-screen .image-gallery-thumbnail {
+            width: 60px !important;
+            height: 45px !important;
+            min-width: 60px !important;
+            min-height: 45px !important;
+            max-width: 60px !important;
+            max-height: 45px !important;
+          }
+          .image-gallery-thumbnails-wrapper::-webkit-scrollbar {
+            height: 8px;
+            background: #121212;
+          }
+          .image-gallery-thumbnails-wrapper::-webkit-scrollbar-thumb {
+            background: #f9c461;
+            border-radius: 10px;
+          }
+          .image-gallery-thumbnails-wrapper::-webkit-scrollbar-track {
+            background: #121212;
+            border-radius: 10px;
+          }
+        }
+        /* FULLSCREEN: fuerza altura y object-fit en todos los modos de fullscreen */
+        body .image-gallery.fullscreen,
+        body .image-gallery.fullscreen .image-gallery-content,
+        body .image-gallery.fullscreen .image-gallery-swipe,
+        body .image-gallery.fullscreen .image-gallery-slide-wrapper,
+        body .image-gallery.fullscreen .image-gallery-slide,
+        body .image-gallery.fullscreen .image-gallery-image,
+        body .image-gallery.fullscreen .image-gallery-slide .image-gallery-image img,
+        body .image-gallery:fullscreen,
+        body .image-gallery:fullscreen .image-gallery-content,
+        body .image-gallery:fullscreen .image-gallery-swipe,
+        body .image-gallery:fullscreen .image-gallery-slide-wrapper,
+        body .image-gallery:fullscreen .image-gallery-slide,
+        body .image-gallery:fullscreen .image-gallery-image,
+        body .image-gallery:fullscreen .image-gallery-slide .image-gallery-image img,
+        body .image-gallery:-webkit-full-screen,
+        body .image-gallery:-webkit-full-screen .image-gallery-content,
+        body .image-gallery:-webkit-full-screen .image-gallery-swipe,
+        body .image-gallery:-webkit-full-screen .image-gallery-slide-wrapper,
+        body .image-gallery:-webkit-full-screen .image-gallery-slide,
+        body .image-gallery:-webkit-full-screen .image-gallery-image,
+        body .image-gallery:-webkit-full-screen .image-gallery-slide .image-gallery-image img {
+          height: 90vh !important;
+          min-height: 90vh !important;
+          max-height: 90vh !important;
+          object-fit: contain !important;
+          background: #121212 !important;
+        }
+        /* Botón salir de fullscreen */
+        .custom-exit-fullscreen {
+          display: none;
+        }
+        .image-gallery.fullscreen .custom-exit-fullscreen {
+          display: block;
+          position: absolute;
+          top: 1rem;
+          right: 1rem;
+          z-index: 30;
+          background: rgba(0,0,0,0.7);
+          color: #fff;
+          border: none;
+          border-radius: 50%;
+          width: 40px;
+          height: 40px;
+          font-size: 1.5rem;
+          cursor: pointer;
+          transition: background 0.2s;
+        }
+        .image-gallery.fullscreen .custom-exit-fullscreen:hover {
+          background: #f9c461;
+          color: #121212;
+        }
+        /* --- REGLAS FINALES PARA FORZAR PRIORIDAD --- */
+        @media (min-width: 768px) {
+          .image-gallery-slide-wrapper,
+          .image-gallery-slide,
+          .image-gallery-image,
+          .image-gallery-image img {
+            height: 700px !important;
+            min-height: 700px !important;
+            max-height: 700px !important;
+          }
+        }
+        /* Borde visible en los thumbnails */
+        .image-gallery-thumbnail {
+          border: 2px solid transparent !important;
+          box-shadow: none !important;
+          border-radius: 4px !important;
+          overflow: hidden !important;
+        }
+        .image-gallery-thumbnail.active {
+          border: 2px solid #f9c461 !important;
+          box-shadow: none !important;
+        }
+        .image-gallery-thumbnail.active .image-gallery-thumbnail-image {
+          border: none !important;
+          box-shadow: none !important;
+        }
+          @media (max-width: 768px) {
+          .image-gallery.fullscreen .image-gallery-thumbnails-wrapper,
+          .image-gallery:fullscreen .image-gallery-thumbnails-wrapper,
+          .image-gallery:-webkit-full-screen .image-gallery-thumbnails-wrapper {
+            display: flex !important;
+            justify-content: center !important;
+            align-items: center !important;
+            overflow-x: auto !important;
+            overflow-y: hidden !important;
+            -webkit-overflow-scrolling: touch;
+            gap: 6px !important;
+            padding: 0 8px !important;
+            scrollbar-width: thin;
+            scrollbar-color: #f9c461 #121212;
+          }
+          .image-gallery.fullscreen .image-gallery-thumbnails,
+          .image-gallery:fullscreen .image-gallery-thumbnails,
+          .image-gallery:-webkit-full-screen .image-gallery-thumbnails {
+            flex-wrap: nowrap !important;
+            min-width: max-content;
+            justify-content: center !important;
+            gap: 6px !important;
+          }
+          .image-gallery.fullscreen .image-gallery-thumbnail,
+          .image-gallery:fullscreen .image-gallery-thumbnail,
+          .image-gallery:-webkit-full-screen .image-gallery-thumbnail {
+            width: 60px !important;
+            height: 45px !important;
+            min-width: 60px !important;
+            min-height: 45px !important;
+            max-width: 60px !important;
+            max-height: 45px !important;
+          }
+          .image-gallery-thumbnails-wrapper::-webkit-scrollbar {
+            height: 8px;
+            background: #121212;
+          }
+          .image-gallery-thumbnails-wrapper::-webkit-scrollbar-thumb {
+            background: #f9c461;
+            border-radius: 10px;
+          }
+          .image-gallery-thumbnails-wrapper::-webkit-scrollbar-track {
+            background: #121212;
+            border-radius: 10px;
+          }
+        }
+      `}</style>
+      {/* Botón salir de fullscreen (solo visible en fullscreen) */}
+      <button
+        className="custom-exit-fullscreen"
+        type="button"
+        aria-label="Salir de pantalla completa"
+        onClick={() => {
+          // Intenta salir de fullscreen nativo
+          if (document.fullscreenElement) {
+            document.exitFullscreen();
+          }
+          // Quita la clase fullscreen de la galería si react-image-gallery la usa
+          const gal = document.querySelector('.image-gallery.fullscreen');
+          if (gal) gal.classList.remove('fullscreen');
+        }}
+      >
+        ×
+      </button>
     </main>
   );
 } 

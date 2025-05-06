@@ -17,9 +17,10 @@ const ProjectTag = ({ tag }: { tag: string }) => (
 interface ProjectCardProps {
   project: Project;
   index?: number;
+  withOverlay?: boolean;
 }
 
-const ProjectCard: React.FC<ProjectCardProps> = ({ project, index = 0 }) => {
+const ProjectCard: React.FC<ProjectCardProps> = ({ project, index = 0, withOverlay = false }) => {
   return (
     <a 
       href={`/project/${project.slug}`}
@@ -34,11 +35,25 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, index = 0 }) => {
       >
         <div className="relative aspect-[4/3] overflow-hidden rounded-lg bg-darkgray">
           <motion.img
-            src={project.image.src || project.image.toString()}
+            src={`/assets/projects/${project.slug}/${project.slug}-gallery-0-thumb.webp`}
             alt={project.metadata.title}
             className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
             loading="lazy"
+            onError={(e) => {
+              const target = e.target as HTMLImageElement;
+              if (!target.src.includes('placeholder-image.webp')) {
+                target.src = '/placeholder-image.webp';
+              } else {
+                target.onerror = null;
+              }
+            }}
           />
+          {withOverlay && (
+            <div
+              className="absolute inset-0 bg-black/40 transition-opacity duration-500 pointer-events-none group-hover:opacity-0 opacity-100"
+              style={{ background: '#0000006e' }}
+            ></div>
+          )}
           <div className="absolute inset-0 bg-gradient-to-t from-darkgray/90 via-darkgray/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
             <div className="absolute bottom-6 left-6 right-6">
               <div className="flex flex-wrap gap-2 mb-4">
