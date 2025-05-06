@@ -4,6 +4,7 @@ import { useProjectFilters } from "../hooks/useProjectFilters";
 import { Project } from "../types/project";
 import { tags } from "../data/data";
 import ProjectCard from './ProjectCard';
+import NotFoundIllustration from './NotFoundIllustration';
 
 interface AllProjectsProps {
   projects: Project[];
@@ -176,15 +177,25 @@ const AllProjects: React.FC<AllProjectsProps> = ({ projects }) => {
             transition={{ duration: 0.6 }}
             className="text-center py-12"
           >
+            <NotFoundIllustration />
             <p className="text-white text-lg mb-4">
               Vaya! Todavía no contamos con ningún proyecto con dichas características, sé el primero!
             </p>
-            <button
+            <motion.button
               type="button"
-              className="rounded-md bg-indigo-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+              className="rounded-md bg-accent-500 px-4 py-2 text-sm font-kuunari-medium text-darkgray shadow-sm hover:bg-accent-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-500"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ 
+                duration: 0.6,
+                delay: 0.4,
+                ease: "easeOut"
+              }}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
             >
               Contactar
-            </button>
+            </motion.button>
           </motion.div>
         ) : (
           <motion.div

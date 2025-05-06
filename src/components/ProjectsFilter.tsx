@@ -92,13 +92,13 @@ export default function ProjectsFilter() {
         >
           <DialogBackdrop
             transition
-            className="fixed inset-0 bg-black/50 transition-opacity duration-300 ease-linear data-[closed]:opacity-0"
+            className="fixed top-16 inset-x-0 bottom-0 bg-black/50 transition-opacity duration-300 ease-linear data-[closed]:opacity-0"
           />
 
-          <div className="fixed inset-0 z-50 flex">
+          <div className="fixed top-16 inset-x-0 bottom-0 z-50 flex">
             <DialogPanel
               transition
-              className="relative ml-auto flex size-full max-w-xs transform flex-col overflow-y-auto bg-darkgray py-4 pb-6 shadow-xl transition duration-300 ease-in-out data-[closed]:translate-x-full mt-16"
+              className="relative ml-auto flex size-full max-w-xs transform flex-col overflow-y-auto bg-[#101010] py-4 pb-6 shadow-xl transition duration-300 ease-in-out data-[closed]:translate-x-full"
             >
               <div className="flex items-center justify-between px-4">
                 <h2 className="text-lg font-kuunari-medium text-white">Filtros</h2>
@@ -270,7 +270,7 @@ export default function ProjectsFilter() {
           </div>
         </Dialog>
 
-        <main className="w-full max-w-7xl md:max-w-8xl mx-auto py-12 my-12 bg-darkgray">
+        <main className="w-full max-w-7xl md:max-w-8xl mx-auto py-12 my-12 bg-darkgray ">
           <motion.div 
             className="border-b border-white/10 pb-10"
             initial={{ opacity: 0, y: 20 }}
@@ -386,7 +386,7 @@ export default function ProjectsFilter() {
                 </h3>
                 <button
                   onClick={() => setIsContactFormOpen(true)}
-                  className="w-full inline-flex justify-center items-center px-4 py-2 border border-transparent text-sm font-kuunari-medium rounded-md text-white bg-accent-500 hover:bg-accent-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-accent-500 mb-6"
+                  className="w-full inline-flex justify-center items-center px-4 py-2 border border-transparent text-sm font-kuunari-medium rounded-md text-darkgray bg-accent-600 hover:bg-accent-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-accent-500 mb-6"
                 >
                   Solicitar propuesta →
                 </button>

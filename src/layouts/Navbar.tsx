@@ -90,11 +90,11 @@ export default function Navbar() {
   return (
     <Disclosure as="nav">
       {({ open }) => (
-        <nav className="fixed w-full top-0 z-50 bg-darkgray/95 backdrop-blur-sm">
+        <nav className="fixed w-full top-0 z-50 bg-[#101010] backdrop-blur-sm shadow-[4px_1px_6px_5px_#0c0c0c]">
           <div className={classNames(
             "mx-auto max-w-7xl lg:max-w-8xl px-0 min-2xl:px-20",
             {
-              "bg-darkgray/95 backdrop-blur-sm": open
+              "bg-[#101010] backdrop-blur-sm": open
             }
           )}>
             <div className="flex h-16 items-center justify-between">
@@ -152,13 +152,13 @@ export default function Navbar() {
 
                   <button
                     onClick={() => setIsContactFormOpen(true)}
-                    className="rounded-xl bg-accent-500 px-6 py-2 text-sm font-medium text-white hover:bg-accent-400 transition-colors duration-200"
+                    className="rounded-xl bg-accent-500 px-6 py-2 text-sm font-medium text-darkgray hover:bg-accent-400 transition-colors duration-200"
                   >
                     Iniciar Proyecto
                   </button>
                   <a
                     href="/projects"
-                    className="text-sm py-2 font-medium border-2 border-accent-white rounded-xl px-4 text-white hover:text-accent-400 hover:border-accent-400 transition-colors duration-200"
+                    className="text-sm py-2 font-medium border-2 border-accent-white rounded-xl px-4 text-white hover:text-accent-400 hover:border-accent-400 hover:border-t-accent-400 hover:border-r-accent-400 transition-all duration-300"
                   >
                     Galería
                   </a>
@@ -180,7 +180,7 @@ export default function Navbar() {
           </div>
 
           {/* Mobile menu panel */}
-          <Disclosure.Panel className="lg:hidden bg-darkgray/95 backdrop-blur-sm shadow-lg">
+          <Disclosure.Panel className="lg:hidden bg-[#101010] backdrop-blur-sm shadow-[4px_1px_6px_5px_#0c0c0c]">
             <div className="space-y-1 px-4 pb-3 pt-2">
               {NavbarOptions.map((option) => (
                 <Disclosure.Button

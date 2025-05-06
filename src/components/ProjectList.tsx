@@ -1,6 +1,7 @@
 import { Project } from '../types/project';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import ProjectCard from './ProjectCard';
+import NotFoundIllustration from './NotFoundIllustration';
 
 interface ProjectListProps {
   projects: Project[];
@@ -28,17 +29,18 @@ const ProjectList: React.FC<ProjectListProps> = ({ projects }) => {
       >
         <motion.div 
           className="col-span-full text-center space-y-4"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
           transition={{ 
             duration: 0.6,
             ease: "easeOut"
           }}
         >
+          <NotFoundIllustration />
           <motion.p 
             className="text-lg text-white/80 font-kuunari-light"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
             transition={{ 
               duration: 0.6,
               delay: 0.2,
@@ -51,8 +53,8 @@ const ProjectList: React.FC<ProjectListProps> = ({ projects }) => {
           <motion.button
             type="button"
             className="rounded-md bg-accent-500 px-4 py-2 text-sm font-kuunari-medium text-darkgray shadow-sm hover:bg-accent-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-500"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
             transition={{ 
               duration: 0.6,
               delay: 0.4,
@@ -69,14 +71,29 @@ const ProjectList: React.FC<ProjectListProps> = ({ projects }) => {
   }
 
   return (
-    <div
+    <motion.div
       id="project-list"
       className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 min-h-[600px]"
+      layout
     >
-      {projects.map((project, idx) => (
-        <ProjectCard key={project.id} project={project} index={idx} />
-      ))}
-    </div>
+      <AnimatePresence mode="popLayout">
+        {projects.map((project, idx) => (
+          <motion.div
+            key={project.id}
+            layout
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{
+              opacity: { duration: 0.3 },
+              layout: { duration: 0.4, ease: "easeInOut" }
+            }}
+          >
+            <ProjectCard project={project} index={idx} />
+          </motion.div>
+        ))}
+      </AnimatePresence>
+    </motion.div>
   );
 };
 

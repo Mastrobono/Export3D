@@ -132,7 +132,7 @@ const AboutUs = () => {
                   delay: 0.3
                 }
               }}
-              viewport={{ once: true, margin: "-200px" }}
+              viewport={{ once: true, amount: 0.3 }}
             >
               <motion.div 
                 initial={{ opacity: 0, y: 20 }}
@@ -144,7 +144,7 @@ const AboutUs = () => {
                     delay: 0.4
                   }
                 }}
-                viewport={{ once: true, margin: "-200px" }}
+                viewport={{ once: true, amount: 0.3 }}
                 className="space-y-4"
               >
                 <div className="text-accent-500 text-4xl font-kuunari-bold">+10</div>
@@ -160,7 +160,7 @@ const AboutUs = () => {
                     delay: 0.5
                   }
                 }}
-                viewport={{ once: true, margin: "-200px" }}
+                viewport={{ once: true, amount: 0.3 }}
                 className="space-y-4"
               >
                 <div className="text-accent-500 text-4xl font-kuunari-bold">+200</div>
@@ -176,7 +176,7 @@ const AboutUs = () => {
                     delay: 0.6
                   }
                 }}
-                viewport={{ once: true, margin: "-200px" }}
+                viewport={{ once: true, amount: 0.3 }}
                 className="space-y-4"
               >
                 <div className="text-accent-500 text-4xl font-kuunari-bold">100%</div>

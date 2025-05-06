@@ -421,22 +421,25 @@ export default function ProjectPage({ slug, galleryImages }: ProjectPageProps) {
           transition={{ duration: 0.5, delay: 0.5 }}
           className="mb-16"
         >
-          <div className="grid grid-cols-1 lg:grid-cols-[1fr_3fr] gap-12">
+          <div className="grid grid-cols-1 lg:grid-cols-[.7fr_3.3fr] gap-8 items-start">
             {/* Left Column - Project Info */}
-            <div className="lg:pr-8">
+            <div
+              className="lg:mt-[75px] lg:pr-8 flex flex-col h-full"
+              style={{ height: '100%' }}
+            >
               {/* Botón Volver a galería */}
               <motion.a
                 href="/projects"
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.5, delay: 0.2 }}
-                className="inline-flex items-center mb-4 text-white/60 hover:text-accent-500 transition-colors font-kuunari-medium text-base group"
+                className="inline-flex items-center mb-2 text-white/40 hover:text-accent-400 transition-colors text-base group"
                 whileHover="hovered"
                 variants={{ hovered: {} }}
               >
                 <motion.span
-                  className="mr-2 h-5 w-5 flex items-center"
-                  variants={{ hovered: { x: -6 }, initial: { x: 0 } }}
+                  className="mr-1 h-4 w-4 flex items-center"
+                  variants={{ hovered: { x: -4 }, initial: { x: 0 } }}
                   initial="initial"
                   animate="initial"
                 >
@@ -444,7 +447,7 @@ export default function ProjectPage({ slug, galleryImages }: ProjectPageProps) {
                     fill="none"
                     viewBox="0 0 24 24"
                     stroke="currentColor"
-                    className="h-5 w-5"
+                    className="h-4 w-4"
                   >
                     <path
                       strokeLinecap="round"
@@ -458,10 +461,10 @@ export default function ProjectPage({ slug, galleryImages }: ProjectPageProps) {
                   Volver a galería
                 </span>
               </motion.a>
-              <h1 className="text-[4.5rem] leading-[1.1] font-semibold tracking-tight text-white font-kuunari-medium">
+              <h1 className="text-[5rem] leading-[1.1] font-semibold tracking-tight text-white font-kuunari-medium">
                 {project.metadata.title}
               </h1>
-              <p className="mt-4 text-xl text-white/80 font-kuunari-light">
+              <p className="mt-4 text-2xl text-white/80 font-kuunari-light">
                 {project.metadata.location}
               </p>
 
@@ -475,31 +478,29 @@ export default function ProjectPage({ slug, galleryImages }: ProjectPageProps) {
               >
                 <dl className="space-y-4">
                   <div>
-                    <dt className="text-white/60 font-kuunari-light">Cliente</dt>
-                    <dd className="text-white font-kuunari-medium">{project.metadata.client}</dd>
+                    <dt className="text-white/60 font-kuunari-light text-lg">Cliente</dt>
+                    <dd className="text-white font-kuunari-medium text-xl">{project.metadata.client}</dd>
                   </div>
                   <div>
-                    <dt className="text-white/60 font-kuunari-light">Tipo</dt>
-                    <dd className="text-white font-kuunari-medium">{project.metadata.buildingType}</dd>
+                    <dt className="text-white/60 font-kuunari-light text-lg">Tipo</dt>
+                    <dd className="text-white font-kuunari-medium text-xl">{project.metadata.buildingType}</dd>
                   </div>
                   <div>
-                    <dt className="text-white/60 font-kuunari-light">Rol</dt>
-                    <dd className="text-white font-kuunari-medium">{project.metadata.role}</dd>
+                    <dt className="text-white/60 font-kuunari-light text-lg">Rol</dt>
+                    <dd className="text-white font-kuunari-medium text-xl">{project.metadata.role}</dd>
                   </div>
                   <div>
-                    <dt className="text-white/60 font-kuunari-light">Fecha</dt>
-                    <dd className="text-white font-kuunari-medium">{project.metadata.date}</dd>
+                    <dt className="text-white/60 font-kuunari-light text-lg">Fecha</dt>
+                    <dd className="text-white font-kuunari-medium text-xl">{project.metadata.date}</dd>
                   </div>
                 </dl>
               </motion.div>
 
               <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
                 onClick={() => setIsContactFormOpen(true)}
-                className="mt-8 inline-flex items-center px-4 py-2 border border-transparent text-sm font-kuunari-medium rounded-md text-white bg-accent-500 hover:bg-accent-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-accent-500"
+                className="mt-8 self-start px-4 py-2 border border-transparent text-sm font-kuunari-medium rounded-md text-darkgray bg-accent-500 hover:bg-accent-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-accent-500"
               >
-                Contactar para Proyecto Similar
+                Iniciar proyecto
               </motion.button>
             </div>
 
@@ -611,12 +612,12 @@ export default function ProjectPage({ slug, galleryImages }: ProjectPageProps) {
           </motion.div>
         )}
 
-        {/* Navigation */}
+        {/* Navigation (debajo de 'También podría interesarte') */}
         <motion.div
           initial={{ y: 20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ duration: 0.5, delay: 1.2 }}
-          className="flex justify-between items-center border-t border-white/10 pt-8"
+          className="flex justify-between items-center border-t border-white/10 pt-8 mt-8"
         >
           <motion.a
             whileHover={{ x: -5 }}

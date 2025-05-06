@@ -84,7 +84,7 @@ const Footer = () => {
 
   return (
     <motion.footer
-      className="bg-darkgray relative"
+      className="bg-[#101010] relative"
       initial={{ opacity: 0, y: 50 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
