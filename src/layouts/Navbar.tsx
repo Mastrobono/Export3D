@@ -11,10 +11,12 @@ import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 export default function Navbar() {
   const [activeSection, setActiveSection] = useState("");
   const [isContactFormOpen, setIsContactFormOpen] = useState(false);
+  const [isAtTop, setIsAtTop] = useState(true);
 
   // Handle scroll event and current section
   useEffect(() => {
     const handleScroll = () => {
+      setIsAtTop(window.scrollY <= 0);
       const scrollPosition = window.scrollY;
       const heroSection = document.getElementById("hero");
 

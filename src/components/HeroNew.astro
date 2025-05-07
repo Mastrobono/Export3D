@@ -1,0 +1,337 @@
+---
+import background from "../assets/background.webp";
+import Container from "../layouts/Container";
+---
+
+<Container
+  id="hero"
+  classNames="mt-24 mb-12 relative max-w-7xl lg:max-w-8xl rounded-md"
+>
+  <div id="hero-container" class="relative h-[85vh] overflow-hidden rounded-md">
+    {/* Background with effects */}
+    <div class="absolute inset-0 z-0">
+      <div id="parallax-image" class="relative w-full h-full">
+        <img
+          class="w-full h-full object-cover object-[center_65%] rounded-md"
+          src={background.src}
+          alt="Architectural visualization"
+          fetchpriority="high"
+        />
+      </div>
+
+      {/* Dark overlay with radial transparency */}
+      <div class="absolute inset-0 radial-dark-overlay"></div>
+
+      {/* Spotlight effect */}
+      <div
+        id="spotlight"
+        class="absolute inset-0 pointer-events-none mix-blend-soft-light"
+      >
+        <div
+          class="absolute spotlight-glow opacity-0 transition-opacity duration-500"
+        >
+        </div>
+      </div>
+
+      {/* Bottom dark overlay for smooth transition */}
+      <div
+        class="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-darkgray to-transparent"
+      >
+      </div>
+    </div>
+
+    {/* Main Content */}
+    <main class="relative z-10 h-[85vh]">
+      {/* Left-aligned content */}
+      <div class="absolute bottom-40 left-12 lg:left-12 text-left z-20">
+        {/* Main title */}
+        <h1
+          class="text-[12rem] text-white leading-[0.8] font-kuunari-bold tracking-[-12px] drop-shadow-[0_4px_20px_rgba(0,0,0,0.4)] main-title"
+        >
+          Export<span class="text-accent-500 leading-[0.8]">3d</span>.
+        </h1>
+
+        {/* Subtitle */}
+        <p
+          class="mt-6 text-[32px] tracking-[.7px] font-kuunari-light text-white/90 max-w-2xl subtitle-text"
+        >
+          Visualizá el <span class="text-accent-500">futuro</span>, construí el <span
+            class="text-accent-500">mañana</span
+          >.
+        </p>
+      </div>
+
+      {/* Right column with marketing text */}
+      <div
+        class="absolute bottom-40 right-12 lg:right-10 text-right max-w-md marketing-text flex flex-col justify-start"
+      >
+        <div class="space-y-6">
+          <p
+            class="text-[28px] leading-[1.1] font-kuunari-medium text-white/90"
+          >
+            Transformamos visiones en realidades arquitectónicas, fusionando
+            innovación y precisión en cada proyecto.
+          </p>
+
+          <div class="space-y-4">
+            <div class="flex items-center justify-end gap-3">
+              <span class="text-accent-500 text-lg">01</span>
+              <p class="text-white/60 text-lg">Visualización Arquitectónica</p>
+            </div>
+            <div class="flex items-center justify-end gap-3">
+              <span class="text-accent-500 text-lg">02</span>
+              <p class="text-white/60 text-lg">Proyecto y Dirección de Obra</p>
+            </div>
+          </div>
+
+          <button
+            class="mt-8 inline-flex items-center gap-2 text-accent-500 hover:text-white transition-colors duration-300 group descubrimas-btn"
+            type="button"
+          >
+            <span
+              class="text-base uppercase tracking-widest font-kuunari-regular"
+              >Descubrí más</span
+            >
+            <svg
+              class="w-5 h-5 transform group-hover:translate-x-1 transition-transform"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M5 12H19M19 12L12 5M19 12L12 19"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"></path>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      {/* Wave divider */}
+      <div
+        class="absolute -bottom-1 left-0 right-0 w-full z-10 overflow-hidden"
+      >
+        <svg
+          class="relative block w-full h-[180px]"
+          viewBox="0 0 1200 120"
+          preserveAspectRatio="none"
+        >
+          <path
+            d="M600,0L400,60L200,30L0,40L0,120L1200,120L1200,40L1000,30L800,60L600,0Z"
+            class="fill-darkgray divider-pattern"></path>
+          <path
+            d="M600,20L450,70L250,45L0,50L0,120L1200,120L1200,50L950,45L750,70L600,20Z"
+            class="fill-darkgray/70 divider-pattern"></path>
+          <path
+            d="M600,40L500,80L300,60L0,65L0,120L1200,120L1200,65L900,60L700,80L600,40Z"
+            class="fill-darkgray/40 divider-pattern"></path>
+        </svg>
+      </div>
+
+      {/* Additional dark gradient for smooth transition */}
+      <div
+        class="absolute bottom-0 left-0 right-0 h-48 bg-gradient-to-t from-darkgray via-darkgray/80 to-transparent z-[5]"
+      >
+      </div>
+    </main>
+  </div>
+</Container>
+
+<script>
+  const heroContainer = document.getElementById(
+    "hero-container",
+  ) as HTMLDivElement;
+  const spotlight = document
+    .getElementById("spotlight")
+    ?.querySelector(".spotlight-glow") as HTMLDivElement;
+
+  if (heroContainer && spotlight) {
+    let spotlightTimeout: ReturnType<typeof setTimeout>;
+
+    heroContainer.addEventListener("mousemove", (e) => {
+      const rect = heroContainer.getBoundingClientRect();
+
+      // Update spotlight
+      clearTimeout(spotlightTimeout);
+      const cursorX = e.clientX - rect.left - 400;
+      const cursorY = e.clientY - rect.top - 400;
+      spotlight.style.opacity = "1";
+      spotlight.style.transform = `translate3d(${cursorX}px, ${cursorY}px, 0)`;
+    });
+
+    heroContainer.addEventListener("mouseleave", () => {
+      spotlight.style.opacity = "0";
+      spotlightTimeout = setTimeout(() => {
+        spotlight.style.transform = "translate(-100%, -100%)";
+      }, 500);
+    });
+  }
+
+  // Scroll to services functionality
+  const scrollButton = document.querySelector(".scroll-to-about");
+  const servicesSection = document.getElementById("about");
+
+  if (scrollButton && servicesSection) {
+    scrollButton.addEventListener("click", () => {
+      const rect = servicesSection.getBoundingClientRect();
+      const scrollTop =
+        window.pageYOffset || document.documentElement.scrollTop;
+      // Offset específico para dejar espacio arriba
+      const offset = -120;
+      window.scrollTo({
+        top: rect.top + scrollTop + offset,
+        behavior: "smooth",
+      });
+    });
+  }
+
+  // Text animations
+  document.addEventListener("DOMContentLoaded", () => {
+    const mainTitle = document.querySelector(".main-title");
+    const subtitleText = document.querySelector(".subtitle-text");
+    const marketingText = document.querySelector(".marketing-text");
+
+    if (mainTitle) {
+      setTimeout(() => {
+        mainTitle.classList.add("animate-fade-in-up");
+      }, 500);
+    }
+
+    if (subtitleText) {
+      setTimeout(() => {
+        subtitleText.classList.add("animate-fade-in-up");
+      }, 800);
+    }
+
+    if (marketingText) {
+      setTimeout(() => {
+        marketingText.classList.add("animate-fade-in-up");
+      }, 1100);
+    }
+
+    // Descubrí más scroll functionality
+    const descubrimasBtn = document.querySelector('.descubrimas-btn');
+    if (descubrimasBtn && servicesSection) {
+      descubrimasBtn.addEventListener('click', () => {
+        const rect = servicesSection.getBoundingClientRect();
+        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        const offset = -120;
+        window.scrollTo({
+          top: rect.top + scrollTop + offset,
+          behavior: 'smooth'
+        });
+      });
+    }
+  });
+</script>
+
+<style>
+  /* Radial dark overlay */
+  .radial-dark-overlay {
+    background: radial-gradient(
+      circle at center,
+      rgba(16, 16, 16, 0.2) 0%,
+      rgba(16, 16, 16, 0.3) 40%,
+      rgba(16, 16, 16, 0.6) 100%
+    );
+  }
+
+  /* Spotlight effect */
+  .spotlight-glow {
+    width: 800px;
+    height: 800px;
+    border-radius: 50%;
+    background: radial-gradient(
+      circle at center,
+      rgba(255, 255, 255, 0.25) 0%,
+      rgba(255, 255, 255, 0.15) 20%,
+      rgba(255, 255, 255, 0.1) 30%,
+      transparent 70%
+    );
+    transform-origin: center;
+    will-change: transform, opacity;
+    pointer-events: none;
+  }
+
+  /* Scroll line animation */
+  .scroll-line {
+    animation: scrollPulse 2s ease-in-out infinite;
+  }
+
+  @keyframes scrollPulse {
+    0%,
+    100% {
+      transform: scaleY(0.5);
+      opacity: 0.5;
+    }
+    50% {
+      transform: scaleY(1);
+      opacity: 1;
+    }
+  }
+
+  /* Divider pattern and animation */
+  .divider-pattern {
+    mask-image: url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='1' cy='1' r='0.5' fill='%23000'/%3E%3C/svg%3E");
+    mask-size: 12px 12px;
+    animation: patternFloat 15s linear infinite;
+  }
+
+  @keyframes patternFloat {
+    0% {
+      mask-position: 0 0;
+    }
+    100% {
+      mask-position: 100px 0;
+    }
+  }
+
+  /* Animation keyframes */
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Animation classes */
+  .animate-fade-in-up {
+    animation: fadeInUp 0.8s ease-out forwards;
+  }
+
+  .animate-fade-in-up-last {
+    animation: fadeInUp 0.8s ease-out 2.1s forwards;
+    opacity: 0;
+  }
+
+  /* SVG animation */
+  .eyebrow-text svg {
+    animation: float 3s ease-in-out infinite;
+  }
+
+  @keyframes float {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-5px);
+    }
+  }
+
+  /* Marketing text animation */
+  .marketing-text {
+    opacity: 0;
+  }
+
+  .marketing-text.animate-fade-in-up {
+    animation: fadeInUp 0.8s ease-out forwards;
+  }
+</style>
+
