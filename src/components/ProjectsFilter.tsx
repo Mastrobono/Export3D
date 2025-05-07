@@ -85,7 +85,7 @@ export default function ProjectsFilter() {
     <div
       data-section="projects"
       id="projects"
-      className="relative min-h-[max-content] overflow-hidden my-24 mx-auto max-w-7xl md:max-w-8xl rounded-md bg-lightgray shadow-xl"
+      className="relative min-h-[max-content] my-24 mx-auto max-w-7xl md:max-w-8xl rounded-md bg-lightgray shadow-xl"
     >
       {/* Background effects (igual que AboutUs) */}
       <div className="absolute inset-0 z-0">
@@ -113,7 +113,7 @@ export default function ProjectsFilter() {
                 className="relative ml-auto flex size-full max-w-xs transform flex-col overflow-y-auto bg-[#101010] py-4 pb-6 shadow-xl transition duration-300 ease-in-out data-[closed]:translate-x-full"
               >
                 <div className="flex items-center justify-between px-4">
-                  <h2 className="text-lg font-kuunari-medium text-white">Filtros</h2>
+                  <h2 className="text-2xl font-kuunari-bold text-white">Filtros</h2>
                   <button
                     type="button"
                     onClick={() => setMobileFiltersOpen(false)}
@@ -134,8 +134,8 @@ export default function ProjectsFilter() {
                     >
                       <fieldset>
                         <legend className="w-full px-2">
-                          <DisclosureButton className="group flex w-full items-center justify-between p-2 text-white/60 hover:text-accent-500">
-                            <span className="text-sm font-kuunari-medium text-white">
+                          <DisclosureButton className="group flex w-full items-center justify-between p-2 text-lg font-kuunari-medium text-white/80 hover:text-accent-500">
+                            <span className="text-lg font-kuunari-medium text-white">
                               {section.name}
                             </span>
                             <span className="ml-6 flex h-7 items-center">
@@ -185,7 +185,7 @@ export default function ProjectsFilter() {
                                 </div>
                                 <label
                                   htmlFor={`${section.id}-${optionIdx}-mobile`}
-                                  className="text-sm text-white/80 font-kuunari-light"
+                                  className="text-base text-white/80 font-kuunari-light"
                                 >
                                   {option.label}
                                 </label>
@@ -205,7 +205,7 @@ export default function ProjectsFilter() {
                   </h3>
                   <button
                     onClick={() => setIsContactFormOpen(true)}
-                    className="w-full inline-flex justify-center items-center px-4 py-2 border border-transparent text-sm font-kuunari-medium rounded-md text-white bg-accent-500 hover:bg-accent-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-accent-500 mb-6"
+                    className="w-full inline-flex justify-center items-center px-4 py-2 border border-transparent text-base font-kuunari-medium rounded-md text-white bg-accent-500 hover:bg-accent-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-accent-500 mb-6"
                   >
                     Solicitar propuesta →
                   </button>
@@ -291,7 +291,7 @@ export default function ProjectsFilter() {
             >
               <div className="flex items-center justify-between">
                 <motion.h1 
-                  className="text-4xl font-kuunari-medium tracking-tight text-white"
+                  className="text-title-md md:text-title-lg font-kuunari-bold tracking-tight text-white"
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ duration: 0.6, delay: 0.2, ease: "easeOut" }}
@@ -306,7 +306,7 @@ export default function ProjectsFilter() {
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ duration: 0.6, delay: 0.2, ease: "easeOut" }}
                 >
-                  <span className="text-sm font-kuunari-medium text-white/80">
+                  <span className="text-base font-kuunari-medium text-white/80">
                     Filtros
                   </span>
                   <PlusIcon
@@ -322,7 +322,7 @@ export default function ProjectsFilter() {
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.6, delay: 0.4, ease: "easeOut" }}
-                className="lg:sticky lg:top-24 lg:h-[calc(100vh-6rem)] lg:overflow-y-auto lg:flex lg:flex-col"
+                className="hidden lg:flex lg:flex-col sticky top-24 max-h-[calc(100vh-6rem)] overflow-y-auto"
               >
                 <h2 className="sr-only">Filtros</h2>
 
@@ -337,7 +337,7 @@ export default function ProjectsFilter() {
                         transition={{ duration: 0.5, delay: 0.5 + index * 0.1 }}
                       >
                         <fieldset>
-                          <legend className="block text-sm font-kuunari-medium text-white">
+                          <legend className="block text-lg font-kuunari-medium text-white">
                             {section.name}
                           </legend>
                           <div className="space-y-3 pt-6">
@@ -378,7 +378,7 @@ export default function ProjectsFilter() {
                                 </div>
                                 <label
                                   htmlFor={`${section.id}-${optionIdx}`}
-                                  className="text-sm text-white/80 font-kuunari-light"
+                                  className="text-base text-white/80 font-kuunari-light"
                                 >
                                   {option.label}
                                 </label>
@@ -398,7 +398,7 @@ export default function ProjectsFilter() {
                   </h3>
                   <button
                     onClick={() => setIsContactFormOpen(true)}
-                    className="w-full inline-flex justify-center items-center px-4 py-2 border border-transparent text-sm font-kuunari-medium rounded-md text-darkgray bg-accent-600 hover:bg-accent-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-accent-500 mb-6"
+                    className="w-full inline-flex justify-center items-center px-4 py-2 border border-transparent text-base font-kuunari-medium rounded-md text-darkgray bg-accent-600 hover:bg-accent-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-accent-500 mb-6"
                   >
                     Solicitar propuesta →
                   </button>
