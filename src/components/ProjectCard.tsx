@@ -1,26 +1,42 @@
 import { motion } from 'framer-motion';
 import { Project } from '../types/project';
+import { useTranslations } from '../i18n/utils';
 
-const ProjectTag = ({ tag }: { tag: string }) => (
-  <span
-    style={{
-      backgroundColor: 'rgba(255, 255, 255, 0.1)',
-      backdropFilter: 'blur(4px)',
-      WebkitBackdropFilter: 'blur(4px)'
-    }}
-    className="text-[14px] font-kuunari-medium text-accent-500 rounded-[20px] py-1 px-4 border-accent-500 border-solid border-2"
-  >
-    {tag}
-  </span>
-);
+const ProjectTag = ({ tag, lang }: { tag: string; lang?: 'es' | 'en' }) => {
+  const t = lang ? useTranslations(lang) : (x: string) => x;
+  // Intentar traducir como filtro de tipo, rol o fecha
+  let translated = t(`filters.buildingType.${tag}` as any);
+  if (!translated || typeof translated !== 'string' || translated === `filters.buildingType.${tag}`) {
+    translated = t(`filters.role.${tag}` as any);
+  }
+  if (!translated || typeof translated !== 'string' || translated === `filters.role.${tag}`) {
+    translated = t(`filters.date.${tag}` as any);
+  }
+  // Si no hay traducción, mostrar el tag original
+  if (!translated || typeof translated !== 'string' || (translated.startsWith && translated.startsWith('filters.'))) translated = tag;
+  return (
+    <span
+      style={{
+        backgroundColor: 'rgba(255, 255, 255, 0.1)',
+        backdropFilter: 'blur(4px)',
+        WebkitBackdropFilter: 'blur(4px)'
+      }}
+      className="text-[14px] font-kuunari-medium text-accent-500 rounded-[20px] py-1 px-4 border-accent-500 border-solid border-2"
+    >
+      {translated}
+    </span>
+  );
+};
 
 interface ProjectCardProps {
   project: Project;
   index?: number;
   withOverlay?: boolean;
+  lang?: 'es' | 'en';
 }
 
-const ProjectCard: React.FC<ProjectCardProps> = ({ project, index = 0, withOverlay = false }) => {
+const ProjectCard: React.FC<ProjectCardProps> = ({ project, index = 0, withOverlay = false, lang }) => {
+  const t = lang ? useTranslations(lang) : (x: string) => x;
   return (
     <a 
       href={`/project/${project.slug}`}
@@ -41,8 +57,8 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, index = 0, withOverl
             loading="lazy"
             onError={(e) => {
               const target = e.target as HTMLImageElement;
-              if (!target.src.includes('placeholder-image.webp')) {
-                target.src = '/placeholder-image.webp';
+              if (!target.src.includes('placeholder-image.svg')) {
+                target.src = '/placeholder-image.svg';
               } else {
                 target.onerror = null;
               }
@@ -57,9 +73,9 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, index = 0, withOverl
           <div className="absolute inset-0 bg-gradient-to-t from-darkgray/90 via-darkgray/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
             <div className="absolute bottom-6 left-6 right-6">
               <div className="flex flex-wrap gap-2 mb-4">
-                <ProjectTag tag={project.metadata.buildingType} />
-                <ProjectTag tag={project.metadata.date} />
-                <ProjectTag tag={project.metadata.role} />
+                <ProjectTag tag={project.metadata.buildingType} lang={lang} />
+                <ProjectTag tag={project.metadata.date} lang={lang} />
+                <ProjectTag tag={project.metadata.role} lang={lang} />
               </div>
             </div>
           </div>
@@ -75,7 +91,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, index = 0, withOverl
             <div 
               className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-all duration-300 translate-x-4 group-hover:translate-x-0"
             >
-              <span className="text-accent-500 font-kuunari-medium text-sm">Ver detalle</span>
+              <span className="text-accent-500 font-kuunari-medium text-sm">{t('project.seeDetail')}</span>
               <svg 
                 xmlns="http://www.w3.org/2000/svg" 
                 className="h-4 w-4 text-accent-500" 

@@ -1,6 +1,27 @@
 ---
 import background from "../assets/background.webp";
 import Container from "../layouts/Container";
+import { useTranslations } from '../i18n/utils';
+import { ui } from '../i18n/ui';
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+
+// Función para procesar el texto con palabras resaltadas
+function processHighlightedText(text: string, lang: keyof typeof ui) {
+  const highlightedWords = ui[lang]['hero.highlighted'];
+  let processedText = text;
+  
+  Object.entries(highlightedWords).forEach(([key, word]) => {
+    const placeholder = `{${key}}`;
+    const highlightedWord = `<span class="text-accent-500">${word}</span>`;
+    processedText = processedText.replace(placeholder, highlightedWord);
+  });
+  
+  return processedText;
+}
+
+const subtitle = processHighlightedText(t('hero.subtitle') as string, lang);
 ---
 
 <Container
@@ -50,16 +71,14 @@ import Container from "../layouts/Container";
           <h1
             class="text-[6rem] sm:text-[8rem] md:text-[10rem] lg:text-[12rem] text-white leading-[0.8] font-kuunari-bold tracking-[-8px] md:tracking-[-12px] drop-shadow-[0_4px_20px_rgba(0,0,0,0.4)] main-title"
           >
-            Export<span class="text-accent-500 leading-[0.8]">3d</span>.
+            {t('hero.title')}
           </h1>
 
           {/* Subtitle */}
           <p
             class="mt-6 text-[24px] sm:text-[28px] lg:text-[32px] tracking-[.7px] font-kuunari-light text-white/90 max-w-2xl subtitle-text"
+            set:html={subtitle}
           >
-            Visualizá el <span class="text-accent-500">futuro</span>, construí el <span
-              class="text-accent-500">mañana</span
-            >.
           </p>
         </div>
 
@@ -71,18 +90,17 @@ import Container from "../layouts/Container";
             <p
               class="text-[20px] sm:text-[24px] lg:text-[28px] leading-[1.1] font-kuunari-medium text-white/90"
             >
-              Transformamos visiones en realidades arquitectónicas, fusionando
-              innovación y precisión en cada proyecto.
+              {t('hero.description')}
             </p>
 
             <div class="space-y-4">
               <div class="flex items-center lg:justify-end gap-3">
                 <span class="text-accent-500 text-lg">01</span>
-                <p class="text-white/60 text-lg">Visualización Arquitectónica</p>
+                <p class="text-white/60 text-lg">{t('hero.service1')}</p>
               </div>
               <div class="flex items-center lg:justify-end gap-3">
                 <span class="text-accent-500 text-lg">02</span>
-                <p class="text-white/60 text-lg">Proyecto y Dirección de Obra</p>
+                <p class="text-white/60 text-lg">{t('hero.service2')}</p>
               </div>
             </div>
 
@@ -92,7 +110,7 @@ import Container from "../layouts/Container";
             >
               <span
                 class="text-base uppercase tracking-widest font-kuunari-regular"
-                >Descubrí más</span
+                >{t('hero.cta')}</span
               >
               <svg
                 class="w-5 h-5 transform group-hover:translate-x-1 transition-transform"
@@ -190,44 +208,37 @@ import Container from "../layouts/Container";
     });
   }
 
-  // Text animations
-  document.addEventListener("DOMContentLoaded", () => {
-    const mainTitle = document.querySelector(".main-title");
-    const subtitleText = document.querySelector(".subtitle-text");
-    const marketingText = document.querySelector(".marketing-text");
+  function restartAnimation(el: HTMLElement | null, className: string) {
+    if (!el) return;
+    el.classList.remove(className);
+    void el.offsetWidth;
+    el.classList.add(className);
+  }
 
-    if (mainTitle) {
-      setTimeout(() => {
-        mainTitle.classList.add("animate-fade-in-up");
-      }, 500);
-    }
-
-    if (subtitleText) {
-      setTimeout(() => {
-        subtitleText.classList.add("animate-fade-in-up");
-      }, 800);
-    }
-
-    if (marketingText) {
-      setTimeout(() => {
-        marketingText.classList.add("animate-fade-in-up");
-      }, 1100);
-    }
-
-    // Descubrí más scroll functionality
-    const descubrimasBtn = document.querySelector('.descubrimas-btn');
-    if (descubrimasBtn && servicesSection) {
-      descubrimasBtn.addEventListener('click', () => {
-        const rect = servicesSection.getBoundingClientRect();
-        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-        const offset = -120;
-        window.scrollTo({
-          top: rect.top + scrollTop + offset,
-          behavior: 'smooth'
-        });
-      });
-    }
+  // Ejecutar las animaciones una sola vez cuando el DOM esté listo
+  document.addEventListener('DOMContentLoaded', () => {
+    const mainTitle = document.querySelector(".main-title") as HTMLElement | null;
+    const subtitleText = document.querySelector(".subtitle-text") as HTMLElement | null;
+    const marketingText = document.querySelector(".marketing-text") as HTMLElement | null;
+    
+    restartAnimation(mainTitle, "animate-fade-in-up");
+    restartAnimation(subtitleText, "animate-fade-in-up");
+    restartAnimation(marketingText, "animate-fade-in-up");
   });
+
+  // Descubrí más scroll functionality
+  const descubrimasBtn = document.querySelector('.descubrimas-btn');
+  if (descubrimasBtn && servicesSection) {
+    descubrimasBtn.addEventListener('click', () => {
+      const rect = servicesSection.getBoundingClientRect();
+      const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+      const offset = -120;
+      window.scrollTo({
+        top: rect.top + scrollTop + offset,
+        behavior: 'smooth'
+      });
+    });
+  }
 </script>
 
 <style>
@@ -333,6 +344,15 @@ import Container from "../layouts/Container";
     opacity: 0;
   }
 
+  .marketing-text.animate-fade-in-up {
+    animation: fadeInUp 0.8s ease-out forwards;
+  }
+
+  .main-title, .subtitle-text, .marketing-text {
+    opacity: 0;
+  }
+  .main-title.animate-fade-in-up,
+  .subtitle-text.animate-fade-in-up,
   .marketing-text.animate-fade-in-up {
     animation: fadeInUp 0.8s ease-out forwards;
   }

@@ -16,6 +16,7 @@ import ContactForm from "./ContactForm";
 import { getFilterTranslation } from "../constants/translations";
 import { Project } from "../types/project";
 import { Dispatch, SetStateAction } from "react";
+import { useTranslations } from '../i18n/utils';
 
 interface FilterOption {
   value: string;
@@ -28,14 +29,9 @@ interface FilterSection {
   options: FilterOption[];
 }
 
-const filters: FilterSection[] = Object.keys(tags).map((key) => ({
-  id: key as keyof typeof tags,
-  name: getFilterTranslation(key),
-  options: tags[key as keyof typeof tags].map((value) => ({
-    value: value,
-    label: getFilterTranslation(value),
-  })),
-}));
+interface ProjectsFilterProps {
+  lang: 'es' | 'en';
+}
 
 export const filterProjects = (
   projects: Project[],
@@ -46,7 +42,7 @@ export const filterProjects = (
     setFilteredProjects(projects);
   } else {
     const filtered = projects.filter((project) =>
-      activeFilters.some((filter) => 
+      activeFilters.some((filter) =>
         project.metadata.tags?.includes(filter) ||
         project.metadata.buildingType === filter ||
         project.metadata.role === filter ||
@@ -57,11 +53,22 @@ export const filterProjects = (
   }
 };
 
-export default function ProjectsFilter() {
+export default function ProjectsFilter({ lang }: ProjectsFilterProps) {
+  const t = useTranslations(lang);
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
   const [activeFilters, setActiveFilters] = useState<string[]>([]);
   const [filteredProjects, setFilteredProjects] = useState<Project[]>(projects);
   const [isContactFormOpen, setIsContactFormOpen] = useState(false);
+
+  // Filtros traducidos
+  const filters: FilterSection[] = Object.keys(tags).map((key) => ({
+    id: key as keyof typeof tags,
+    name: t(`filters.${key}` as any),
+    options: tags[key as keyof typeof tags].map((value) => ({
+      value: value,
+      label: t(`filters.${key}.${value}` as any),
+    })),
+  }));
 
   useEffect(() => {
     filterProjects(projects, activeFilters, setFilteredProjects);
@@ -113,19 +120,44 @@ export default function ProjectsFilter() {
                 className="relative ml-auto flex size-full max-w-xs transform flex-col overflow-y-auto bg-[#101010] py-4 pb-6 shadow-xl transition duration-300 ease-in-out data-[closed]:translate-x-full"
               >
                 <div className="flex items-center justify-between px-4">
-                  <h2 className="text-2xl font-kuunari-bold text-white">Filtros</h2>
+                  <h2 className="text-2xl font-kuunari-bold text-white">{t('filters.title')}</h2>
                   <button
                     type="button"
                     onClick={() => setMobileFiltersOpen(false)}
                     className="-mr-2 flex size-10 items-center justify-center p-2 text-white/60 hover:text-accent-500"
                   >
-                    <span className="sr-only">Cerrar menú</span>
+                    <span className="sr-only">{t('filters.close')}</span>
                     <XMarkIcon aria-hidden="true" className="size-6" />
                   </button>
                 </div>
 
+                {/* Reiniciar Filtros button for mobile */}
+                {activeFilters.length > 0 ? (
+                  <button
+                    type="button"
+                    onClick={resetFilters}
+                    className="mb-4 mx-4 text-[18px] font-kuunari-medium text-white cursor-pointer flex items-center gap-2 hover:text-accent-500 transition-colors"
+                  >
+                    {t('filters.reset')}
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-5 w-5"
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                    >
+                      <path
+                        fillRule="evenodd"
+                        d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z"
+                        clipRule="evenodd"
+                      />
+                    </svg>
+                  </button>
+                ) : (
+                  <div className="mb-4 mx-4" style={{ height: '40px' }} aria-hidden="true"></div>
+                )}
+
                 {/* Filters */}
-                <form className="mt-4">
+                <form className="mt-2">
                   {filters.map((section) => (
                     <Disclosure
                       key={section.name}
@@ -172,20 +204,21 @@ export default function ProjectsFilter() {
                                       fill="none"
                                       viewBox="0 0 14 14"
                                       className="pointer-events-none col-start-1 row-start-1 size-3.5 self-center justify-self-center stroke-white"
+                                      style={{ display: 'block' }}
                                     >
                                       <path
                                         d="M3 8L6 11L11 3.5"
                                         strokeWidth={2}
                                         strokeLinecap="round"
                                         strokeLinejoin="round"
-                                        className="opacity-0 group-has-[:checked]:opacity-100"
+                                        className="transition-opacity duration-150 opacity-0 group-has-[:checked]:opacity-100"
                                       />
                                     </svg>
                                   </div>
                                 </div>
                                 <label
                                   htmlFor={`${section.id}-${optionIdx}-mobile`}
-                                  className="text-base text-white/80 font-kuunari-light"
+                                  className="text-sm text-white/60 hover:text-white cursor-pointer"
                                 >
                                   {option.label}
                                 </label>
@@ -201,13 +234,13 @@ export default function ProjectsFilter() {
                 {/* Contact Section in Mobile Drawer */}
                 <div className="mt-auto pt-8 border-t border-white/10 px-4">
                   <h3 className="text-lg font-kuunari-medium text-white mb-4">
-                    Cuéntanos sobre tu próximo proyecto
+                    {t('contact.ctaTitle')}
                   </h3>
                   <button
                     onClick={() => setIsContactFormOpen(true)}
                     className="w-full inline-flex justify-center items-center px-4 py-2 border border-transparent text-base font-kuunari-medium rounded-md text-white bg-accent-500 hover:bg-accent-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-accent-500 mb-6"
                   >
-                    Solicitar propuesta →
+                    {t('contact.ctaButton')}
                   </button>
 
                   {/* Contact and Social Media Links */}
@@ -221,7 +254,7 @@ export default function ProjectsFilter() {
                     >
                       <span className="sr-only">WhatsApp</span>
                       <svg fill="currentColor" viewBox="0 0 24 24" className="h-6 w-6">
-                        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+                        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
                       </svg>
                     </a>
                     <a
@@ -283,20 +316,20 @@ export default function ProjectsFilter() {
           </Dialog>
 
           <main className="w-full max-w-7xl md:max-w-8xl mx-auto py-12 my-12">
-            <motion.div 
+            <motion.div
               className="border-b border-white/10 pb-10"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, ease: "easeOut" }}
             >
               <div className="flex items-center justify-between">
-                <motion.h1 
+                <motion.h1
                   className="text-title-md md:text-title-lg font-kuunari-bold tracking-tight text-white"
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ duration: 0.6, delay: 0.2, ease: "easeOut" }}
                 >
-                  Proyectos
+                  {t('projects.heading')}
                 </motion.h1>
                 <motion.button
                   type="button"
@@ -322,11 +355,34 @@ export default function ProjectsFilter() {
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.6, delay: 0.4, ease: "easeOut" }}
-                className="hidden lg:flex lg:flex-col sticky top-24 max-h-[calc(100vh-6rem)] overflow-y-auto"
+                className="hidden lg:flex lg:flex-col sticky top-24 overflow-y-visible"
               >
                 <h2 className="sr-only">Filtros</h2>
 
-                <div className="hidden lg:block">
+                <div className="hidden lg:block relative">
+                  {/* Reiniciar Filtros button (desktop, absolute) */}
+                  {activeFilters.length > 0 && (
+                    <button
+                      type="button"
+                      onClick={resetFilters}
+                      className="absolute -top-6 right-0 z-10 text-xs px-2 py-1 rounded bg-darkgray border border-accent-500 text-accent-500 flex items-center gap-1 shadow hover:bg-accent-500 hover:text-darkgray transition-colors"
+                      style={{ minWidth: 'fit-content' }}
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="h-3.5 w-3.5"
+                        viewBox="0 0 20 20"
+                        fill="currentColor"
+                      >
+                        <path
+                          fillRule="evenodd"
+                          d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z"
+                          clipRule="evenodd"
+                        />
+                      </svg>
+                      Reiniciar
+                    </button>
+                  )}
                   <form className="divide-y divide-white/10">
                     {filters.map((section, index) => (
                       <motion.div
@@ -365,20 +421,21 @@ export default function ProjectsFilter() {
                                       fill="none"
                                       viewBox="0 0 14 14"
                                       className="pointer-events-none col-start-1 row-start-1 size-3.5 self-center justify-self-center stroke-white"
+                                      style={{ display: 'block' }}
                                     >
                                       <path
                                         d="M3 8L6 11L11 3.5"
                                         strokeWidth={2}
                                         strokeLinecap="round"
                                         strokeLinejoin="round"
-                                        className="opacity-0 group-has-[:checked]:opacity-100"
+                                        className="transition-opacity duration-150 opacity-0 group-has-[:checked]:opacity-100"
                                       />
                                     </svg>
                                   </div>
                                 </div>
                                 <label
                                   htmlFor={`${section.id}-${optionIdx}`}
-                                  className="text-base text-white/80 font-kuunari-light"
+                                  className="text-base text-white/80 font-kuunari-light select-none"
                                 >
                                   {option.label}
                                 </label>
@@ -392,15 +449,15 @@ export default function ProjectsFilter() {
                 </div>
 
                 {/* Contact Section - Moved to bottom */}
-                <div className="mt-auto pt-8 border-t border-white/10 hidden lg:block">
+                <div className="mt-10 pt-8 border-t border-white/10 hidden lg:block">
                   <h3 className="text-lg font-kuunari-medium text-white mb-4">
-                    Cuéntanos sobre tu próximo proyecto
+                    {t('contact.ctaTitle')}
                   </h3>
                   <button
                     onClick={() => setIsContactFormOpen(true)}
                     className="w-full inline-flex justify-center items-center px-4 py-2 border border-transparent text-base font-kuunari-medium rounded-md text-darkgray bg-accent-600 hover:bg-accent-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-accent-500 mb-6"
                   >
-                    Solicitar propuesta →
+                    {t('contact.ctaButton')}
                   </button>
 
                   {/* Contact and Social Media Links */}
@@ -414,7 +471,7 @@ export default function ProjectsFilter() {
                     >
                       <span className="sr-only">WhatsApp</span>
                       <svg fill="currentColor" viewBox="0 0 24 24" className="h-6 w-6">
-                        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+                        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
                       </svg>
                     </a>
                     <a
@@ -474,13 +531,13 @@ export default function ProjectsFilter() {
               </motion.aside>
 
               {/* Project grid */}
-              <motion.div 
+              <motion.div
                 className="mt-6 lg:col-span-2 lg:mt-0 xl:col-span-3"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.6, ease: "easeOut" }}
               >
-                <ProjectList projects={filteredProjects} />
+                <ProjectList projects={filteredProjects} lang={lang} />
               </motion.div>
             </div>
           </main>

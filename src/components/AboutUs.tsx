@@ -1,7 +1,16 @@
 import { motion } from "framer-motion";
 import Container from "../layouts/Container";
+import { useTranslations } from "../i18n/utils";
+import { ui } from "../i18n/ui";
 
-const AboutUs = () => {
+interface AboutUsProps {
+  lang: "es" | "en";
+}
+
+const AboutUs = ({ lang }: AboutUsProps) => {
+  const t = useTranslations(lang);
+  const services = ui[lang]["about.services"];
+
   return (
     <Container
       data-section="about"
@@ -50,7 +59,7 @@ const AboutUs = () => {
               viewport={{ once: true, margin: "-100px" }}
               className="text-white/50 text-xl font-kuunari-medium tracking-wider"
             >
-              SOBRE NOSOTROS
+              {t('about.title')}
             </motion.div>
             <motion.h2 
               initial={{ opacity: 0, y: 30 }}
@@ -63,12 +72,13 @@ const AboutUs = () => {
                 }
               }}
               viewport={{ once: true, margin: "-100px" }}
-              className="text-title-sm md:text-title-md  lg:text-title-lg leading-[1.1] font-semibold tracking-tight text-white font-kuunari-medium"
-            >
-              Innovación<br />
-              arquitectónica,<br />
-              <span className="text-accent-500">inspirada por vos</span>
-            </motion.h2>
+              className="text-title-sm md:text-title-md lg:text-title-lg leading-[1.1] font-semibold tracking-tight text-white font-kuunari-medium"
+              dangerouslySetInnerHTML={{
+                __html: t('about.heading')
+                  .replace(t('about.headingHighlight'), `<span class=\"text-accent-500\">${t('about.headingHighlight')}</span>`)
+                  .replace(/\n/g, '<br />')
+              }}
+            />
           </motion.div>
 
           {/* Right Column - Content */}
@@ -97,11 +107,12 @@ const AboutUs = () => {
               }}
               viewport={{ once: true, margin: "-100px" }}
               className="text-desc-sm md:text-desc-md lg:text-desc-lg leading-[1.4] text-white/90 font-kuunari-light"
-            >
-              Somos un estudio especializado en <span className="font-kuunari-bold text-accent-500">
-                Visualización Arquitectónica</span> y <span className="font-kuunari-bold text-accent-500">
-                Diseño y Dirección de Obra</span>.
-            </motion.p>
+              dangerouslySetInnerHTML={{
+                __html: t('about.description1')
+                  .replace('{visualization}', `<span class=\"font-kuunari-bold text-accent-500\">${services.visualization}</span>`)
+                  .replace('{design}', `<span class=\"font-kuunari-bold text-accent-500\">${services.design}</span>`)
+              }}
+            />
             
             <motion.p 
               initial={{ opacity: 0, y: 30 }}
@@ -116,8 +127,7 @@ const AboutUs = () => {
               viewport={{ once: true, margin: "-100px" }}
               className="text-desc-sm md:text-desc-md lg:text-desc-lg leading-[1.4] text-white/80 font-kuunari-light"
             >
-              Nos destacamos por la calidad excepcional de nuestras imágenes, tiempos de
-              entrega eficientes y un firme compromiso con cada proyecto.
+              {t('about.description2')}
             </motion.p>
 
             {/* Stats Grid */}
@@ -148,7 +158,7 @@ const AboutUs = () => {
                 className="space-y-4"
               >
                 <div className="text-accent-500 text-4xl font-kuunari-bold">+10</div>
-                <div className="text-white/70 text-xl font-kuunari-light">Años de experiencia</div>
+                <div className="text-white/70 text-xl font-kuunari-light">{t('about.stats.experience')}</div>
               </motion.div>
               <motion.div 
                 initial={{ opacity: 0, y: 20 }}
@@ -164,7 +174,7 @@ const AboutUs = () => {
                 className="space-y-4"
               >
                 <div className="text-accent-500 text-4xl font-kuunari-bold">+200</div>
-                <div className="text-white/70 text-xl font-kuunari-light">Proyectos realizados</div>
+                <div className="text-white/70 text-xl font-kuunari-light">{t('about.stats.projects')}</div>
               </motion.div>
               <motion.div 
                 initial={{ opacity: 0, y: 20 }}
@@ -180,7 +190,7 @@ const AboutUs = () => {
                 className="space-y-4"
               >
                 <div className="text-accent-500 text-4xl font-kuunari-bold">100%</div>
-                <div className="text-white/70 text-xl font-kuunari-light">Clientes satisfechos</div>
+                <div className="text-white/70 text-xl font-kuunari-light">{t('about.stats.clients')}</div>
               </motion.div>
             </motion.div>
           </motion.div>

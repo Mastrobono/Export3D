@@ -5,6 +5,7 @@ import NotFoundIllustration from './NotFoundIllustration';
 
 interface ProjectListProps {
   projects: Project[];
+  lang?: 'es' | 'en';
 }
 
 const ProjectTag = ({ tag }: { tag: string }) => (
@@ -20,7 +21,7 @@ const ProjectTag = ({ tag }: { tag: string }) => (
   </span>
 );
 
-const ProjectList: React.FC<ProjectListProps> = ({ projects }) => {
+const ProjectList: React.FC<ProjectListProps> = ({ projects, lang }) => {
   if (projects.length === 0) {
     return (
       <div
@@ -89,7 +90,7 @@ const ProjectList: React.FC<ProjectListProps> = ({ projects }) => {
               layout: { duration: 0.4, ease: "easeInOut" }
             }}
           >
-            <ProjectCard project={project} index={idx} />
+            <ProjectCard project={project} index={idx} lang={lang} />
           </motion.div>
         ))}
       </AnimatePresence>

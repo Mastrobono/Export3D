@@ -1,7 +1,9 @@
 import { motion } from "framer-motion";
 import { scrollToFn } from "../utils/utils.tsx";
+import { useTranslations } from '../i18n/utils';
 
-const Footer = () => {
+const Footer = ({ lang = 'es' }: { lang?: 'es' | 'en' }) => {
+  const t = useTranslations(lang);
   const handleNavigation = (e: React.MouseEvent, sectionId: string) => {
     const currentPath = window.location.pathname;
 
@@ -17,17 +19,17 @@ const Footer = () => {
 
   const footerSections = {
     main: [
-      { name: "Home", href: "#", onClick: (e: React.MouseEvent) => handleNavigation(e, "hero") },
-      { name: "Sobre Nosotros", href: "#", onClick: (e: React.MouseEvent) => handleNavigation(e, "about") },
-      { name: "Proyectos Destacados", href: "#", onClick: (e: React.MouseEvent) => handleNavigation(e, "featured") },
-      { name: "Todos los Proyectos", href: "#", onClick: (e: React.MouseEvent) => handleNavigation(e, "all-projects") },
+      { name: t('footer.home'), href: "#", onClick: (e: React.MouseEvent) => handleNavigation(e, "hero") },
+      { name: t('footer.about'), href: "#", onClick: (e: React.MouseEvent) => handleNavigation(e, "about") },
+      { name: t('footer.featured'), href: "#", onClick: (e: React.MouseEvent) => handleNavigation(e, "featured") },
+      { name: t('footer.allProjects'), href: "#", onClick: (e: React.MouseEvent) => handleNavigation(e, "all-projects") },
     ],
     projects: [
-      { name: "Galería de Proyectos", href: "/projects" }
+      { name: t('footer.gallery'), href: "/projects" }
     ],
     contact: [
       { 
-        name: "info@export3d.com", 
+        name: t('footer.email'), 
         href: "mailto:info@export3d.com",
         icon: (props: any) => (
           <svg fill="currentColor" viewBox="0 0 24 24" {...props}>
@@ -37,7 +39,7 @@ const Footer = () => {
         )
       },
       { 
-        name: "+54 9 11 1234-5678", 
+        name: t('footer.phone'), 
         href: "https://wa.me/5491112345678?text=Hola!%20Me%20interesaría%20consultar%20sobre%20sus%20servicios%20de%20render%20y%20proyecto%20y%20dirección%20de%20obra.",
         icon: (props: any) => (
           <svg fill="currentColor" viewBox="0 0 24 24" {...props}>
@@ -50,7 +52,7 @@ const Footer = () => {
 
   const socialLinks = [
     {
-      name: "Instagram",
+      name: t('footer.instagram'),
       href: "#",
       icon: (props: any) => (
         <svg fill="currentColor" viewBox="0 0 24 24" {...props}>
@@ -63,7 +65,7 @@ const Footer = () => {
       ),
     },
     {
-      name: "Behance",
+      name: t('footer.behance'),
       href: "#",
       icon: (props: any) => (
         <svg fill="currentColor" viewBox="0 0 24 24" {...props}>
@@ -72,7 +74,7 @@ const Footer = () => {
       ),
     },
     {
-      name: "LinkedIn",
+      name: t('footer.linkedin'),
       href: "#",
       icon: (props: any) => (
         <svg fill="currentColor" viewBox="0 0 24 24" {...props}>
@@ -99,7 +101,7 @@ const Footer = () => {
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.2 }}
           >
-            <h3 className="text-accent-500 font-kuunari-bold text-xl mb-4">Navegación</h3>
+            <h3 className="text-accent-500 font-kuunari-bold text-xl mb-4">{t('footer.navigation')}</h3>
             <ul className="space-y-3">
               {footerSections.main.map((item) => (
                 <li key={item.name}>
@@ -122,7 +124,7 @@ const Footer = () => {
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.4 }}
           >
-            <h3 className="text-accent-500 font-kuunari-bold text-xl mb-4">Proyectos</h3>
+            <h3 className="text-accent-500 font-kuunari-bold text-xl mb-4">{t('footer.projects')}</h3>
             <ul className="space-y-3">
               {footerSections.projects.map((item) => (
                 <li key={item.name}>
@@ -142,7 +144,7 @@ const Footer = () => {
             transition={{ duration: 0.5, delay: 0.3 }}
             className="flex flex-col items-center md:items-start"
           >
-            <h3 className="text-accent-500 font-kuunari-bold text-xl mb-4">Contacto</h3>
+            <h3 className="text-accent-500 font-kuunari-bold text-xl mb-4">{t('footer.contact')}</h3>
             <ul className="space-y-3 flex flex-col items-center md:items-start">
               {footerSections.contact.map((item) => (
                 <li key={item.name} className="flex items-center gap-2">
@@ -190,7 +192,7 @@ const Footer = () => {
           transition={{ duration: 0.5, delay: 0.6 }}
         >
           <p className="text-sm text-gray-400">
-            &copy; 2025 Export3D. All rights reserved.
+            {t('footer.copyright')}
           </p>
           <a
             href="https://mastrobono.dev"
@@ -198,7 +200,7 @@ const Footer = () => {
             rel="noopener noreferrer"
             className="inline-block text-sm text-accent-500 hover:text-accent-400 transition-colors duration-300"
           >
-            Developed by mastrobono.dev
+            {t('footer.credits')}
           </a>
         </motion.div>
       </div>
