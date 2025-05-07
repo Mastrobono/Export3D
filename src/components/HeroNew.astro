@@ -5,9 +5,9 @@ import Container from "../layouts/Container";
 
 <Container
   id="hero"
-  classNames="mt-24 mb-12 relative max-w-7xl lg:max-w-8xl rounded-md"
+  classNames="mt-12 mb-12 relative max-w-7xl lg:max-w-8xl rounded-md"
 >
-  <div id="hero-container" class="relative h-[85vh] overflow-hidden rounded-md">
+  <div id="hero-container" class="relative h-[90vh] overflow-hidden rounded-md">
     {/* Background with effects */}
     <div class="absolute inset-0 z-0">
       <div id="parallax-image" class="relative w-full h-full">
@@ -41,71 +41,74 @@ import Container from "../layouts/Container";
     </div>
 
     {/* Main Content */}
-    <main class="relative z-10 h-[85vh]">
-      {/* Left-aligned content */}
-      <div class="absolute bottom-40 left-12 lg:left-12 text-left z-20">
-        {/* Main title */}
-        <h1
-          class="text-[12rem] text-white leading-[0.8] font-kuunari-bold tracking-[-12px] drop-shadow-[0_4px_20px_rgba(0,0,0,0.4)] main-title"
-        >
-          Export<span class="text-accent-500 leading-[0.8]">3d</span>.
-        </h1>
+    <main class="relative z-10 h-[90vh]">
+      {/* Content container for better mobile layout */}
+      <div class="absolute inset-0 flex flex-col lg:block">
+        {/* Left-aligned content */}
+        <div class="relative lg:absolute bottom-auto lg:bottom-40 left-0 lg:left-12 px-6 lg:px-0 text-left z-20 mt-20 lg:mt-0">
+          {/* Main title */}
+          <h1
+            class="text-[6rem] sm:text-[8rem] md:text-[10rem] lg:text-[12rem] text-white leading-[0.8] font-kuunari-bold tracking-[-8px] md:tracking-[-12px] drop-shadow-[0_4px_20px_rgba(0,0,0,0.4)] main-title"
+          >
+            Export<span class="text-accent-500 leading-[0.8]">3d</span>.
+          </h1>
 
-        {/* Subtitle */}
-        <p
-          class="mt-6 text-[32px] tracking-[.7px] font-kuunari-light text-white/90 max-w-2xl subtitle-text"
-        >
-          Visualizá el <span class="text-accent-500">futuro</span>, construí el <span
-            class="text-accent-500">mañana</span
-          >.
-        </p>
-      </div>
-
-      {/* Right column with marketing text */}
-      <div
-        class="absolute bottom-40 right-12 lg:right-10 text-right max-w-md marketing-text flex flex-col justify-start"
-      >
-        <div class="space-y-6">
+          {/* Subtitle */}
           <p
-            class="text-[28px] leading-[1.1] font-kuunari-medium text-white/90"
+            class="mt-6 text-[24px] sm:text-[28px] lg:text-[32px] tracking-[.7px] font-kuunari-light text-white/90 max-w-2xl subtitle-text"
           >
-            Transformamos visiones en realidades arquitectónicas, fusionando
-            innovación y precisión en cada proyecto.
+            Visualizá el <span class="text-accent-500">futuro</span>, construí el <span
+              class="text-accent-500">mañana</span
+            >.
           </p>
+        </div>
 
-          <div class="space-y-4">
-            <div class="flex items-center justify-end gap-3">
-              <span class="text-accent-500 text-lg">01</span>
-              <p class="text-white/60 text-lg">Visualización Arquitectónica</p>
+        {/* Right column with marketing text */}
+        <div
+          class="absolute bottom-10 md:bottom-32 left-0 lg:left-auto right-0 lg:right-12 px-6 lg:px-0 text-left lg:text-right max-w-full lg:max-w-md marketing-text flex flex-col justify-start z-20 mt-12 lg:mt-0"
+        >
+          <div class="space-y-6">
+            <p
+              class="text-[20px] sm:text-[24px] lg:text-[28px] leading-[1.1] font-kuunari-medium text-white/90"
+            >
+              Transformamos visiones en realidades arquitectónicas, fusionando
+              innovación y precisión en cada proyecto.
+            </p>
+
+            <div class="space-y-4">
+              <div class="flex items-center lg:justify-end gap-3">
+                <span class="text-accent-500 text-lg">01</span>
+                <p class="text-white/60 text-lg">Visualización Arquitectónica</p>
+              </div>
+              <div class="flex items-center lg:justify-end gap-3">
+                <span class="text-accent-500 text-lg">02</span>
+                <p class="text-white/60 text-lg">Proyecto y Dirección de Obra</p>
+              </div>
             </div>
-            <div class="flex items-center justify-end gap-3">
-              <span class="text-accent-500 text-lg">02</span>
-              <p class="text-white/60 text-lg">Proyecto y Dirección de Obra</p>
-            </div>
+
+            <button
+              class="mt-8 inline-flex items-center gap-2 text-accent-500 hover:text-white transition-colors duration-300 group descubrimas-btn"
+              type="button"
+            >
+              <span
+                class="text-base uppercase tracking-widest font-kuunari-regular"
+                >Descubrí más</span
+              >
+              <svg
+                class="w-5 h-5 transform group-hover:translate-x-1 transition-transform"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M5 12H19M19 12L12 5M19 12L12 19"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"></path>
+              </svg>
+            </button>
           </div>
-
-          <button
-            class="mt-8 inline-flex items-center gap-2 text-accent-500 hover:text-white transition-colors duration-300 group descubrimas-btn"
-            type="button"
-          >
-            <span
-              class="text-base uppercase tracking-widest font-kuunari-regular"
-              >Descubrí más</span
-            >
-            <svg
-              class="w-5 h-5 transform group-hover:translate-x-1 transition-transform"
-              viewBox="0 0 24 24"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M5 12H19M19 12L12 5M19 12L12 19"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"></path>
-            </svg>
-          </button>
         </div>
       </div>
 
