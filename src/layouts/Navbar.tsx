@@ -90,7 +90,7 @@ export default function Navbar() {
   return (
     <Disclosure as="nav">
       {({ open }) => (
-        <nav className="fixed w-full top-0 z-50 bg-[#101010] backdrop-blur-sm shadow-[4px_1px_6px_5px_#0c0c0c]">
+        <nav className="fixed w-full top-0 z-50 bg-[#101010] backdrop-blur-sm shadow-[0 0 6px 1px #020202]">
           <div className={classNames(
             "mx-auto max-w-7xl lg:max-w-8xl px-0 min-2xl:px-20",
             {
@@ -180,7 +180,7 @@ export default function Navbar() {
           </div>
 
           {/* Mobile menu panel */}
-          <Disclosure.Panel className="lg:hidden bg-[#101010] backdrop-blur-sm shadow-[4px_1px_6px_5px_#0c0c0c]">
+          <Disclosure.Panel className="lg:hidden bg-[#101010] backdrop-blur-sm shadow-[0 0 6px 1px #020202]">
             <div className="space-y-1 px-4 pb-3 pt-2">
               {NavbarOptions.map((option) => (
                 <Disclosure.Button

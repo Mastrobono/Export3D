@@ -398,9 +398,13 @@ import Container from "../layouts/Container";
 
   if (scrollButton && servicesSection) {
     scrollButton.addEventListener('click', () => {
-      servicesSection.scrollIntoView({ 
-        behavior: 'smooth',
-        block: 'start'
+      const rect = servicesSection.getBoundingClientRect();
+      const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+      // Offset específico para dejar espacio arriba
+      const offset = -120;
+      window.scrollTo({
+        top: rect.top + scrollTop + offset,
+        behavior: 'smooth'
       });
     });
   }

@@ -26,7 +26,7 @@ const FilterChip = ({
     whileTap={{ scale: 0.95 }}
     className={`relative text-[17px] font-kuunari-medium rounded-[28px] py-1 px-6 border-2 cursor-pointer transition-all duration-300 text-left
       ${isActive 
-        ? 'bg-accent-500 text-white border-accent-500' 
+        ? 'bg-accent-500 text-darkgray border-accent-500' 
         : 'text-accent-500 border-accent-500 hover:bg-accent-500/10'
       }`}
     onClick={onClick}
