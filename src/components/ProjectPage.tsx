@@ -397,7 +397,7 @@ export default function ProjectPage({ slug, galleryImages, lang, project }: Proj
             >
               {/* Botón Volver a galería */}
               <motion.a
-                href="/projects"
+                href={`/${lang}/projects`}
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.5, delay: 0.2 }}
@@ -426,7 +426,7 @@ export default function ProjectPage({ slug, galleryImages, lang, project }: Proj
                   </svg>
                 </motion.span>
                 <span>
-                  Volver a galería
+                  {t('project.backToGallery')}
                 </span>
               </motion.a>
               <h1 className="text-[5rem] leading-[1.1] font-semibold tracking-tight text-white font-kuunari-medium">
@@ -446,19 +446,19 @@ export default function ProjectPage({ slug, galleryImages, lang, project }: Proj
               >
                 <dl className="space-y-4">
                   <div>
-                    <dt className="text-white/60 font-kuunari-light text-lg">Cliente</dt>
+                    <dt className="text-white/60 font-kuunari-light text-lg">{t('project.client')}</dt>
                     <dd className="text-white font-kuunari-medium text-xl">{project.metadata.client}</dd>
                   </div>
                   <div>
-                    <dt className="text-white/60 font-kuunari-light text-lg">Tipo</dt>
+                    <dt className="text-white/60 font-kuunari-light text-lg">{t('project.type')}</dt>
                     <dd className="text-white font-kuunari-medium text-xl">{project.metadata.buildingType}</dd>
                   </div>
                   <div>
-                    <dt className="text-white/60 font-kuunari-light text-lg">Rol</dt>
+                    <dt className="text-white/60 font-kuunari-light text-lg">{t('project.role')}</dt>
                     <dd className="text-white font-kuunari-medium text-xl">{project.metadata.role}</dd>
                   </div>
                   <div>
-                    <dt className="text-white/60 font-kuunari-light text-lg">Fecha</dt>
+                    <dt className="text-white/60 font-kuunari-light text-lg">{t('project.date')}</dt>
                     <dd className="text-white font-kuunari-medium text-xl">{project.metadata.date}</dd>
                   </div>
                 </dl>
@@ -468,7 +468,7 @@ export default function ProjectPage({ slug, galleryImages, lang, project }: Proj
                 onClick={() => setIsContactFormOpen(true)}
                 className="mt-8 self-start px-4 py-2 border border-transparent text-sm font-kuunari-medium rounded-md text-darkgray bg-accent-500 hover:bg-accent-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-accent-500"
               >
-                Iniciar proyecto
+                {t('project.start')}
               </motion.button>
             </div>
 
@@ -589,7 +589,7 @@ export default function ProjectPage({ slug, galleryImages, lang, project }: Proj
         >
           <motion.a
             whileHover={{ x: -5 }}
-            href={`/project/${prevProject ? prevProject.slug : projects[projects.length - 1].slug}`}
+            href={`/${lang}/projects/${prevProject ? prevProject.slug : projects[projects.length - 1].slug}`}
             className="group flex items-center text-white/60 hover:text-accent-500 transition-colors"
           >
             <svg
@@ -605,15 +605,15 @@ export default function ProjectPage({ slug, galleryImages, lang, project }: Proj
                 d="M15 19l-7-7 7-7"
               />
             </svg>
-            <span className="font-kuunari-medium">Proyecto anterior</span>
+            <span className="font-kuunari-medium">{t('project.previous')}</span>
           </motion.a>
 
           <motion.a
             whileHover={{ x: 5 }}
-            href={`/project/${nextProject ? nextProject.slug : projects[0].slug}`}
+            href={`/${lang}/projects/${nextProject ? nextProject.slug : projects[0].slug}`}
             className="group flex items-center text-white/60 hover:text-accent-500 transition-colors"
           >
-            <span className="font-kuunari-medium">Siguiente proyecto</span>
+            <span className="font-kuunari-medium">{t('project.next')}</span>
             <svg
               className="ml-2 h-5 w-5"
               fill="none"

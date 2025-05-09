@@ -1,13 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg id="Capa_1" data-name="Capa 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 56.63 68">
+<svg id="Capa_1" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 96 96">
+  <!-- Generator: Adobe Illustrator 29.4.0, SVG Export Plug-In . SVG Version: 2.1.0 Build 152)  -->
   <defs>
     <style>
-      .cls-1 {
-        font-family: Kuunari-Black, Kuunari;
-        font-size: 72px;
-        font-weight: 800;
+      .st0 {
+        font-family: Teko-SemiBold, Teko;
+        font-weight: 600;
+      }
+
+      .st0, .st1 {
+        fill: #1d1d1b;
+      }
+
+      .st2 {
+        font-size: 33.36px;
+      }
+
+      .st3 {
+        fill: #fff;
+      }
+
+      .st4 {
+        font-size: 45.8px;
+        letter-spacing: 0em;
+      }
+
+      .st5 {
+        font-size: 91.74px;
       }
     </style>
   </defs>
-  <text class="cls-1" transform="translate(5 58.84)"><tspan x="0" y="0">E.</tspan></text>
+  <rect class="st1" y="8.23" width="89.33" height="87.77" rx="8.87" ry="8.87"/>
+  <g>
+    <rect class="st3" x="5.51" y="1.14" width="89.33" height="87.77" rx="8.87" ry="8.87"/>
+    <path class="st1" d="M85.89,90.05H14.46c-5.57,0-10.11-4.46-10.11-9.93V9.93C4.35,4.46,8.88,0,14.46,0h71.43C91.46,0,96,4.46,96,9.93v70.19c0,5.48-4.54,9.93-10.11,9.93ZM14.46,2.28c-4.29,0-7.79,3.43-7.79,7.65v70.19c0,4.22,3.49,7.65,7.79,7.65h71.43c4.29,0,7.79-3.43,7.79-7.65V9.93c0-4.22-3.49-7.65-7.79-7.65H14.46Z"/>
+  </g>
+  <text class="st0" transform="translate(5.51 74.03)"><tspan class="st5" x="0" y="0">E</tspan><tspan class="st2" x="37.52" y="0">.</tspan><tspan class="st4" x="44.83" y="0">3d</tspan></text>
 </svg>
