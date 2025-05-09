@@ -364,16 +364,7 @@ export default function ProjectPage({ slug, galleryImages, lang, project }: Proj
 
   return (
     <main className="w-full max-w-7xl md:max-w-8xl mx-auto py-12 my-12 bg-darkgray">
-      {/* Background effects */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.5 }}
-        className="absolute inset-0 z-0"
-      >
-        <div className="absolute inset-0 bg-gradient-to-b from-darkgray/50 to-darkgray"></div>
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.03)_0%,transparent_70%)]"></div>
-      </motion.div>
+
 
       {/* Content */}
       <motion.div
@@ -389,7 +380,8 @@ export default function ProjectPage({ slug, galleryImages, lang, project }: Proj
           transition={{ duration: 0.5, delay: 0.5 }}
           className="mb-16"
         >
-          <div className="grid grid-cols-1 lg:grid-cols-[.7fr_3.3fr] gap-8 items-start">
+          <div className="grid grid-cols-1 lg:grid-cols-[.7fr_3.3fr] gap-8 items-start rounded-2xl overflow-hidden relative">
+
             {/* Left Column - Project Info */}
             <div
               className="lg:mt-[75px] lg:pr-8 flex flex-col h-full"
@@ -479,7 +471,8 @@ export default function ProjectPage({ slug, galleryImages, lang, project }: Proj
               transition={{ duration: 0.5, delay: 0.7 }}
               className="w-full h-full relative"
             >
-              <div className="w-full h-full relative">
+
+              <div className="relative z-10">
                 <ImageGallery
                   items={galleryImages}
                   showPlayButton={false}
