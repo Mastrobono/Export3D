@@ -9,11 +9,11 @@ export function getLangFromUrl(url: URL) {
 }
 
 export function useTranslations(lang: keyof typeof ui) {
-  return function t(key: keyof typeof ui[typeof defaultLang]): string {
-    const translation = ui[lang][key];
+  return function t(key: string): string {
+    const translation = ui[lang][key as keyof typeof ui[typeof defaultLang]];
     if (typeof translation === 'string') {
       return translation;
     }
-    return ui[defaultLang][key] as string;
+    return ui[defaultLang][key as keyof typeof ui[typeof defaultLang]] as string || key;
   }
 } 

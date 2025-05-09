@@ -1,0 +1,29 @@
+---
+import ProjectPage from "../../../components/ProjectPage.tsx";
+import { projects } from "../../../data/data.ts";
+import Layout from "../../../layouts/Layout.astro";
+
+const { lang, slug } = Astro.params;
+if (lang !== "es" && lang !== "en") {
+    return Astro.redirect("/es/projects");
+}
+
+const project = projects.find((p) => p.slug === slug);
+if (!project) {
+    throw new Error("Proyecto no encontrado");
+}
+const galleryImages = (project.gallery || []).map((img) => ({
+    original: img.src,
+    thumbnail: img.src,
+}));
+---
+
+<Layout lang={lang}>
+    <ProjectPage
+        lang={lang}
+        slug={slug}
+        project={project}
+        galleryImages={galleryImages}
+        client:load
+    />
+</Layout>

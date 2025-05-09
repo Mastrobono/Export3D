@@ -39,7 +39,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, index = 0, withOverl
   const t = lang ? useTranslations(lang) : (x: string) => x;
   return (
     <a 
-      href={`/project/${project.slug}`}
+      href={`/${lang || 'es'}/projects/${project.slug}`}
       className="block group hover:no-underline"
     >
       <motion.div

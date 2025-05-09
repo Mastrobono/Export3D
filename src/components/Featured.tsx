@@ -1,6 +1,8 @@
 import { useRef, useState, useEffect } from "react";
 import Container from "../layouts/Container";
 import { motion, useScroll, useTransform, useSpring, AnimatePresence } from "framer-motion";
+import { useTranslations } from "../i18n/utils";
+import { ui } from "../i18n/ui";
 
 interface Slide {
   image: {
@@ -16,6 +18,7 @@ interface Slide {
 
 interface FeatureProps {
   projects: Slide[];
+  lang: string;
 }
 
 const ChevronRightIcon = () => (
@@ -36,7 +39,11 @@ const ChevronRightIcon = () => (
   </svg>
 );
 
-const Feature: React.FC<FeatureProps> = ({ projects }) => {
+const Feature: React.FC<FeatureProps> = ({ projects, lang }) => {
+  // Validar lang y usar fallback 'es' si es inválido
+  const safeLang = lang === "en" || lang === "es" ? lang : "es";
+  const featured = ui[safeLang] as any;
+
   const slideRefs = useRef<(HTMLDivElement | null)[]>([]);
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(false);
@@ -75,6 +82,10 @@ const Feature: React.FC<FeatureProps> = ({ projects }) => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, [isTransitioning]);
 
+  // Helper para mostrar fallback visual si falta la traducción
+  const getLabel = (key: string, fallback: string) =>
+    featured && featured[key] ? featured[key] : fallback;
+
   return (
     <motion.div 
       initial={{ opacity: 0 }}
@@ -94,7 +105,7 @@ const Feature: React.FC<FeatureProps> = ({ projects }) => {
         viewport={{ once: true, margin: "-100px" }}
         className="text-title-sm md:text-title-md  mb-16 font-semibold tracking-tight font-kuunari-medium text-accent-500 text-center"
       >
-        Proyectos Destacados
+        {getLabel('featured.title', 'Proyectos Destacados')}
       </motion.h2>
 
       {projects.map((slide, index) => {
@@ -218,7 +229,7 @@ const Feature: React.FC<FeatureProps> = ({ projects }) => {
                       transition={{ duration: 0.6, delay: 0.2 }}
                       className="text-xl md:text-2xl text-accent-500 font-kuunari-bold"
                     >
-                      {slide.metadata.role}
+                      {getLabel('featured.role.' + slide.metadata.role, slide.metadata.role)}
                     </motion.h4>
                   </div>
 
@@ -255,7 +266,7 @@ const Feature: React.FC<FeatureProps> = ({ projects }) => {
                       href={`/project/${slide.metadata.slug}`}
                       className="group/btn flex items-center gap-4 text-xl md:text-2xl text-white font-kuunari-medium drop-shadow-[0_2px_3px_rgba(0,0,0,0.5)] group-hover:text-accent-500 hover:text-accent-500 transition-colors duration-300"
                     >
-                      Ver Proyecto
+                      {getLabel('featured.seeProject', 'Ver Proyecto')}
                       <span className="text-inherit transition-transform duration-300 group-hover/btn:translate-x-2">
                         <ChevronRightIcon />
                       </span>

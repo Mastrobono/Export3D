@@ -1,12 +1,14 @@
 import { useState, useEffect } from 'react';
-import { Dialog, DialogBackdrop, DialogPanel } from '@headlessui/react';
+import { Dialog, DialogPanel } from '@headlessui/react';
 import { XMarkIcon } from '@heroicons/react/24/outline';
 import { validateForm } from '../services/validationService';
+import { useTranslations } from '../i18n/utils';
 
 interface ContactFormProps {
   isOpen: boolean;
   onClose: () => void;
   projectTitle?: string;
+  lang?: 'es' | 'en';
   'client:load'?: boolean;
 }
 
@@ -18,7 +20,7 @@ interface FormData {
   project: string;
 }
 
-export default function ContactForm({ isOpen: initialIsOpen, onClose, projectTitle, 'client:load': clientLoad }: ContactFormProps) {
+export default function ContactForm({ isOpen: initialIsOpen, onClose, projectTitle, lang = 'es', 'client:load': clientLoad }: ContactFormProps) {
   const [isOpen, setIsOpen] = useState(initialIsOpen);
   const [formData, setFormData] = useState<FormData>({
     name: '',
@@ -31,6 +33,7 @@ export default function ContactForm({ isOpen: initialIsOpen, onClose, projectTit
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [submitSuccess, setSubmitSuccess] = useState(false);
   const [isFormSubmitting, setIsFormSubmitting] = useState(false);
+  const t = useTranslations(lang);
 
   useEffect(() => {
     setIsOpen(initialIsOpen);
@@ -43,7 +46,7 @@ export default function ContactForm({ isOpen: initialIsOpen, onClose, projectTit
     setSubmitSuccess(false);
 
     // Validate form
-    const validationResult = validateForm(formData);
+    const validationResult = validateForm(formData, lang);
     if (!validationResult.isValid) {
       setValidationErrors(validationResult.errors);
       setIsFormSubmitting(false);
@@ -123,10 +126,7 @@ export default function ContactForm({ isOpen: initialIsOpen, onClose, projectTit
 
   return (
     <Dialog open={isOpen} onClose={handleClose} className="relative z-50">
-      <DialogBackdrop
-        transition
-        className="fixed inset-0 bg-black/50 transition-opacity duration-300 ease-linear data-[closed]:opacity-0"
-      />
+      <div className="fixed inset-0 bg-black/50 transition-opacity duration-300 ease-linear data-[closed]:opacity-0" />
 
       <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
         <DialogPanel
@@ -146,28 +146,28 @@ export default function ContactForm({ isOpen: initialIsOpen, onClose, projectTit
 
           <div className="mt-3">
             <h2 className="text-2xl font-kuunari-medium text-white mb-2">
-              {projectTitle ? `Contactar sobre ${projectTitle}` : 'Contacto'}
+              {projectTitle ? t('contact.form.projectTitle').replace('{project}', projectTitle) : t('contact.form.title')}
             </h2>
             <p className="text-white/60 font-kuunari-light mb-6">
-              Completa el formulario y nos pondremos en contacto contigo lo antes posible.
+              {/* Puedes agregar una traducción para la descripción si lo deseas */}
             </p>
 
             {submitError && (
               <div className="mb-4 p-4 bg-red-500/10 border border-red-500/20 rounded-md">
-                <p className="text-red-500 text-sm">{submitError}</p>
+                <p className="text-red-500 text-sm">{t('contact.form.error')}</p>
               </div>
             )}
 
-            {submitSuccess && (
+            {submitSuccess && !submitError && (
               <div className="mb-4 p-4 bg-green-500/10 border border-green-500/20 rounded-md">
-                <p className="text-green-500 text-sm">¡Gracias por tu mensaje! Nos pondremos en contacto contigo pronto.</p>
+                <p className="text-green-500 text-sm">{t('contact.form.success')}</p>
               </div>
             )}
 
             <form onSubmit={handleSubmit} className="space-y-6" noValidate>
               <div>
                 <label htmlFor="name" className="block text-sm font-kuunari-medium text-white">
-                  Nombre
+                  {t('contact.form.name.label')}
                 </label>
                 <input
                   type="text"
@@ -179,7 +179,7 @@ export default function ContactForm({ isOpen: initialIsOpen, onClose, projectTit
                   className={`mt-2 block w-full rounded-md border-0 bg-white/5 px-4 py-3 text-white shadow-sm ring-1 ring-inset ${
                     validationErrors.name ? 'ring-red-500' : 'ring-white/10'
                   } focus:ring-2 focus:ring-inset focus:ring-accent-500 sm:text-sm sm:leading-6`}
-                  placeholder="Tu nombre"
+                  placeholder={t('contact.form.name.placeholder')}
                 />
                 {validationErrors.name && (
                   <p className="mt-1 text-sm text-red-500">{validationErrors.name}</p>
@@ -188,7 +188,7 @@ export default function ContactForm({ isOpen: initialIsOpen, onClose, projectTit
 
               <div>
                 <label htmlFor="email" className="block text-sm font-kuunari-medium text-white">
-                  Email
+                  {t('contact.form.email.label')}
                 </label>
                 <input
                   type="email"
@@ -200,7 +200,7 @@ export default function ContactForm({ isOpen: initialIsOpen, onClose, projectTit
                   className={`mt-2 block w-full rounded-md border-0 bg-white/5 px-4 py-3 text-white shadow-sm ring-1 ring-inset ${
                     validationErrors.email ? 'ring-red-500' : 'ring-white/10'
                   } focus:ring-2 focus:ring-inset focus:ring-accent-500 sm:text-sm sm:leading-6`}
-                  placeholder="tu@email.com"
+                  placeholder={t('contact.form.email.placeholder')}
                 />
                 {validationErrors.email && (
                   <p className="mt-1 text-sm text-red-500">{validationErrors.email}</p>
@@ -209,7 +209,7 @@ export default function ContactForm({ isOpen: initialIsOpen, onClose, projectTit
 
               <div>
                 <label htmlFor="project_type" className="block text-sm font-kuunari-medium text-white">
-                  Tipo de Proyecto
+                  {t('contact.form.projectType.label')}
                 </label>
                 <select
                   id="project_type"
@@ -221,10 +221,10 @@ export default function ContactForm({ isOpen: initialIsOpen, onClose, projectTit
                     validationErrors.project_type ? 'ring-red-500' : 'ring-white/10'
                   } focus:ring-2 focus:ring-inset focus:ring-accent-500 sm:text-sm sm:leading-6 [&>option]:bg-darkgray [&>option]:text-white`}
                 >
-                  <option value="" disabled selected className="text-white/50">Selecciona una opción</option>
-                  <option value="visualization">Visualización Arquitectónica</option>
-                  <option value="project_management">Dirección de Obra</option>
-                  <option value="both">Ambos Servicios</option>
+                  <option value="" disabled selected className="text-white/50">{t('contact.form.projectType.placeholder')}</option>
+                  <option value="visualization">{t('contact.form.projectType.visualization')}</option>
+                  <option value="project_management">{t('contact.form.projectType.project_management')}</option>
+                  <option value="both">{t('contact.form.projectType.both')}</option>
                 </select>
                 {validationErrors.project_type && (
                   <p className="mt-1 text-sm text-red-500">{validationErrors.project_type}</p>
@@ -233,7 +233,7 @@ export default function ContactForm({ isOpen: initialIsOpen, onClose, projectTit
 
               <div>
                 <label htmlFor="message" className="block text-sm font-kuunari-medium text-white">
-                  Mensaje
+                  {t('contact.form.message.label')}
                 </label>
                 <textarea
                   id="message"
@@ -245,7 +245,7 @@ export default function ContactForm({ isOpen: initialIsOpen, onClose, projectTit
                   className={`mt-2 block w-full rounded-md border-0 bg-white/5 px-4 py-3 text-white shadow-sm ring-1 ring-inset ${
                     validationErrors.message ? 'ring-red-500' : 'ring-white/10'
                   } focus:ring-2 focus:ring-inset focus:ring-accent-500 sm:text-sm sm:leading-6`}
-                  placeholder="Cuéntanos sobre tu proyecto..."
+                  placeholder={t('contact.form.message.placeholder')}
                 />
                 {validationErrors.message && (
                   <p className="mt-1 text-sm text-red-500">{validationErrors.message}</p>
@@ -258,7 +258,7 @@ export default function ContactForm({ isOpen: initialIsOpen, onClose, projectTit
                   disabled={isFormSubmitting}
                   className="inline-flex items-center justify-center rounded-md bg-accent-500 px-5 py-3.5 text-base font-semibold text-darkgray shadow-sm hover:bg-accent-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-500 transition-all duration-300 font-kuunari-medium disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  {isFormSubmitting ? 'Enviando...' : 'Iniciar Proyecto'}
+                  {isFormSubmitting ? t('contact.form.submitting') : t('contact.form.submit')}
                   {!isFormSubmitting && (
                     <svg
                       xmlns="http://www.w3.org/2000/svg"

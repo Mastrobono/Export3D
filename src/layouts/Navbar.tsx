@@ -176,6 +176,7 @@ export default function Navbar({ lang }: NavbarProps) {
           <ContactForm 
             isOpen={isContactFormOpen} 
             onClose={() => setIsContactFormOpen(false)} 
+            lang={lang}
           />
         </nav>
       )}

@@ -3,8 +3,14 @@ import Container from "../layouts/Container";
 import { useFormSubmit } from "../services/formService";
 import { validateForm } from "../services/validationService";
 import { useState } from "react";
+import { useTranslations } from "../i18n/utils";
 
-const CTA = () => {
+interface CTAProps {
+  lang: 'es' | 'en';
+}
+
+const CTA = ({ lang }: CTAProps) => {
+  const t = useTranslations(lang);
   const { submitForm, isSubmitting, error, success } = useFormSubmit();
   const [formData, setFormData] = useState({
     name: '',
@@ -18,7 +24,7 @@ const CTA = () => {
     e.preventDefault();
     
     // Validate form
-    const validation = validateForm(formData);
+    const validation = validateForm(formData, lang);
     setValidationErrors(validation.errors);
     
     if (!validation.isValid) {
@@ -26,7 +32,11 @@ const CTA = () => {
     }
 
     try {
-      await submitForm(formData);
+      const wasSuccessful = await submitForm(formData);
+      if (!wasSuccessful) {
+        // No mostrar mensaje de éxito si hubo error
+        return;
+      }
     } catch (err) {
       console.error('Error submitting form:', err);
     }
@@ -92,9 +102,9 @@ const CTA = () => {
                 }
               }}
               viewport={{ once: true, margin: "-100px" }}
-              className="text-title-xs md:text-title-sm font-semibold tracking-tight text-white  font-kuunari-medium"
+              className="text-title-xs md:text-title-sm font-semibold tracking-tight text-white font-kuunari-medium"
             >
-              Pongámonos en Contacto.<br />
+              {t('cta.title')}
               <motion.span
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{
@@ -106,9 +116,9 @@ const CTA = () => {
                   }
                 }}
                 viewport={{ once: true, margin: "-100px" }}
-                className="text-desc-lg md:text-desc-lg  text-accent-500 block"
+                className="text-desc-lg md:text-desc-lg text-accent-500 block"
               >
-                Transforma tu visión en realidad.
+                {t('cta.subtitle')}
               </motion.span>
             </motion.h2>
             <motion.p
@@ -124,7 +134,7 @@ const CTA = () => {
               viewport={{ once: true, margin: "-100px" }}
               className="mt-6 text-desc-xs md:text-desc-xs leading-8 text-white/80"
             >
-              Tu próxima obra maestra arquitectónica te espera. Ya sea que necesites visualizaciones impactantes o dirección experta de obra, estamos aquí para dar vida a tus ideas.
+              {t('cta.description')}
             </motion.p>
           </motion.div>
 
@@ -146,13 +156,13 @@ const CTA = () => {
           >
             {error && (
               <div className="mb-4 p-4 bg-red-500/10 border border-red-500/20 rounded-md">
-                <p className="text-red-500 text-sm">{error}</p>
+                <p className="text-red-500 text-sm">{t('cta.form.error')}</p>
               </div>
             )}
 
             {success && (
               <div className="mb-4 p-4 bg-green-500/10 border border-green-500/20 rounded-md">
-                <p className="text-green-500 text-sm">¡Gracias por tu mensaje! Nos pondremos en contacto contigo pronto.</p>
+                <p className="text-green-500 text-sm">{t('cta.form.success')}</p>
               </div>
             )}
 
@@ -169,7 +179,7 @@ const CTA = () => {
                 }}
                 viewport={{ once: true, margin: "-100px" }}
               >
-                <label htmlFor="name" className="block text-sm font-kuunari-medium text-white">Nombre</label>
+                <label htmlFor="name" className="block text-sm font-kuunari-medium text-white">{t('cta.form.name.label')}</label>
                 <input
                   type="text"
                   name="name"
@@ -179,7 +189,7 @@ const CTA = () => {
                   className={`mt-2 block w-full rounded-md border-0 bg-white/5 px-4 py-3 text-white shadow-sm ring-1 ring-inset ${
                     validationErrors.name ? 'ring-red-500' : 'ring-white/10'
                   } focus:ring-2 focus:ring-inset focus:ring-accent-500 sm:text-sm sm:leading-6`}
-                  placeholder="Tu nombre"
+                  placeholder={t('cta.form.name.placeholder')}
                 />
                 {validationErrors.name && (
                   <p className="mt-1 text-sm text-red-500">{validationErrors.name}</p>
@@ -198,7 +208,7 @@ const CTA = () => {
                 }}
                 viewport={{ once: true, margin: "-100px" }}
               >
-                <label htmlFor="email" className="block text-sm font-kuunari-medium text-white">Email</label>
+                <label htmlFor="email" className="block text-sm font-kuunari-medium text-white">{t('cta.form.email.label')}</label>
                 <input
                   type="email"
                   name="email"
@@ -208,7 +218,7 @@ const CTA = () => {
                   className={`mt-2 block w-full rounded-md border-0 bg-white/5 px-4 py-3 text-white shadow-sm ring-1 ring-inset ${
                     validationErrors.email ? 'ring-red-500' : 'ring-white/10'
                   } focus:ring-2 focus:ring-inset focus:ring-accent-500 sm:text-sm sm:leading-6`}
-                  placeholder="tu@email.com"
+                  placeholder={t('cta.form.email.placeholder')}
                 />
                 {validationErrors.email && (
                   <p className="mt-1 text-sm text-red-500">{validationErrors.email}</p>
@@ -227,7 +237,7 @@ const CTA = () => {
                 }}
                 viewport={{ once: true, margin: "-100px" }}
               >
-                <label htmlFor="project_type" className="block text-sm font-kuunari-medium text-white">Tipo de Proyecto</label>
+                <label htmlFor="project_type" className="block text-sm font-kuunari-medium text-white">{t('cta.form.projectType.label')}</label>
                 <select
                   id="project_type"
                   name="project_type"
@@ -237,10 +247,10 @@ const CTA = () => {
                     validationErrors.project_type ? 'ring-red-500' : 'ring-white/10'
                   } focus:ring-2 focus:ring-inset focus:ring-accent-500 sm:text-sm sm:leading-6 [&>option]:bg-darkgray [&>option]:text-white`}
                 >
-                  <option value="" disabled selected className="text-white/50">Selecciona una opción</option>
-                  <option value="visualization">Visualización Arquitectónica</option>
-                  <option value="project_management">Dirección de Obra</option>
-                  <option value="both">Ambos Servicios</option>
+                  <option value="" disabled selected className="text-white/50">{t('cta.form.projectType.placeholder')}</option>
+                  <option value="visualization">{t('cta.form.projectType.visualization')}</option>
+                  <option value="project_management">{t('cta.form.projectType.project_management')}</option>
+                  <option value="both">{t('cta.form.projectType.both')}</option>
                 </select>
                 {validationErrors.project_type && (
                   <p className="mt-1 text-sm text-red-500">{validationErrors.project_type}</p>
@@ -259,7 +269,7 @@ const CTA = () => {
                 }}
                 viewport={{ once: true, margin: "-100px" }}
               >
-                <label htmlFor="message" className="block text-sm font-kuunari-medium text-white">Mensaje</label>
+                <label htmlFor="message" className="block text-sm font-kuunari-medium text-white">{t('cta.form.message.label')}</label>
                 <textarea
                   id="message"
                   name="message"
@@ -269,7 +279,7 @@ const CTA = () => {
                   className={`mt-2 block w-full rounded-md border-0 bg-white/5 px-4 py-3 text-white shadow-sm ring-1 ring-inset ${
                     validationErrors.message ? 'ring-red-500' : 'ring-white/10'
                   } focus:ring-2 focus:ring-inset focus:ring-accent-500 sm:text-sm sm:leading-6`}
-                  placeholder="Cuéntanos sobre tu proyecto..."
+                  placeholder={t('cta.form.message.placeholder')}
                 ></textarea>
                 {validationErrors.message && (
                   <p className="mt-1 text-sm text-red-500">{validationErrors.message}</p>
@@ -293,7 +303,7 @@ const CTA = () => {
                   disabled={isSubmitting}
                   className="w-full inline-flex items-center justify-center rounded-md bg-accent-500 px-5 py-3.5 text-base font-semibold text-darkgray shadow-sm hover:bg-accent-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-500 transition-all duration-300 font-kuunari-medium disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  {isSubmitting ? 'Enviando...' : 'Iniciar Proyecto'}
+                  {isSubmitting ? t('cta.form.submitting') : t('cta.form.submit')}
                   {!isSubmitting && (
                     <svg
                       xmlns="http://www.w3.org/2000/svg"

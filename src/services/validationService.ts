@@ -1,9 +1,12 @@
+import { useTranslations } from '../i18n/utils';
+
 export interface ValidationResult {
   isValid: boolean;
   errors: Record<string, string>;
 }
 
-export const validateForm = (data: Record<string, any>): ValidationResult => {
+export const validateForm = (data: Record<string, any>, lang: 'es' | 'en'): ValidationResult => {
+  const t = useTranslations(lang);
   const errors: Record<string, string> = {};
 
   // Sanitize inputs
@@ -19,31 +22,31 @@ export const validateForm = (data: Record<string, any>): ValidationResult => {
 
   // Validate name
   if (!sanitizedData.name?.trim()) {
-    errors.name = 'El nombre es requerido';
+    errors.name = t('cta.form.validation.name.required');
   } else if (sanitizedData.name.length < 2) {
-    errors.name = 'El nombre debe tener al menos 2 caracteres';
+    errors.name = t('cta.form.validation.name.minLength');
   }
 
   // Validate email
   if (!sanitizedData.email?.trim()) {
-    errors.email = 'El email es requerido';
+    errors.email = t('cta.form.validation.email.required');
   } else {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(sanitizedData.email)) {
-      errors.email = 'Por favor ingresa un email válido';
+      errors.email = t('cta.form.validation.email.invalid');
     }
   }
 
   // Validate project type
   if (!sanitizedData.project_type?.trim()) {
-    errors.project_type = 'El tipo de proyecto es requerido';
+    errors.project_type = t('cta.form.validation.projectType.required');
   }
 
   // Validate message
   if (!sanitizedData.message?.trim()) {
-    errors.message = 'El mensaje es requerido';
+    errors.message = t('cta.form.validation.message.required');
   } else if (sanitizedData.message.length < 10) {
-    errors.message = 'El mensaje debe tener al menos 10 caracteres';
+    errors.message = t('cta.form.validation.message.minLength');
   }
 
   return {

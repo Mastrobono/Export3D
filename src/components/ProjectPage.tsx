@@ -7,6 +7,7 @@ import type { Project } from '../types/project';
 import ImageGallery from 'react-image-gallery';
 import "react-image-gallery/styles/css/image-gallery.css";
 import ProjectCard from './ProjectCard';
+import { useTranslations } from '../i18n/utils';
 
 const customStyles = `
   /* Container styles */
@@ -318,43 +319,17 @@ const customStyles = `
 interface ProjectPageProps {
   slug: string;
   galleryImages: { original: string; thumbnail: string }[];
+  lang: 'es' | 'en';
+  project: Project;
 }
 
-// Example photos for the gallery
-const examplePhotos = [
-  {
-    original: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750",
-    thumbnail: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=160&h=120&fit=crop",
-  },
-  {
-    original: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c",
-    thumbnail: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=160&h=120&fit=crop",
-  },
-  {
-    original: "https://images.unsplash.com/photo-1600607687920-4e2a09cf159d",
-    thumbnail: "https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?w=160&h=120&fit=crop",
-  },
-  {
-    original: "https://images.unsplash.com/photo-1600607687644-c7171b4249b8",
-    thumbnail: "https://images.unsplash.com/photo-1600607687644-c7171b4249b8?w=160&h=120&fit=crop",
-  },
-  {
-    original: "https://images.unsplash.com/photo-1542038784456-1ea8e935640e",
-    thumbnail: "https://images.unsplash.com/photo-1542038784456-1ea8e935640e?w=160&h=120&fit=crop",
-  },
-  {
-    original: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c",
-    thumbnail: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=160&h=120&fit=crop",
-  }
-];
-
-export default function ProjectPage({ slug, galleryImages }: ProjectPageProps) {
-  const [project, setProject] = useState<Project | null>(null);
+export default function ProjectPage({ slug, galleryImages, lang, project }: ProjectPageProps) {
   const [isContactFormOpen, setIsContactFormOpen] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [prevProject, setPrevProject] = useState<Project | null>(null);
   const [nextProject, setNextProject] = useState<Project | null>(null);
   const [relatedProjects, setRelatedProjects] = useState<Project[]>([]);
+  const t = useTranslations(lang);
 
   useEffect(() => {
     // Add the custom styles to the document
@@ -368,13 +343,6 @@ export default function ProjectPage({ slug, galleryImages }: ProjectPageProps) {
   }, []);
 
   useEffect(() => {
-    const currentProject = projects.find(p => p.slug === slug);
-    if (!currentProject) {
-      window.location.href = '/404';
-      return;
-    }
-
-    setProject(currentProject);
     const index = projects.findIndex(p => p.slug === slug);
     setCurrentIndex(index);
     setPrevProject(index > 0 ? projects[index - 1] : null);
@@ -384,13 +352,13 @@ export default function ProjectPage({ slug, galleryImages }: ProjectPageProps) {
     const related = projects
       .filter(p =>
         p.slug !== slug &&
-        (p.metadata.buildingType === currentProject.metadata.buildingType ||
-          p.metadata.role === currentProject.metadata.role)
+        (p.metadata.buildingType === project.metadata.buildingType ||
+          p.metadata.role === project.metadata.role)
       )
       .filter((p, i, arr) => arr.findIndex(proj => proj.slug === p.slug) === i) // Remove duplicates
       .slice(0, 3);
     setRelatedProjects(related);
-  }, [slug]);
+  }, [slug, project]);
 
   if (!project) return null;
 
@@ -603,10 +571,10 @@ export default function ProjectPage({ slug, galleryImages }: ProjectPageProps) {
             id="related"
             className="mb-16"
           >
-            <h2 className="text-2xl font-kuunari-medium text-white mb-6">También podría interesarte</h2>
+            <h2 className="text-2xl font-kuunari-medium text-white mb-6">{t('project.related')}</h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               {relatedProjects.map((relatedProject, index) => (
-                <ProjectCard key={relatedProject.slug} project={relatedProject} index={index} withOverlay={true} />
+                <ProjectCard key={relatedProject.slug} project={relatedProject} index={index} withOverlay={true} lang={lang} />
               ))}
             </div>
           </motion.div>
@@ -671,6 +639,7 @@ export default function ProjectPage({ slug, galleryImages }: ProjectPageProps) {
           document.body.style.overflow = 'auto';
         }}
         projectTitle={project.metadata.title}
+        lang={lang}
       />
       {/* Forzar scroll horizontal en thumbnails de react-image-gallery en mobile y aplicar estilos de scrollbar */}
       <style>{`

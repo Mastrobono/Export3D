@@ -547,6 +547,7 @@ export default function ProjectsFilter({ lang }: ProjectsFilterProps) {
         <ContactForm
           isOpen={isContactFormOpen}
           onClose={() => setIsContactFormOpen(false)}
+          lang={lang}
         />
       </div>
     </div>

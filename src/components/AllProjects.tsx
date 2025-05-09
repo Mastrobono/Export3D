@@ -5,9 +5,11 @@ import { Project } from "../types/project";
 import { tags } from "../data/data";
 import ProjectCard from './ProjectCard';
 import NotFoundIllustration from './NotFoundIllustration';
+import { useTranslations } from '../i18n/utils';
 
 interface AllProjectsProps {
   projects: Project[];
+  lang: 'es' | 'en';
 }
 
 const FilterChip = ({ 
@@ -68,8 +70,9 @@ const ProjectTag = ({ tag }: { tag: string }) => (
   </span>
 );
 
-const AllProjects: React.FC<AllProjectsProps> = ({ projects }) => {
-  const { activeFilters, filteredProjects, handleFilterChange, resetFilters, getTranslatedFilter } = useProjectFilters(projects);
+const AllProjects: React.FC<AllProjectsProps> = ({ projects, lang }) => {
+  const t = useTranslations(lang);
+  const { activeFilters, filteredProjects, handleFilterChange, resetFilters, getTranslatedFilter } = useProjectFilters(projects, lang);
 
   return (
     <motion.div
@@ -93,7 +96,7 @@ const AllProjects: React.FC<AllProjectsProps> = ({ projects }) => {
         transition={{ duration: 0.6 }}
         className="text-title-sm md:text-title-md font-semibold tracking-tight font-kuunari-medium text-accent-500 text-center mb-16"
       >
-        Más Proyectos
+        {t('allProjects.moreProjects')}
       </motion.h2>
 
       <div className="max-w-[1400px] mx-auto">
@@ -106,7 +109,7 @@ const AllProjects: React.FC<AllProjectsProps> = ({ projects }) => {
           className="flex flex-col gap-y-8 items-start mb-14"
         >
           <div className="flex flex-col md:flex-row gap-x-12 gap-y-6">
-            {Object.keys(tags).map((category, index) => (
+            {(Object.keys(tags) as Array<keyof typeof tags>).map((category, index) => (
               <motion.div 
                 key={category}
                 initial={{ opacity: 0, x: -20 }}
@@ -116,10 +119,10 @@ const AllProjects: React.FC<AllProjectsProps> = ({ projects }) => {
                 className="flex flex-col gap-y-4"
               >
                 <h4 className="text-[22px] text-white font-kuunari-bold">
-                  {getTranslatedFilter(category)}
+                  {getTranslatedFilter(category, lang)}
                 </h4>
                 <div className="flex flex-row gap-x-4 gap-y-2 flex-wrap">
-                  {tags[category].map((tag, tagIndex) => (
+                  {tags[category].map((tag: string, tagIndex: number) => (
                     <motion.div
                       key={tag}
                       initial={{ opacity: 0, scale: 0.8 }}
@@ -128,7 +131,7 @@ const AllProjects: React.FC<AllProjectsProps> = ({ projects }) => {
                       transition={{ duration: 0.4, delay: 0.4 + tagIndex * 0.05 }}
                     >
                       <FilterChip
-                        tag={getTranslatedFilter(tag)}
+                        tag={getTranslatedFilter(tag, lang)}
                         isActive={activeFilters.includes(tag)}
                         onClick={() => handleFilterChange(tag)}
                       />
@@ -150,7 +153,7 @@ const AllProjects: React.FC<AllProjectsProps> = ({ projects }) => {
               className="text-[20px] font-kuunari-medium text-white cursor-pointer flex items-center gap-2"
               onClick={resetFilters}
             >
-              Reiniciar Filtros
+              {t('filters.reset')}
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className="h-5 w-5"
@@ -179,7 +182,7 @@ const AllProjects: React.FC<AllProjectsProps> = ({ projects }) => {
           >
             <NotFoundIllustration />
             <p className="text-white text-lg mb-4">
-              Vaya! Todavía no contamos con ningún proyecto con dichas características, sé el primero!
+              {lang === 'es' ? 'Vaya! Todavía no contamos con ningún proyecto con dichas características, sé el primero!' : "Whoops! We don't have any projects with those characteristics yet, be the first!"}
             </p>
             <motion.button
               type="button"
@@ -194,7 +197,7 @@ const AllProjects: React.FC<AllProjectsProps> = ({ projects }) => {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
-              Contactar
+              {t('contact.ctaButton')}
             </motion.button>
           </motion.div>
         ) : (
@@ -220,7 +223,7 @@ const AllProjects: React.FC<AllProjectsProps> = ({ projects }) => {
                   viewport={{ once: true, margin: "-100px" }}
                   exit={{ opacity: 0, y: 30 }}
                 >
-                  <ProjectCard project={project} index={index} />
+                  <ProjectCard project={project} index={index} lang={lang} />
                 </motion.div>
               ))}
             </AnimatePresence>
@@ -258,7 +261,7 @@ const AllProjects: React.FC<AllProjectsProps> = ({ projects }) => {
               className="group relative inline-flex items-center gap-3 px-4 py-2"
             >
               <span className="relative text-2xl text-accent-500 font-kuunari-medium">
-                Explorar Galería Completa
+                {lang === 'es' ? 'Explorar Galería Completa' : 'Explore Full Gallery'}
                 <span className="absolute bottom-0 left-1/2 w-0 h-[2px] bg-accent-500 transition-all duration-300 group-hover:w-full group-hover:left-0"/>
               </span>
               <div className="overflow-hidden w-8">

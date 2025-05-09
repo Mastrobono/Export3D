@@ -20,7 +20,7 @@ export const useFormSubmit = () => {
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
 
-  const submitForm = async (data: FormData) => {
+  const submitForm = async (data: FormData): Promise<boolean> => {
     setIsSubmitting(true);
     setError(null);
     setSuccess(false);
@@ -30,20 +30,20 @@ export const useFormSubmit = () => {
         throw new Error('API key no configurada');
       }
 
-      const response = await sj.submit({
+      await sj.submit({
         name: data.name,
         email: data.email,
         project_type: data.project_type || 'No especificado',
         message: data.message,
         timestamp: new Date().toISOString(),
-       
       });
 
       setSuccess(true);
-      return response;
+      return true;
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Error desconocido');
-      throw err;
+      setSuccess(false);
+      return false;
     } finally {
       setIsSubmitting(false);
     }

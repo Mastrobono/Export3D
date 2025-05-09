@@ -19,9 +19,10 @@ if (!lang || !['en', 'es'].includes(lang)) {
   <Hero lang={lang} />
   <AboutUs lang={lang} client:load />
   <Featured
+    lang={lang}
     projects={projects.filter((project) => project.metadata.featured == true)}
     client:load
   />
-  <AllProjects projects={projects} client:load />
-  <CTA client:load />
+  <AllProjects lang={lang} projects={projects} client:load />
+  <CTA lang={lang} client:load />
 </Layout> 

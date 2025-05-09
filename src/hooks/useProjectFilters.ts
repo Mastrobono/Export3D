@@ -1,16 +1,17 @@
 import { Project } from '../types/project';
 import { useState, useMemo } from 'react';
 import { getFilterTranslation } from '../constants/translations';
+import { useTranslations } from '../i18n/utils';
 
 interface UseProjectFiltersResult {
   activeFilters: string[];
   filteredProjects: Project[];
   handleFilterChange: (filter: string) => void;
   resetFilters: () => void;
-  getTranslatedFilter: (filter: string) => string;
+  getTranslatedFilter: (filter: string, lang: 'es' | 'en') => string;
 }
 
-export const useProjectFilters = (projects: Project[]) => {
+export const useProjectFilters = (projects: Project[], lang: 'es' | 'en') => {
   const [activeFilters, setActiveFilters] = useState<string[]>([]);
 
   // Memoize filtered projects based on active filters
@@ -42,8 +43,17 @@ export const useProjectFilters = (projects: Project[]) => {
     setActiveFilters([]);
   };
 
-  const getTranslatedFilter = (filter: string): string => {
-    return getFilterTranslation(filter);
+  const getTranslatedFilter = (filter: string, lang: 'es' | 'en'): string => {
+    const t = useTranslations(lang);
+    // Try to use the translation key pattern as in ProjectsFilter
+    // Try category keys first
+    if (t(`filters.buildingType.${filter}`) !== `filters.buildingType.${filter}`) return t(`filters.buildingType.${filter}`);
+    if (t(`filters.role.${filter}`) !== `filters.role.${filter}`) return t(`filters.role.${filter}`);
+    if (t(`filters.date.${filter}`) !== `filters.date.${filter}`) return t(`filters.date.${filter}`);
+    // Try category itself
+    if (t(`filters.${filter}`) !== `filters.${filter}`) return t(`filters.${filter}`);
+    // Fallback to original filter
+    return filter;
   };
 
   return {
