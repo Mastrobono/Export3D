@@ -2,6 +2,8 @@
 import ProjectPage from "../../../components/ProjectPage.tsx";
 import { projects } from "../../../data/data.ts";
 import Layout from "../../../layouts/Layout.astro";
+import * as path from 'path';
+import * as fs from 'fs';
 
 const { lang, slug } = Astro.params;
 if (lang !== "es" && lang !== "en") {
@@ -12,16 +14,40 @@ const project = projects.find((p) => p.slug === slug);
 if (!project) {
     throw new Error("Proyecto no encontrado");
 }
-const galleryImages = (project.gallery || []).map((img) => ({
-    original: img.src,
-    thumbnail: img.src,
-}));
+
+// Ruta absoluta a la carpeta de imágenes del proyecto
+const imagesDir = path.join(process.cwd(), 'public', 'assets', 'projects', slug as string);
+
+// Lee los archivos de la carpeta (si existe)
+let galleryImages: { original: string; thumbnail: string }[] = [];
+try {
+  const files = fs.readdirSync(imagesDir);
+  galleryImages = files
+    .filter((f: string) => f.endsWith('-full.webp'))
+    .map((f: string) => {
+      const idx = f.match(/gallery-(\d+)-full\.webp$/)?.[1] ?? '0';
+      return {
+        original: `/assets/projects/${slug}/${f}`,
+        thumbnail: `/assets/projects/${slug}/${slug}-gallery-${idx}-thumb.webp`
+      };
+    })
+    .sort((a: any, b: any) => {
+      const getIdx = (img: any) => parseInt(img.original.match(/gallery-(\d+)-full\.webp$/)?.[1] ?? '0', 10);
+      return getIdx(a) - getIdx(b);
+    });
+} catch (e) {
+  // Si la carpeta no existe, usa la imagen principal como fallback
+  galleryImages = [{
+    original: project.image.src,
+    thumbnail: project.image.src
+  }];
+}
 ---
 
-<Layout lang={lang}>
+<Layout>
     <ProjectPage
-        lang={lang}
-        slug={slug}
+        lang={lang as 'es' | 'en'}
+        slug={slug as string}
         project={project}
         galleryImages={galleryImages}
         client:load

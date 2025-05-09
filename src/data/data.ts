@@ -1,5 +1,8 @@
 import { slugify } from '../utils/slugify';
 import type { Project } from '../types/project';
+import * as path from 'path';
+import * as fs from 'fs';
+import type { ImageMetadata } from 'astro';
 
 // Import images directly
 import hutchImage from "../assets/features/hutch.webp";
@@ -7,30 +10,32 @@ import hausImage from "../assets/features/haus.webp";
 import arceImage from "../assets/features/arce.webp";
 import frisbeeImage from "../assets/features/frisbee.webp";
 
-//Filters
-// Define enums for tags
-const TagType = {
-  EXTERIOR: "Exterior",
-  INTERIOR: "Interior",
-  AEREO: "Aereo",
-  PLANTA: "Planta",
-};
+// Define enums for project metadata
+export enum BuildingType {
+  RESIDENCIAL = "Residencial",
+  COMERCIAL = "Comercial",
+  INDUSTRIAL = "Industrial",
+  INSTITUCIONAL = "Institucional"
+}
 
-const TagDate = {
-  YEAR_2024: "2024",
-  YEAR_2025: "2025",
-};
+export enum ProjectRole {
+  VISUALIZACION = "Visualización Arquitectónica",
+  PROYECTO_DIRECCION = "Proyecto y Dirección de Obra"
+}
 
-const TagRole = {
-  VISUALIZACION: "Visualización Arquitectónica",
-  DIRECCION: "Dirección de Obra",
-};
+export enum ProjectDate {
+  YEAR_2023 = "2023",
+  YEAR_2024 = "2024",
+  YEAR_2025 = "2025"
+}
 
+// Export tags object for filter components
 export const tags = {
-  buildingType: ['Residencial', 'Comercial', 'Industrial', 'Institucional'],
-  role: ['Visualización Arquitectónica', 'Diseño', 'Dirección de Obra'],
-  date: ['2023', '2022', '2021']
+  buildingType: Object.values(BuildingType),
+  role: Object.values(ProjectRole),
+  date: Object.values(ProjectDate)
 };
+
 
 // Projects
 export const projects: Project[] = [
@@ -42,13 +47,11 @@ export const projects: Project[] = [
     metadata: {
       title: "HUTCH",
       location: "Ciudad Jardin, Buenos Aires, Argentina",
-      date: "2024",
+      date: ProjectDate.YEAR_2024,
       client: "HUTCH",
-      role: "Visualización",
-      buildingType: "Comercial",
-      featured: true,
-      description: "Un espacio comercial moderno y versátil diseñado para maximizar la experiencia del cliente.",
-      tags: ['comercial', 'moderno', 'versatil']
+      role: ProjectRole.VISUALIZACION,
+      buildingType: BuildingType.COMERCIAL,
+      featured: true
     }
   },
   {
@@ -59,12 +62,12 @@ export const projects: Project[] = [
     metadata: {
       title: "HAUS",
       location: "Buenos Aires, Argentina",
-      date: TagDate.YEAR_2025,
+      date: ProjectDate.YEAR_2025,
       client: "Steel Tech Group",
-      role: TagRole.VISUALIZACION,
-      buildingType: "Residencial",
-      featured: true,
-    },
+      role: ProjectRole.VISUALIZACION,
+      buildingType: BuildingType.RESIDENCIAL,
+      featured: true
+    }
   },
   {
     id: '4',
@@ -74,12 +77,12 @@ export const projects: Project[] = [
     metadata: {
       title: "ARCE",
       location: "Buenos Aires, Argentina",
-      date: TagDate.YEAR_2024,
+      date: ProjectDate.YEAR_2024,
       client: "ARCE Construcciones",
-      role: TagRole.VISUALIZACION,
-      buildingType: "Residencial",
-      featured: true,
-    },
+      role: ProjectRole.VISUALIZACION,
+      buildingType: BuildingType.RESIDENCIAL,
+      featured: true
+    }
   },
   {
     id: '5',
@@ -89,11 +92,162 @@ export const projects: Project[] = [
     metadata: {
       title: "Meat Frisbee",
       location: "Buenos Aires, Argentina",
-      date: TagDate.YEAR_2025,
+      date: ProjectDate.YEAR_2025,
       client: "Meat Frisbee",
-      role: "Proyecto, Dirección y Ejecución de Obra",
-      buildingType: "Comercial",
-      featured: true,
-    },
+      role: ProjectRole.PROYECTO_DIRECCION,
+      buildingType: BuildingType.COMERCIAL,
+      featured: true
+    }
   },
+  // Nuevos proyectos
+  {
+    id: '6',
+    slug: slugify('San Isidro'),
+    image: hutchImage, // Temporalmente usando una imagen existente
+    gallery: [],
+    metadata: {
+      title: "San Isidro",
+      location: "",
+      date: "",
+      client: "",
+      role: "",
+      buildingType: "",
+      featured: false
+    }
+  },
+  {
+    id: '7',
+    slug: slugify('CF Moto'),
+    image: hutchImage,
+    gallery: [],
+    metadata: {
+      title: "CF Moto",
+      location: "",
+      date: "",
+      client: "",
+      role: "",
+      buildingType: "",
+      featured: false
+    }
+  },
+  {
+    id: '8',
+    slug: slugify('Tuzzi'),
+    image: hutchImage,
+    gallery: [],
+    metadata: {
+      title: "Tuzzi",
+      location: "",
+      date: "",
+      client: "",
+      role: "",
+      buildingType: "",
+      featured: false
+    }
+  },
+  {
+    id: '9',
+    slug: slugify('MO'),
+    image: hutchImage,
+    gallery: [],
+    metadata: {
+      title: "MO",
+      location: "",
+      date: "",
+      client: "",
+      role: "",
+      buildingType: "",
+      featured: false
+    }
+  },
+  {
+    id: '10',
+    slug: slugify('Hold'),
+    image: hutchImage,
+    gallery: [],
+    metadata: {
+      title: "Hold",
+      location: "",
+      date: "",
+      client: "",
+      role: "",
+      buildingType: "",
+      featured: false
+    }
+  },
+  {
+    id: '11',
+    slug: slugify('Erza'),
+    image: hutchImage,
+    gallery: [],
+    metadata: {
+      title: "Erza",
+      location: "",
+      date: "",
+      client: "",
+      role: "",
+      buildingType: "",
+      featured: false
+    }
+  },
+  {
+    id: '12',
+    slug: slugify('Castelli'),
+    image: hutchImage,
+    gallery: [],
+    metadata: {
+      title: "Castelli",
+      location: "",
+      date: "",
+      client: "",
+      role: "",
+      buildingType: "",
+      featured: false
+    }
+  },
+  {
+    id: '13',
+    slug: slugify('Avellaneda'),
+    image: hutchImage,
+    gallery: [],
+    metadata: {
+      title: "Avellaneda",
+      location: "",
+      date: "",
+      client: "",
+      role: "",
+      buildingType: "",
+      featured: false
+    }
+  },
+  {
+    id: '14',
+    slug: slugify('Alco'),
+    image: hutchImage,
+    gallery: [],
+    metadata: {
+      title: "Alco",
+      location: "",
+      date: "",
+      client: "",
+      role: "",
+      buildingType: "",
+      featured: false
+    }
+  },
+  {
+    id: '15',
+    slug: slugify('Fernandez'),
+    image: hutchImage,
+    gallery: [],
+    metadata: {
+      title: "Fernandez",
+      location: "",
+      date: "",
+      client: "",
+      role: "",
+      buildingType: "",
+      featured: false
+    }
+  }
 ];
