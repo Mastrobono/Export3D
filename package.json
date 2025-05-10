@@ -39,6 +39,7 @@
     "yet-another-react-lightbox": "^3.22.0"
   },
   "devDependencies": {
-    "@types/react-image-gallery": "^1.2.4"
+    "@types/react-image-gallery": "^1.2.4",
+    "rollup": "^4.16.4"
   }
 }
