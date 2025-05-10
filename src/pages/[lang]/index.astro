@@ -20,7 +20,15 @@ if (!lang || !['en', 'es'].includes(lang)) {
   <AboutUs lang={lang} client:load />
   <Featured
     lang={lang}
-    projects={projects.filter((project) => project.metadata.featured == true)}
+    projects={projects
+      .filter((project) => project.metadata.featured == true)
+      .map((project) => ({
+        ...project,
+        metadata: {
+          ...project.metadata,
+          slug: project.slug
+        }
+      }))}
     client:load
   />
   <AllProjects lang={lang} projects={projects} client:load />

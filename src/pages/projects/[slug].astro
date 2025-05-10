@@ -1,4 +1,6 @@
 ---
 const { slug } = Astro.params;
-return Astro.redirect(`/es/projects/${slug}`);
+if (!Astro.url.pathname.startsWith('/es/projects') && !Astro.url.pathname.startsWith('/en/projects')) {
+  return Astro.redirect(`/es/projects/${slug}`);
+}
 --- 

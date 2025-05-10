@@ -263,7 +263,7 @@ const Feature: React.FC<FeatureProps> = ({ projects, lang }) => {
                     className="inline-flex"
                   >
                     <a
-                      href={`/project/${slide.metadata.slug}`}
+                      href={`/${lang}/projects/${slide.metadata.slug}`}
                       className="group/btn flex items-center gap-4 text-xl md:text-2xl text-white font-kuunari-medium drop-shadow-[0_2px_3px_rgba(0,0,0,0.5)] group-hover:text-accent-500 hover:text-accent-500 transition-colors duration-300"
                     >
                       {getLabel('featured.seeProject', 'Ver Proyecto')}
