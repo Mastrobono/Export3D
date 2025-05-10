@@ -1,6 +1,20 @@
 ---
+import { projects } from '../../data/data';
 const { slug } = Astro.params;
-if (!Astro.url.pathname.startsWith('/es/projects') && !Astro.url.pathname.startsWith('/en/projects')) {
-  return Astro.redirect(`/es/projects/${slug}`);
+
+// Si ya estamos en /es/projects/[slug] o /en/projects/[slug], no redirigir
+if (
+  Astro.url.pathname.startsWith('/es/projects') ||
+  Astro.url.pathname.startsWith('/en/projects')
+) {
+  // Si el slug no existe, muestra un 404
+  const exists = projects.some((p) => p.slug === slug);
+  if (!exists) {
+    return Astro.redirect('/es/404'); // O simplemente: throw new Error('Not found');
+  }
+  return;
 }
+
+// Si no, redirigir a /es/projects/[slug]
+return Astro.redirect(`/es/projects/${slug}`);
 --- 
