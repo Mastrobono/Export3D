@@ -331,6 +331,15 @@ export default function ProjectPage({ slug, galleryImages, lang, project }: Proj
   const [relatedProjects, setRelatedProjects] = useState<Project[]>([]);
   const t = useTranslations(lang);
 
+  // Crear array de imágenes incluyendo la imagen principal
+  const allImages = [
+    {
+      original: project.image.src,
+      thumbnail: project.image.src
+    },
+    ...galleryImages
+  ];
+
   useEffect(() => {
     // Add the custom styles to the document
     const styleElement = document.createElement('style');
@@ -478,7 +487,7 @@ export default function ProjectPage({ slug, galleryImages, lang, project }: Proj
 
               <div className="relative z-10">
                 <ImageGallery
-                  items={galleryImages}
+                  items={allImages}
                   showPlayButton={false}
                   showFullscreenButton={true}
                   showNav={true}
@@ -526,33 +535,6 @@ export default function ProjectPage({ slug, galleryImages, lang, project }: Proj
                       </svg>
                     </button>
                   )}
-                  styles={{
-                    thumbnail: {
-                      width: '100px',
-                      height: '75px',
-                      objectFit: 'cover',
-                      borderRadius: '4px',
-                    },
-                    thumbnailsWrapper: {
-                      padding: '0 20px',
-                      display: 'flex',
-                      justifyContent: 'flex-end',
-                      gap: '8px',
-                      overflowX: 'auto',
-                      WebkitOverflowScrolling: 'touch',
-                    },
-                    thumbnails: {
-                      width: 'auto',
-                      display: 'flex',
-                      flexDirection: 'row',
-                      justifyContent: 'flex-end',
-                    },
-                    thumbnailContainer: {
-                      width: '100px',
-                      height: '75px',
-                      margin: '0 4px',
-                    }
-                  }}
                 />
               </div>
             </motion.div>

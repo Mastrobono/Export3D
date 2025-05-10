@@ -3,6 +3,7 @@ import type { Project } from '../types/project';
 import * as path from 'path';
 import * as fs from 'fs';
 import type { ImageMetadata } from 'astro';
+import galleries from './galleries.json';
 
 // Import images directly
 import hutchImage from "../assets/features/hutch.webp";
@@ -42,7 +43,7 @@ export const projects: Project[] = [
     id: '1',
     slug: slugify('HUTCH'),
     image: hutchImage,
-    gallery: [hutchImage],
+    gallery: galleries[slugify('HUTCH')] || [],
     metadata: {
       title: "HUTCH",
       location: "Ciudad Jardin, Buenos Aires, Argentina",
@@ -57,7 +58,7 @@ export const projects: Project[] = [
     id: '3',
     slug: slugify('HAUS'),
     image: hausImage,
-    gallery: [hausImage],
+    gallery: galleries[slugify('HAUS')] || [],
     metadata: {
       title: "HAUS",
       location: "Buenos Aires, Argentina",
@@ -72,7 +73,7 @@ export const projects: Project[] = [
     id: '4',
     slug: slugify('ARCE'),
     image: arceImage,
-    gallery: [arceImage],
+    gallery: galleries[slugify('ARCE')] || [],
     metadata: {
       title: "ARCE",
       location: "Buenos Aires, Argentina",
@@ -87,7 +88,7 @@ export const projects: Project[] = [
     id: '5',
     slug: slugify('Meat Frisbee'),
     image: frisbeeImage,
-    gallery: [frisbeeImage],
+    gallery: galleries[slugify('Meat Frisbee')] || [],
     metadata: {
       title: "Meat Frisbee",
       location: "Buenos Aires, Argentina",
@@ -247,6 +248,9 @@ export const projects: Project[] = [
       role: ProjectRole.VISUALIZACION,
       buildingType: BuildingType.RESIDENCIAL,
       featured: false
-    }
-  }
-];
+    }
+  }
+].map(project => ({
+  ...project,
+  gallery: galleries[project.slug] || []
+}));

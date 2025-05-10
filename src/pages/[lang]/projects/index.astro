@@ -1,8 +1,8 @@
 ---
-import ProyectsFilter from "../../components/ProjectsFilter.tsx";
-import Layout from "../../layouts/Layout.astro";
-import ContactForm from "../../components/ContactForm.tsx";
-import { getLangFromUrl } from '../../i18n/utils';
+import ProjectsFilter from "../../../components/ProjectsFilter.tsx";
+import Layout from "../../../layouts/Layout.astro";
+import ContactForm from "../../../components/ContactForm.tsx";
+import { getLangFromUrl } from '../../../i18n/utils';
 
 // Validar que el idioma sea válido
 const lang = getLangFromUrl(Astro.url);
@@ -12,6 +12,6 @@ if (lang !== 'es' && lang !== 'en') {
 ---
 
 <Layout>
-  <ProyectsFilter client:load lang={lang} />
+  <ProjectsFilter client:load lang={lang} />
   <ContactForm client:load isOpen={false} onClose={() => {}} />
 </Layout> 

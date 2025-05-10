@@ -2,59 +2,27 @@
 import ProjectPage from "../../../components/ProjectPage.tsx";
 import { projects } from "../../../data/data.ts";
 import Layout from "../../../layouts/Layout.astro";
-import * as path from 'path';
-import * as fs from 'fs';
 
-// Validate language and redirect if invalid
+const { lang, slug } = Astro.params;
 if (!lang || !['en', 'es'].includes(lang)) {
   return Astro.redirect('/es/projects');
 }
-
-// Get the requested slug
-const requestedSlug = Astro.params.slug;
-
-// Get the current URL path
-const currentPath = Astro.url.pathname;
-const expectedPath = `/${lang}/projects/${requestedSlug}`;
-
-// If we're not on the correct path, redirect to prevent loops
-if (currentPath !== expectedPath) {
-  return Astro.redirect(expectedPath);
-}
-
-
-const { lang, slug } = Astro.params;
 if (lang !== "es" && lang !== "en") {
-    return Astro.redirect("/es/projects");
+  return Astro.redirect("/es/projects");
 }
-
 const project = projects.find((p) => p.slug === slug);
 if (!project) {
-    throw new Error("Proyecto no encontrado");
+  throw new Error("Proyecto no encontrado");
 }
 
-// Ruta absoluta a la carpeta de imágenes del proyecto
-const imagesDir = path.join(process.cwd(), 'public', 'assets', 'projects', slug as string);
-
-// Lee los archivos de la carpeta (si existe)
+// Usa la galería del proyecto si existe, si no la imagen principal
 let galleryImages: { original: string; thumbnail: string }[] = [];
-try {
-  const files = fs.readdirSync(imagesDir);
-  galleryImages = files
-    .filter((f: string) => f.endsWith('-full.webp'))
-    .map((f: string) => {
-      const idx = f.match(/gallery-(\d+)-full\.webp$/)?.[1] ?? '0';
-      return {
-        original: `/assets/projects/${slug}/${f}`,
-        thumbnail: `/assets/projects/${slug}/${slug}-gallery-${idx}-thumb.webp`
-      };
-    })
-    .sort((a: any, b: any) => {
-      const getIdx = (img: any) => parseInt(img.original.match(/gallery-(\d+)-full\.webp$/)?.[1] ?? '0', 10);
-      return getIdx(a) - getIdx(b);
-    });
-} catch (e) {
-  // Si la carpeta no existe, usa la imagen principal como fallback
+if (project.gallery && project.gallery.length > 0) {
+  galleryImages = project.gallery.map((img, idx) => ({
+    original: typeof img === 'string' ? img : img.src,
+    thumbnail: `/assets/projects/${slug}/${slug}-gallery-${idx}-thumb.webp`
+  }));
+} else {
   galleryImages = [{
     original: project.image.src,
     thumbnail: project.image.src

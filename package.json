@@ -4,8 +4,10 @@
   "version": "0.0.1",
   "scripts": {
     "dev": "astro dev",
-    "build": "astro build",
+    "start": "astro dev",
+    "build": "npm run generate:galleries && astro build",
     "preview": "astro preview",
+    "generate:galleries": "node scripts/generate-galleries.js",
     "astro": "astro"
   },
   "dependencies": {

@@ -18,6 +18,8 @@
     "target": "esnext",
     "moduleResolution": "node",
     "strict": true,
-    "types": ["astro/client"]
+    "types": ["astro/client"],
+    "resolveJsonModule": true,
+    "esModuleInterop": true
   }
 }
