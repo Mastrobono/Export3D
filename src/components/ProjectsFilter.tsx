@@ -17,6 +17,7 @@ import { getFilterTranslation } from "../constants/translations";
 import { Project } from "../types/project";
 import { Dispatch, SetStateAction } from "react";
 import { useTranslations } from '../i18n/utils';
+import { useProjectFilters } from '../hooks/useProjectFilters';
 
 interface FilterOption {
   value: string;
@@ -53,12 +54,35 @@ export const filterProjects = (
   }
 };
 
+// Utilidad para normalizar los valores de los filtros a key de traducción
+function normalizeKey(str: string) {
+  return str
+    .toLowerCase()
+    .normalize('NFD').replace(/\p{Diacritic}/gu, '') // quita acentos
+    .replace(/ /g, '.')
+    .replace(/&/g, 'y')
+    .replace(/[^a-z0-9.]/g, ''); // solo minúsculas, números y puntos
+}
+
+// Utilidad para poner en Title Case excepto artículos y preposiciones
+function toTitleCase(str: string) {
+  const exceptions = ['y', 'de', 'del', 'la', 'el', 'los', 'las', 'a', 'en', 'the', 'of', 'and', 'for', 'to', 'with', 'by', 'on', 'at', 'from', 'as', 'but', 'or', 'nor', 'so', 'yet', 'in'];
+  return str.split(' ').map((word, i) => {
+    if (i === 0 || !exceptions.includes(word.toLowerCase())) {
+      return word.charAt(0).toUpperCase() + word.slice(1);
+    } else {
+      return word.toLowerCase();
+    }
+  }).join(' ');
+}
+
 export default function ProjectsFilter({ lang }: ProjectsFilterProps) {
   const t = useTranslations(lang);
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
   const [activeFilters, setActiveFilters] = useState<string[]>([]);
   const [filteredProjects, setFilteredProjects] = useState<Project[]>(projects);
   const [isContactFormOpen, setIsContactFormOpen] = useState(false);
+  const { getTranslatedFilter } = useProjectFilters(projects, lang);
 
   // Filtros traducidos
   const filters: FilterSection[] = Object.keys(tags).map((key) => ({
@@ -66,7 +90,7 @@ export default function ProjectsFilter({ lang }: ProjectsFilterProps) {
     name: t(`filters.${key}` as any),
     options: tags[key as keyof typeof tags].map((value) => ({
       value: value,
-      label: t(`filters.${key}.${value}` as any),
+      label: toTitleCase(getTranslatedFilter(value, lang)),
     })),
   }));
 
