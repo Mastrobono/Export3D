@@ -331,15 +331,6 @@ export default function ProjectPage({ slug, galleryImages, lang, project }: Proj
   const [relatedProjects, setRelatedProjects] = useState<Project[]>([]);
   const t = useTranslations(lang);
 
-  // Crear array de imágenes incluyendo la imagen principal
-  const allImages = [
-    {
-      original: project.image.src,
-      thumbnail: project.image.src
-    },
-    ...galleryImages
-  ];
-
   useEffect(() => {
     // Add the custom styles to the document
     const styleElement = document.createElement('style');
@@ -487,7 +478,7 @@ export default function ProjectPage({ slug, galleryImages, lang, project }: Proj
 
               <div className="relative z-10">
                 <ImageGallery
-                  items={allImages}
+                  items={galleryImages}
                   showPlayButton={false}
                   showFullscreenButton={true}
                   showNav={true}

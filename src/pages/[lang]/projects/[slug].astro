@@ -2,6 +2,8 @@
 import ProjectPage from "../../../components/ProjectPage.tsx";
 import { projects } from "../../../data/data.ts";
 import Layout from "../../../layouts/Layout.astro";
+import galleriesData from "../../../data/galleries.json";
+const galleries = galleriesData as Record<string, { original: string; thumbnail: string }[]>;
 
 const { lang, slug } = Astro.params;
 if (!lang || !['en', 'es'].includes(lang)) {
@@ -15,19 +17,11 @@ if (!project) {
   throw new Error("Proyecto no encontrado");
 }
 
-// Usa la galería del proyecto si existe, si no la imagen principal
-let galleryImages: { original: string; thumbnail: string }[] = [];
-if (project.gallery && project.gallery.length > 0) {
-  galleryImages = project.gallery.map((img, idx) => ({
-    original: typeof img === 'string' ? img : img.src,
-    thumbnail: `/assets/projects/${slug}/${slug}-gallery-${idx}-thumb.webp`
-  }));
-} else {
-  galleryImages = [{
-    original: project.image.src,
-    thumbnail: project.image.src
-  }];
-}
+// Usa la galería de galleries.json si existe, si no la imagen principal
+let galleryImages = galleries[slug as string] || [{
+  original: project.image.src,
+  thumbnail: project.image.src
+}];
 ---
 
 <Layout>
