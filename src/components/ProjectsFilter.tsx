@@ -374,12 +374,12 @@ export default function ProjectsFilter({ lang }: ProjectsFilterProps) {
               </div>
             </motion.div>
 
-            <div className="pt-12 lg:grid lg:grid-cols-3 lg:gap-x-8 xl:grid-cols-4">
+            <div className="lg:grid lg:grid-cols-3 lg:gap-x-8 xl:grid-cols-4">
               <motion.aside
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.6, delay: 0.4, ease: "easeOut" }}
-                className="hidden lg:flex lg:flex-col sticky top-24 overflow-y-visible"
+                className="hidden lg:flex lg:flex-col sticky top-8 self-start h-fit pt-12"
               >
                 <h2 className="sr-only">Filtros</h2>
 
@@ -556,7 +556,7 @@ export default function ProjectsFilter({ lang }: ProjectsFilterProps) {
 
               {/* Project grid */}
               <motion.div
-                className="mt-6 lg:col-span-2 lg:mt-0 xl:col-span-3"
+                className="pt-12 mt-6 lg:col-span-2 lg:mt-0 xl:col-span-3"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.6, ease: "easeOut" }}
