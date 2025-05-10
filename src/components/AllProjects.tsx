@@ -257,7 +257,7 @@ const AllProjects: React.FC<AllProjectsProps> = ({ projects, lang }) => {
             className="overflow-visible"
           >
             <motion.a
-              href="/projects"
+              href={`/${lang}/projects`}
               className="group relative inline-flex items-center gap-3 px-4 py-2"
             >
               <span className="relative text-2xl text-accent-500 font-kuunari-medium">
