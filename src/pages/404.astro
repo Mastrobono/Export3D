@@ -1,0 +1,35 @@
+---
+const lang = Astro.url.pathname.startsWith('/en') ? 'en' : 'es';
+const messages = {
+  es: {
+    title: 'Página no encontrada',
+    notFound: 'Página no encontrada',
+    back: 'Volver al inicio',
+    home: '/es'
+  },
+  en: {
+    title: 'Page not found',
+    notFound: 'Page not found',
+    back: 'Back to home',
+    home: '/en'
+  }
+};
+const t = messages[lang];
+---
+<html lang={lang}>
+  <head>
+    <title>{t.title}</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <style>
+      body { background: #121212; color: white; text-align: center; padding: 5rem; font-family: sans-serif; }
+      h1 { font-size: 4rem; color: #f9c461; }
+      a { color: #f9c461; text-decoration: underline; }
+    </style>
+  </head>
+  <body>
+    <h1>404</h1>
+    <p>{t.notFound}</p>
+    <a href={t.home}>{t.back}</a>
+  </body>
+</html> 
