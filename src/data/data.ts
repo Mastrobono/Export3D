@@ -36,7 +36,6 @@ export const tags = {
   date: Object.values(ProjectDate)
 };
 
-
 // Projects
 export const projects: Project[] = [
   {
@@ -107,11 +106,11 @@ export const projects: Project[] = [
     gallery: [],
     metadata: {
       title: "San Isidro",
-      location: "",
-      date: "",
-      client: "",
-      role: "",
-      buildingType: "",
+      location: "San Isidro, Buenos Aires, Argentina",
+      date: ProjectDate.YEAR_2024,
+      client: "Degacor",
+      role: ProjectRole.VISUALIZACION,
+      buildingType: BuildingType.RESIDENCIAL,
       featured: false
     }
   },
@@ -122,11 +121,11 @@ export const projects: Project[] = [
     gallery: [],
     metadata: {
       title: "CF Moto",
-      location: "",
-      date: "",
-      client: "",
-      role: "",
-      buildingType: "",
+      location: "CABA, Buenos Aires, Argentina",
+      date: ProjectDate.YEAR_2023,
+      client: "CF Motos",
+      role: ProjectRole.VISUALIZACION,
+      buildingType: BuildingType.COMERCIAL,
       featured: false
     }
   },
@@ -137,11 +136,11 @@ export const projects: Project[] = [
     gallery: [],
     metadata: {
       title: "Tuzzi",
-      location: "",
-      date: "",
-      client: "",
-      role: "",
-      buildingType: "",
+      location: "Buenos Aires, Argentina",
+      date: ProjectDate.YEAR_2023,
+      client: "Tuzzi",
+      role: ProjectRole.VISUALIZACION,
+      buildingType: BuildingType.RESIDENCIAL,
       featured: false
     }
   },
@@ -152,11 +151,11 @@ export const projects: Project[] = [
     gallery: [],
     metadata: {
       title: "MO",
-      location: "",
-      date: "",
-      client: "",
-      role: "",
-      buildingType: "",
+      location: "Buenos Aires, Argentina",
+      date: ProjectDate.YEAR_2023,
+      client: "MO",
+      role: ProjectRole.VISUALIZACION,
+      buildingType: BuildingType.RESIDENCIAL,
       featured: false
     }
   },
@@ -167,11 +166,11 @@ export const projects: Project[] = [
     gallery: [],
     metadata: {
       title: "Hold",
-      location: "",
-      date: "",
-      client: "",
-      role: "",
-      buildingType: "",
+      location: "CABA, Buenos Aires, Argentina",
+      date: ProjectDate.YEAR_2024,
+      client: "HOLD",
+      role: ProjectRole.VISUALIZACION,
+      buildingType: BuildingType.RESIDENCIAL,
       featured: false
     }
   },
@@ -182,11 +181,11 @@ export const projects: Project[] = [
     gallery: [],
     metadata: {
       title: "Erza",
-      location: "",
-      date: "",
-      client: "",
-      role: "",
-      buildingType: "",
+      location: "Malaga, España",
+      date: ProjectDate.YEAR_2024,
+      client: "ERZA",
+      role: ProjectRole.VISUALIZACION,
+      buildingType: BuildingType.RESIDENCIAL,
       featured: false
     }
   },
@@ -197,11 +196,11 @@ export const projects: Project[] = [
     gallery: [],
     metadata: {
       title: "Castelli",
-      location: "",
-      date: "",
-      client: "",
-      role: "",
-      buildingType: "",
+      location: "Tandil, Buenos Aires, Argentina",
+      date: ProjectDate.YEAR_2025,
+      client: "Castelli",
+      role: ProjectRole.VISUALIZACION,
+      buildingType: BuildingType.RESIDENCIAL,
       featured: false
     }
   },
@@ -212,11 +211,11 @@ export const projects: Project[] = [
     gallery: [],
     metadata: {
       title: "Avellaneda",
-      location: "",
-      date: "",
-      client: "",
-      role: "",
-      buildingType: "",
+      location: "Buenos Aires, Argentina",
+      date: ProjectDate.YEAR_2023,
+      client: "MOT Estudio",
+      role: ProjectRole.VISUALIZACION,
+      buildingType: BuildingType.RESIDENCIAL,
       featured: false
     }
   },
@@ -227,11 +226,11 @@ export const projects: Project[] = [
     gallery: [],
     metadata: {
       title: "Alco",
-      location: "",
-      date: "",
-      client: "",
-      role: "",
-      buildingType: "",
+      location: "Buenos Aires, Argentina",
+      date: ProjectDate.YEAR_2025,
+      client: "Alco",
+      role: ProjectRole.VISUALIZACION,
+      buildingType: BuildingType.COMERCIAL,
       featured: false
     }
   },
@@ -242,12 +241,12 @@ export const projects: Project[] = [
     gallery: [],
     metadata: {
       title: "Fernandez",
-      location: "",
-      date: "",
-      client: "",
-      role: "",
-      buildingType: "",
+      location: "Buenos Aires, Argentina",
+      date: ProjectDate.YEAR_2023,
+      client: "Liliana Fernandez",
+      role: ProjectRole.VISUALIZACION,
+      buildingType: BuildingType.RESIDENCIAL,
       featured: false
-    }
-  }
+    }
+  }
 ];

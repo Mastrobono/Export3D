@@ -1,27 +1,27 @@
 ---
 import background from "../assets/background.webp";
 import Container from "../layouts/Container";
-import { useTranslations } from '../i18n/utils';
-import { ui } from '../i18n/ui';
+import { useTranslations } from "../i18n/utils";
+import { ui } from "../i18n/ui";
 
 const { lang } = Astro.props;
 const t = useTranslations(lang);
 
 // Función para procesar el texto con palabras resaltadas
 function processHighlightedText(text: string, lang: keyof typeof ui) {
-  const highlightedWords = ui[lang]['hero.highlighted'];
+  const highlightedWords = ui[lang]["hero.highlighted"];
   let processedText = text;
-  
+
   Object.entries(highlightedWords).forEach(([key, word]) => {
     const placeholder = `{${key}}`;
     const highlightedWord = `<span class="text-accent-500">${word}</span>`;
     processedText = processedText.replace(placeholder, highlightedWord);
   });
-  
+
   return processedText;
 }
 
-const subtitle = processHighlightedText(t('hero.subtitle') as string, lang);
+const subtitle = processHighlightedText(t("hero.subtitle") as string, lang);
 ---
 
 <Container
@@ -64,43 +64,45 @@ const subtitle = processHighlightedText(t('hero.subtitle') as string, lang);
     {/* Main Content */}
     <main class="relative z-10 h-[90vh]">
       {/* Content container for better mobile layout */}
-      <div class="absolute inset-0 flex flex-col lg:block">
+      <div class="absolute inset-0 flex flex-col lg:block w-full">
         {/* Left-aligned content */}
-        <div class="relative lg:absolute bottom-auto lg:bottom-40 left-0 lg:left-12 px-6 lg:px-0 text-left z-20 mt-20 lg:mt-0">
+        <div
+          class="relative lg:absolute bottom-auto min-[1130px]:bottom-40 left-0 lg:left-12 px-6 min-[1130px]:px-0 text-left z-20 mt-20 lg:mt-0"
+        >
           {/* Main title */}
           <h1
-            class="text-[6rem] sm:text-[8rem] md:text-[10rem] lg:text-[12rem] text-white leading-[0.8] font-kuunari-bold tracking-[-8px] md:tracking-[-12px] drop-shadow-[0_4px_20px_rgba(0,0,0,0.4)] main-title"
+            class="text-[6rem] sm:text-[8rem] md:text-[10rem] lg:text-[12rem] text-white leading-[1] font-kuunari-bold tracking-[-10px] md:tracking-[-12px] drop-shadow-[0_4px_20px_rgba(0,0,0,0.4)] main-title min-[1130px]:ml-[-8px] overflow:visible"
           >
-            Export<span class="text-accent-500">3d</span><span class="period">.</span>
+            Export<span class="text-accent-500">3d</span><span class="period"
+              >.</span>
           </h1>
 
           {/* Subtitle */}
           <p
-            class="mt-6 text-[24px] sm:text-[28px] lg:text-[32px] tracking-[.7px] font-kuunari-light text-white/90 max-w-2xl subtitle-text"
+            class="mt-6 text-[24px] sm:text-[28px] lg:text-[32px] tracking-[.7px] font-kuunari-light text-white/90 max-w-2xl subtitle-text mt-0"
             set:html={subtitle}
-          >
-          </p>
+          />
         </div>
 
         {/* Right column with marketing text */}
         <div
-          class="absolute bottom-10 md:bottom-32 left-0 lg:left-auto right-0 lg:right-12 px-6 lg:px-0 text-left lg:text-right max-w-full lg:max-w-md marketing-text flex flex-col justify-start z-20 mt-12 lg:mt-0"
+          class="absolute bottom-10 min-[1130px]:bottom-32 left:0 min-[1130px]:right-12 px-6 min-[1130px]:px-0 text-left min-[1130px]:text-right  max-w-full lg:max-w-md marketing-text flex flex-col justify-start z-20 mt-12 lg:mt-0"
         >
           <div class="space-y-6">
             <p
               class="text-[20px] sm:text-[24px] lg:text-[28px] leading-[1.1] font-kuunari-medium text-white/90"
             >
-              {t('hero.description')}
+              {t("hero.description")}
             </p>
 
             <div class="space-y-4">
-              <div class="flex items-center lg:justify-end gap-3">
+              <div class="flex items-center min-[1130px]:justify-end gap-3">
                 <span class="text-accent-500 text-lg">01</span>
-                <p class="text-white/60 text-lg">{t('hero.service1')}</p>
+                <p class="text-white/60 text-lg">{t("hero.service1")}</p>
               </div>
-              <div class="flex items-center lg:justify-end gap-3">
+              <div class="flex items-center min-[1130px]:justify-end gap-3">
                 <span class="text-accent-500 text-lg">02</span>
-                <p class="text-white/60 text-lg">{t('hero.service2')}</p>
+                <p class="text-white/60 text-lg">{t("hero.service2")}</p>
               </div>
             </div>
 
@@ -110,7 +112,7 @@ const subtitle = processHighlightedText(t('hero.subtitle') as string, lang);
             >
               <span
                 class="text-base uppercase tracking-widest font-kuunari-regular"
-                >{t('hero.cta')}</span
+                >{t("hero.cta")}</span
               >
               <svg
                 class="w-5 h-5 transform group-hover:translate-y-1 transition-transform rotate-90"
@@ -216,35 +218,42 @@ const subtitle = processHighlightedText(t('hero.subtitle') as string, lang);
   }
 
   // Ejecutar las animaciones una sola vez cuando el DOM esté listo
-  document.addEventListener('DOMContentLoaded', () => {
-    const mainTitle = document.querySelector(".main-title") as HTMLElement | null;
-    const subtitleText = document.querySelector(".subtitle-text") as HTMLElement | null;
-    const marketingText = document.querySelector(".marketing-text") as HTMLElement | null;
-    
+  document.addEventListener("DOMContentLoaded", () => {
+    const mainTitle = document.querySelector(
+      ".main-title",
+    ) as HTMLElement | null;
+    const subtitleText = document.querySelector(
+      ".subtitle-text",
+    ) as HTMLElement | null;
+    const marketingText = document.querySelector(
+      ".marketing-text",
+    ) as HTMLElement | null;
+
     // Aplicar animaciones con delays
     if (mainTitle) {
       mainTitle.classList.add("animate-fade-in-up");
     }
-    
+
     if (subtitleText) {
       subtitleText.classList.add("animate-fade-in-up");
     }
-    
+
     if (marketingText) {
       marketingText.classList.add("animate-fade-in-up");
     }
   });
 
   // Descubrí más scroll functionality
-  const descubrimasBtn = document.querySelector('.descubrimas-btn');
+  const descubrimasBtn = document.querySelector(".descubrimas-btn");
   if (descubrimasBtn && servicesSection) {
-    descubrimasBtn.addEventListener('click', () => {
+    descubrimasBtn.addEventListener("click", () => {
       const rect = servicesSection.getBoundingClientRect();
-      const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+      const scrollTop =
+        window.pageYOffset || document.documentElement.scrollTop;
       const offset = -120;
       window.scrollTo({
         top: rect.top + scrollTop + offset,
-        behavior: 'smooth'
+        behavior: "smooth",
       });
     });
   }
@@ -264,7 +273,7 @@ const subtitle = processHighlightedText(t('hero.subtitle') as string, lang);
   }
 
   .radial-dark-overlay::after {
-    content: '';
+    content: "";
     position: absolute;
     top: 0;
     left: 0;
@@ -282,7 +291,7 @@ const subtitle = processHighlightedText(t('hero.subtitle') as string, lang);
 
   /* Initial dark overlay */
   #hero-container::before {
-    content: '';
+    content: "";
     position: absolute;
     top: 0;
     left: 0;
@@ -309,8 +318,9 @@ const subtitle = processHighlightedText(t('hero.subtitle') as string, lang);
   }
 
   .main-title.animate-fade-in-up {
-    animation: typewriter 1s steps(40) 1s forwards,
-               blinkCursor 0.7s steps(2) 1s 1 forwards;
+    animation:
+      typewriter 1s steps(40) 1s forwards,
+      blinkCursor 0.7s steps(2) 1s 1 forwards;
   }
 
   /* 3d part animation */
@@ -326,6 +336,7 @@ const subtitle = processHighlightedText(t('hero.subtitle') as string, lang);
     display: inline-block;
     color: white;
     animation: fadeIn 0.3s ease-out 2.8s forwards;
+    min-width: 50px;
   }
 
   /* Remove any existing period */
@@ -345,18 +356,9 @@ const subtitle = processHighlightedText(t('hero.subtitle') as string, lang);
 
   /* Marketing text container positioning */
   .marketing-text {
-    opacity: 0;
-    position: absolute;
-    right: 12px;
-    text-align: right;
+  
     max-width: 400px;
     z-index: 20;
-  }
-
-  @media (min-width: 1024px) {
-    .marketing-text {
-      right: 12px;
-    }
   }
 
   /* Marketing text animations */
@@ -399,7 +401,7 @@ const subtitle = processHighlightedText(t('hero.subtitle') as string, lang);
   }
 
   .descubrimas-btn::after {
-    content: '';
+    content: "";
     position: absolute;
     bottom: -2px;
     left: 0;
@@ -470,7 +472,8 @@ const subtitle = processHighlightedText(t('hero.subtitle') as string, lang);
   }
 
   @keyframes blinkCursor {
-    0%, 100% {
+    0%,
+    100% {
       border-right-color: transparent;
     }
     50% {
@@ -589,4 +592,3 @@ const subtitle = processHighlightedText(t('hero.subtitle') as string, lang);
     }
   }
 </style>
-
