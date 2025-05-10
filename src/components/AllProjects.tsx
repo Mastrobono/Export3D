@@ -86,7 +86,7 @@ const AllProjects: React.FC<AllProjectsProps> = ({ projects, lang }) => {
         }
       }}
       viewport={{ once: true }}
-      className="mx-auto max-w-7xl md:max-w-8xl rounded-md bg-lightgray shadow-xl px-8 py-24 md:px-20 md:py-32"
+      className="mx-auto max-w-7xl md:max-w-8xl min-[1800px]:max-w-[1800px] rounded-md bg-lightgray shadow-xl px-8 py-24 md:px-20 md:py-32"
       data-section="all-projects"
     >
       <motion.h2

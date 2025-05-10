@@ -56,7 +56,7 @@ export default function Navbar({ lang }: NavbarProps) {
       {({ open }) => (
         <nav className="fixed w-full top-0 z-50 bg-darkgray backdrop-blur-sm shadow-[0 0 6px 1px #020202]">
           <div className={classNames(
-            "mx-auto max-w-7xl lg:max-w-8xl px-0 min-2xl:px-20",
+            "mx-auto max-w-7xl lg:max-w-8xl min-[1800px]:max-w-[1800px] px-0 min-2xl:px-20",
             {
               "bg-darkgray backdrop-blur-sm": open
             }
@@ -79,7 +79,7 @@ export default function Navbar({ lang }: NavbarProps) {
               </div>
 
               {/* Desktop Navigation */}
-              <div className="hidden min-[1130px]:flex lg:items-center">
+              <div className="hidden min-[1130px]:flex lg:items-center ">
                 <div className="flex items-center gap-x-8">
                   {NavbarOptions.map((option) => (
                     <a
@@ -163,19 +163,19 @@ export default function Navbar({ lang }: NavbarProps) {
               <Disclosure.Button
                 as="button"
                 onClick={() => setIsContactFormOpen(true)}
-                className="mt-4 w-full rounded-xl bg-accent-500 px-6 py-2 text-base font-medium text-white hover:bg-accent-400 transition-colors duration-200"
+                className="mt-4 mx-3 my-2  w-full rounded-xl bg-accent-500 px-6 py-2 text-base font-medium text-white hover:bg-accent-400 transition-colors duration-200"
               >
                 {t('nav.cta')}
               </Disclosure.Button>
-              <div className="mt-4">
+              <div className="mx-3 !mt-2">
                 <LanguageSelector lang={lang} />
               </div>
             </div>
           </Disclosure.Panel>
 
-          <ContactForm 
-            isOpen={isContactFormOpen} 
-            onClose={() => setIsContactFormOpen(false)} 
+          <ContactForm
+            isOpen={isContactFormOpen}
+            onClose={() => setIsContactFormOpen(false)}
             lang={lang}
           />
         </nav>

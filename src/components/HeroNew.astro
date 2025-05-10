@@ -26,7 +26,7 @@ const subtitle = processHighlightedText(t("hero.subtitle") as string, lang);
 
 <Container
   id="hero"
-  classNames="mt-12 mb-12 relative max-w-7xl lg:max-w-8xl rounded-md"
+  classNames="mt-12 mb-12 relative max-w-7xl lg:max-w-8xl min-[1800px]:max-w-[1800px] rounded-md"
 >
   <div id="hero-container" class="relative h-[90vh] overflow-hidden rounded-md">
     {/* Background with effects */}
@@ -42,6 +42,7 @@ const subtitle = processHighlightedText(t("hero.subtitle") as string, lang);
 
       {/* Dark overlay with radial transparency */}
       <div class="absolute inset-0 radial-dark-overlay"></div>
+      <div class="mobile-vertical-overlay"></div>
 
       {/* Spotlight effect */}
       <div
@@ -67,26 +68,27 @@ const subtitle = processHighlightedText(t("hero.subtitle") as string, lang);
       <div class="absolute inset-0 flex flex-col lg:block w-full">
         {/* Left-aligned content */}
         <div
-          class="relative lg:absolute bottom-auto min-[1130px]:bottom-40 left-0 lg:left-12 px-6 min-[1130px]:px-0 text-left z-20 mt-20 lg:mt-0"
+          class="relative min-[1130px]:absolute bottom-auto min-[1130px]:bottom-32 left-0 sm:left-4 min-[1130px]:left-12 px-6 min-[1130px]:px-0 text-left z-20 mt-20 min-[1130px]::mt-0"
         >
           {/* Main title */}
           <h1
-            class="text-[6rem] sm:text-[8rem] md:text-[10rem] lg:text-[12rem] text-white leading-[1] font-kuunari-bold tracking-[-10px] md:tracking-[-12px] drop-shadow-[0_4px_20px_rgba(0,0,0,0.4)] main-title min-[1130px]:ml-[-8px] overflow:visible"
+            class="text-[6rem] sm:text-[8rem] min-[1130px]:text-[12rem] text-white leading-[1] font-kuunari-bold tracking-[-6px] sm:tracking-[-10px] min-[1130px]:tracking-[-12px] drop-shadow-[0_4px_20px_rgba(0,0,0,0.4)] main-title ml-[-6px] sm:ml-[-8px]"
           >
             Export<span class="text-accent-500">3d</span><span class="period"
-              >.</span>
+              >.</span
+            >
           </h1>
 
           {/* Subtitle */}
           <p
-            class="mt-6 text-[24px] sm:text-[28px] lg:text-[32px] tracking-[.7px] font-kuunari-light text-white/90 max-w-2xl subtitle-text mt-0"
+            class="mt-6 text-[24px] sm:text-[28px] lg:text-[32px] tracking-[.7px] font-kuunari-light text-white/90 max-w-2xl subtitle-text mt-[-2px] min-[1130px]:mt-0"
             set:html={subtitle}
           />
         </div>
 
         {/* Right column with marketing text */}
         <div
-          class="absolute bottom-10 min-[1130px]:bottom-32 left:0 min-[1130px]:right-12 px-6 min-[1130px]:px-0 text-left min-[1130px]:text-right  max-w-full lg:max-w-md marketing-text flex flex-col justify-start z-20 mt-12 lg:mt-0"
+          class="absolute bottom-10 min-[1130px]:bottom-32 left-0 sm:left-4 min-[1130px]:right-12 min-[1130px]:left-auto px-6 min-[1130px]:px-0 text-left min-[1130px]:text-right max-w-full lg:max-w-md marketing-text flex flex-col justify-start z-20 mt-12 lg:mt-0"
         >
           <div class="space-y-6">
             <p
@@ -356,7 +358,6 @@ const subtitle = processHighlightedText(t("hero.subtitle") as string, lang);
 
   /* Marketing text container positioning */
   .marketing-text {
-  
     max-width: 400px;
     z-index: 20;
   }
@@ -589,6 +590,24 @@ const subtitle = processHighlightedText(t("hero.subtitle") as string, lang);
     to {
       opacity: 1;
       transform: translateX(0);
+    }
+  }
+
+  @media (max-width: 1130px) {
+    .mobile-vertical-overlay {
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+      pointer-events: none;
+      background: linear-gradient(
+        to bottom,
+        rgba(16, 16, 16, 0.95) 0%,
+        rgba(16, 16, 16, 0.85) 20%,
+        rgba(16, 16, 16, 0.1) 35%,
+        rgba(16, 16, 16, 0.1) 65%,
+        rgba(16, 16, 16, 0.85) 80%,
+        rgba(16, 16, 16, 0.95) 100%
+      );
     }
   }
 </style>

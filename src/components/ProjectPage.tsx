@@ -363,8 +363,12 @@ export default function ProjectPage({ slug, galleryImages, lang, project }: Proj
   if (!project) return null;
 
   return (
-    <main className="w-full max-w-7xl md:max-w-8xl mx-auto py-12 my-12 bg-darkgray">
-
+    <main className="w-full max-w-7xl md:max-w-8xl min-[1800px]:max-w-[1800px] mx-auto py-12 my-12 bg-darkgray">
+      {/* Background effects (igual que AboutUs) */}
+      <div className="absolute inset-0 z-0">
+        <div className="absolute inset-0 bg-gradient-to-b from-darkgray/50 to-darkgray"></div>
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.03)_0%,transparent_70%)]"></div>
+      </div>
 
       {/* Content */}
       <motion.div

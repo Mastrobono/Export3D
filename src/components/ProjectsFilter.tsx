@@ -92,7 +92,7 @@ export default function ProjectsFilter({ lang }: ProjectsFilterProps) {
     <div
       data-section="projects"
       id="projects"
-      className="relative min-h-[max-content] my-24 mx-auto max-w-7xl md:max-w-8xl rounded-md bg-lightgray shadow-xl"
+      className="relative min-h-[max-content] my-24 mx-auto max-w-7xl md:max-w-8xl min-[1800px]:max-w-[1800px] rounded-md bg-lightgray shadow-xl"
     >
       {/* Background effects (igual que AboutUs) */}
       <div className="absolute inset-0 z-0">
@@ -546,10 +546,10 @@ export default function ProjectsFilter({ lang }: ProjectsFilterProps) {
         {/* Contact Form Modal */}
         <ContactForm
           isOpen={isContactFormOpen}
-          onClose={() => setIsContactFormOpen(false)}
-          lang={lang}
-        />
+          onClose={() => setIsContactFormOpen(false)}        lang={lang}
+          />
+        </div>
       </div>
-    </div>
-  );
-}
+    );
+  }
+  

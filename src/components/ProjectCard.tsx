@@ -67,7 +67,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, index = 0, withOverl
           {withOverlay && (
             <div
               className="absolute inset-0 bg-black/40 transition-opacity duration-500 pointer-events-none group-hover:opacity-0 opacity-100"
-              style={{ background: '#0000006e' }}
+              style={{ background: '##0000008f' }}
             ></div>
           )}
           <div className="absolute inset-0 bg-gradient-to-t from-darkgray/90 via-darkgray/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">

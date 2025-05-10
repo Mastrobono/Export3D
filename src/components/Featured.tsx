@@ -87,15 +87,15 @@ const Feature: React.FC<FeatureProps> = ({ projects, lang }) => {
     featured && featured[key] ? featured[key] : fallback;
 
   return (
-    <motion.div 
+    <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      className="w-full max-w-7xl md:max-w-8xl mx-auto py-12 my-12 bg-darkgray"
+      className="w-full max-w-7xl md:max-w-8xl  min-[1800px]:max-w-[1800px] mx-auto py-12 my-12 bg-darkgray"
     >
-      <motion.h2 
+      <motion.h2
         initial={{ opacity: 0, y: 20 }}
-        whileInView={{ 
-          opacity: 1, 
+        whileInView={{
+          opacity: 1,
           y: 0,
           transition: {
             duration: 0.8,
@@ -124,8 +124,8 @@ const Feature: React.FC<FeatureProps> = ({ projects, lang }) => {
                 }
               }}
               initial={{ opacity: 0, y: 30 }}
-              whileInView={{ 
-                opacity: 1, 
+              whileInView={{
+                opacity: 1,
                 y: 0,
                 transition: {
                   duration: 0.8,
@@ -137,10 +137,10 @@ const Feature: React.FC<FeatureProps> = ({ projects, lang }) => {
               className={`w-full relative rounded-md w-f overflow-hidden group h-[80vh] shadow-[0_10px_30px_-15px_rgba(0,0,0,0.3)] transition-shadow duration-500 hover:shadow-[0_20px_40px_-15px_rgba(0,0,0,0.4)] ${isLastSlide ? 'mb-0' : 'mb-8'}`}
             >
               {/* Background Image */}
-              <motion.div 
+              <motion.div
                 className="absolute inset-0 z-0 w-full h-full overflow-hidden group"
                 initial={{ scale: 1.1, filter: "blur(6px) brightness(0.8)" }}
-                whileInView={{ 
+                whileInView={{
                   scale: 1,
                   filter: "blur(0px) brightness(1)",
                   transition: {
@@ -163,7 +163,7 @@ const Feature: React.FC<FeatureProps> = ({ projects, lang }) => {
               >
                 <motion.div
                   initial={{ scale: 1.1, filter: "blur(6px) brightness(0.8)" }}
-                  whileInView={{ 
+                  whileInView={{
                     scale: 1,
                     filter: "blur(0px) brightness(1)",
                     transition: {
@@ -188,10 +188,10 @@ const Feature: React.FC<FeatureProps> = ({ projects, lang }) => {
               </motion.div>
 
               {/* Enhanced edge vignette with hover effect */}
-              <motion.div 
+              <motion.div
                 className="absolute inset-0 z-10 rounded-2xl pointer-events-none"
                 initial={{ opacity: 0.7 }}
-                whileHover={{ 
+                whileHover={{
                   opacity: 0.5,
                   transition: { duration: 0.4 }
                 }}
@@ -203,7 +203,7 @@ const Feature: React.FC<FeatureProps> = ({ projects, lang }) => {
               </motion.div>
 
               {/* Content Container */}
-              <motion.div 
+              <motion.div
                 className="relative z-20 h-full flex flex-col justify-between p-20"
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -213,7 +213,7 @@ const Feature: React.FC<FeatureProps> = ({ projects, lang }) => {
                 {/* Top Content */}
                 <div className="flex justify-between items-start">
                   <div className="space-y-2 drop-shadow-[0_2px_3px_rgba(0,0,0,0.5)]">
-                    <motion.p 
+                    <motion.p
                       initial={{ opacity: 0, x: -20 }}
                       whileInView={{ opacity: 1, x: 0 }}
                       viewport={{ once: true }}
@@ -222,7 +222,7 @@ const Feature: React.FC<FeatureProps> = ({ projects, lang }) => {
                     >
                       {slide.metadata.date}
                     </motion.p>
-                    <motion.h4 
+                    <motion.h4
                       initial={{ opacity: 0, x: -20 }}
                       whileInView={{ opacity: 1, x: 0 }}
                       viewport={{ once: true }}
@@ -233,7 +233,7 @@ const Feature: React.FC<FeatureProps> = ({ projects, lang }) => {
                     </motion.h4>
                   </div>
 
-                  <motion.p 
+                  <motion.p
                     initial={{ opacity: 0 }}
                     whileInView={{ opacity: 1 }}
                     viewport={{ once: true }}
@@ -262,7 +262,7 @@ const Feature: React.FC<FeatureProps> = ({ projects, lang }) => {
                     viewport={{ once: true }}
                     className="inline-flex"
                   >
-                    <a 
+                    <a
                       href={`/project/${slide.metadata.slug}`}
                       className="group/btn flex items-center gap-4 text-xl md:text-2xl text-white font-kuunari-medium drop-shadow-[0_2px_3px_rgba(0,0,0,0.5)] group-hover:text-accent-500 hover:text-accent-500 transition-colors duration-300"
                     >
@@ -287,12 +287,11 @@ const Feature: React.FC<FeatureProps> = ({ projects, lang }) => {
                     onClick={() => handleDotClick(dotIndex)}
                   >
                     <div className="relative">
-                      <div 
-                        className={`w-3 h-3 md:w-4 md:h-4 rounded-full transition-all duration-300 ${
-                          dotIndex === currentSlide 
-                            ? "bg-accent-500 shadow-[0_0_10px_rgba(255,102,0,0.5)]" 
+                      <div
+                        className={`w-3 h-3 md:w-4 md:h-4 rounded-full transition-all duration-300 ${dotIndex === currentSlide
+                            ? "bg-accent-500 shadow-[0_0_10px_rgba(255,102,0,0.5)]"
                             : "bg-white/30 hover:bg-white/50"
-                        }`}
+                          }`}
                       />
                       {dotIndex === currentSlide && (
                         <div className="absolute inset-0 rounded-full bg-accent-500 animate-ping opacity-50" />

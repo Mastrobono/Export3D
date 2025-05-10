@@ -14,7 +14,7 @@ export default function Container({
   return (
     <section
       id={id}
-      className={`mx-auto max-w-7xl md:max-w-8xl  rounded-md bg-lightgray shadow-xl my-24 ${classNames}`}
+      className={`mx-auto max-w-7xl md:max-w-8xl min-[1800px]:max-w-[1800px] rounded-md bg-lightgray shadow-xl my-24 ${classNames}`}
       {...props}
     >
       {children}
