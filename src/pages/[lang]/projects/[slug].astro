@@ -4,17 +4,29 @@ import { projects } from "../../../data/data.ts";
 import Layout from "../../../layouts/Layout.astro";
 import * as path from 'path';
 import * as fs from 'fs';
-import { getLangFromUrl } from '../../../i18n/utils';
 
-// Validar que el idioma sea válido
-const lang = getLangFromUrl(Astro.url);
-if (lang !== 'es' && lang !== 'en') {
+// Validate language and redirect if invalid
+if (!lang || !['en', 'es'].includes(lang)) {
   return Astro.redirect('/es/projects');
 }
 
+// Get the requested slug
+const requestedSlug = Astro.params.slug;
 
-const { slug } = Astro.params;
-console.log(lang, slug);
+// Get the current URL path
+const currentPath = Astro.url.pathname;
+const expectedPath = `/${lang}/projects/${requestedSlug}`;
+
+// If we're not on the correct path, redirect to prevent loops
+if (currentPath !== expectedPath) {
+  return Astro.redirect(expectedPath);
+}
+
+
+const { lang, slug } = Astro.params;
+if (lang !== "es" && lang !== "en") {
+    return Astro.redirect("/es/projects");
+}
 
 const project = projects.find((p) => p.slug === slug);
 if (!project) {
