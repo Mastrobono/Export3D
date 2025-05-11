@@ -6,6 +6,9 @@ import { tags } from "../data/data";
 import ProjectCard from './ProjectCard';
 import NotFoundIllustration from './NotFoundIllustration';
 import { useTranslations } from '../i18n/utils';
+import { useEffect } from "react";
+import { useMediaQuery } from 'react-responsive';
+import React from 'react';
 
 interface AllProjectsProps {
   projects: Project[];
@@ -73,6 +76,19 @@ const ProjectTag = ({ tag }: { tag: string }) => (
 const AllProjects: React.FC<AllProjectsProps> = ({ projects, lang }) => {
   const t = useTranslations(lang);
   const { activeFilters, filteredProjects, handleFilterChange, resetFilters, getTranslatedFilter } = useProjectFilters(projects, lang);
+
+  // PAGINACIÓN MOBILE
+  const isMobile = useMediaQuery({ maxWidth: 768 });
+  const [page, setPage] = React.useState(1);
+  const projectsPerPage = isMobile ? 6 : filteredProjects.length;
+  const totalPages = Math.ceil(filteredProjects.length / projectsPerPage);
+  const paginatedProjects = isMobile
+    ? filteredProjects.slice((page - 1) * projectsPerPage, page * projectsPerPage)
+    : filteredProjects;
+
+  useEffect(() => {
+    setPage(1); // Reset page on filter change
+  }, [filteredProjects.length]);
 
   return (
     <motion.div
@@ -206,7 +222,7 @@ const AllProjects: React.FC<AllProjectsProps> = ({ projects, lang }) => {
             className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16"
           >
             <AnimatePresence mode="popLayout">
-              {filteredProjects.map((project, index) => (
+              {paginatedProjects.map((project, index) => (
                 <motion.div
                   key={project.id}
                   layout
@@ -227,6 +243,26 @@ const AllProjects: React.FC<AllProjectsProps> = ({ projects, lang }) => {
                 </motion.div>
               ))}
             </AnimatePresence>
+            {/* Paginación solo en mobile */}
+            {isMobile && totalPages > 1 && (
+              <div className="flex justify-center items-center gap-2 mt-6">
+                <button
+                  className="px-3 py-1 rounded bg-accent-500 text-darkgray font-kuunari-medium disabled:opacity-50"
+                  onClick={() => setPage(page - 1)}
+                  disabled={page === 1}
+                >
+                  {t('previous') || '<'}
+                </button>
+                <span className="text-white/80 text-lg">{page} / {totalPages}</span>
+                <button
+                  className="px-3 py-1 rounded bg-accent-500 text-darkgray font-kuunari-medium disabled:opacity-50"
+                  onClick={() => setPage(page + 1)}
+                  disabled={page === totalPages}
+                >
+                  {t('next') || '>'}
+                </button>
+              </div>
+            )}
           </motion.div>
         )}
 

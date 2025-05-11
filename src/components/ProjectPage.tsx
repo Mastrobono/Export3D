@@ -533,9 +533,14 @@ export default function ProjectPage({ slug, galleryImages, lang, project }: Proj
                       className="image-gallery-fullscreen-button absolute bottom-0 right-0 z-10 p-2 text-white hover:text-accent-500"
                       onClick={e => {
                         const gal = document.querySelector('.image-gallery');
-                        // Fallback: siempre agrega la clase fullscreen
-                        if (gal) gal.classList.toggle('fullscreen');
-                        // Intentar fullscreen nativo si está disponible
+                        if (gal) {
+                          gal.classList.toggle('fullscreen');
+                          if (gal.classList.contains('fullscreen')) {
+                            document.body.style.overflow = 'hidden';
+                          } else {
+                            document.body.style.overflow = '';
+                          }
+                        }
                         if (gal && gal.requestFullscreen) {
                           if (!document.fullscreenElement) {
                             gal.requestFullscreen();
@@ -543,7 +548,6 @@ export default function ProjectPage({ slug, galleryImages, lang, project }: Proj
                             document.exitFullscreen();
                           }
                         }
-                        // Ejecutar el callback original por compatibilidad
                         if (onClick) onClick(e);
                       }}
                       aria-label="Toggle Fullscreen"
