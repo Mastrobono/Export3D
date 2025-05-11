@@ -277,7 +277,7 @@ const customStyles = `
       overflow-y: hidden !important;
       -webkit-overflow-scrolling: touch;
       gap: 6px !important;
-      padding: 0 8px !important;
+      padding: 0 0px !important;
       scrollbar-width: thin;
       scrollbar-color: #f9c461 #121212;
       margin-bottom: 24px !important;
@@ -305,7 +305,7 @@ const customStyles = `
 
     .image-gallery-thumbnails-container {
       display: flex !important;
-      justify-content: center !important;
+      justify-content: flex-start !important;
       align-items: center !important;
       width: 100% !important;
       padding: 0 !important;
@@ -730,7 +730,7 @@ export default function ProjectPage({ slug, galleryImages, lang, project }: Proj
             overflow-y: hidden !important;
             -webkit-overflow-scrolling: touch;
             gap: 6px !important;
-            padding: 0 8px !important;
+            padding: 0 0px !important;
             scrollbar-width: thin;
             scrollbar-color: #f9c461 #121212;
           }
@@ -763,6 +763,12 @@ export default function ProjectPage({ slug, galleryImages, lang, project }: Proj
           .image-gallery-thumbnails-wrapper::-webkit-scrollbar-track {
             background: #121212;
             border-radius: 10px;
+          }
+          .image-gallery-image {
+            touch-action: pan-y !important;
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            user-select: none;
           }
         }
         /* FULLSCREEN: fuerza altura y object-fit en todos los modos de fullscreen */
@@ -854,7 +860,7 @@ export default function ProjectPage({ slug, galleryImages, lang, project }: Proj
             overflow-y: hidden !important;
             -webkit-overflow-scrolling: touch;
             gap: 6px !important;
-            padding: 0 8px !important;
+            padding: 0 0px !important;
             scrollbar-width: thin;
             scrollbar-color: #f9c461 #121212;
           }
