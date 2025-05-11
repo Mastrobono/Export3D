@@ -301,7 +301,7 @@ const subtitle = processHighlightedText(t("hero.subtitle") as string, lang);
     height: 100%;
     background: rgba(0, 0, 0, 1);
     z-index: 1;
-    animation: fadeOut 2s ease-out forwards;
+    animation: overlayLoader 2s cubic-bezier(0.33, 1, 0.68, 1) forwards;
   }
 
   /* Main content container */
@@ -321,15 +321,15 @@ const subtitle = processHighlightedText(t("hero.subtitle") as string, lang);
 
   .main-title.animate-fade-in-up {
     animation:
-      typewriter 1s steps(40) 1s forwards,
-      blinkCursor 0.7s steps(2) 1s 1 forwards;
+      typewriter 1s steps(40) 1.5s forwards,
+      blinkCursor 0.7s steps(2) 1.5s 1 forwards;
   }
 
   /* 3d part animation */
   .main-title .text-accent-500 {
     opacity: 0;
     display: inline-block;
-    animation: fadeInDown 0.5s ease-out 2.2s forwards;
+    animation: fadeInDown 0.5s ease-out 2.7s forwards;
   }
 
   /* Period animation */
@@ -337,7 +337,7 @@ const subtitle = processHighlightedText(t("hero.subtitle") as string, lang);
     opacity: 0;
     display: inline-block;
     color: white;
-    animation: fadeIn 0.3s ease-out 2.8s forwards;
+    animation: fadeIn 0.3s ease-out 3.3s forwards;
     min-width: 50px;
   }
 
@@ -353,7 +353,7 @@ const subtitle = processHighlightedText(t("hero.subtitle") as string, lang);
   }
 
   .subtitle-text.animate-fade-in-up {
-    animation: fadeInUp 0.8s ease-out 3.1s forwards;
+    animation: fadeInUp 0.8s ease-out 3.6s forwards;
   }
 
   /* Marketing text container positioning */
@@ -364,7 +364,7 @@ const subtitle = processHighlightedText(t("hero.subtitle") as string, lang);
 
   /* Marketing text animations */
   .marketing-text.animate-fade-in-up {
-    animation: fadeInUp 0.8s ease-out 3s forwards;
+    animation: fadeInUp 0.8s ease-out 3.5s forwards;
   }
 
   .marketing-text > div > p {
@@ -373,11 +373,11 @@ const subtitle = processHighlightedText(t("hero.subtitle") as string, lang);
   }
 
   .marketing-text > div > p:nth-child(1) {
-    animation-delay: 3.6s;
+    animation-delay: 4.1s;
   }
 
   .marketing-text > div > p:nth-child(2) {
-    animation-delay: 3.8s;
+    animation-delay: 4.3s;
   }
 
   /* Service numbers and text */
@@ -387,17 +387,17 @@ const subtitle = processHighlightedText(t("hero.subtitle") as string, lang);
   }
 
   .marketing-text .flex:nth-child(1) {
-    animation-delay: 3.6s;
+    animation-delay: 4.1s;
   }
 
   .marketing-text .flex:nth-child(2) {
-    animation-delay: 3.8s;
+    animation-delay: 4.3s;
   }
 
   /* CTA button with enhanced animation */
   .descubrimas-btn {
     opacity: 0;
-    animation: fadeInUp 0.8s ease-out 3.7s forwards;
+    animation: fadeInUp 0.8s ease-out 4.2s forwards;
     position: relative;
   }
 
@@ -409,7 +409,7 @@ const subtitle = processHighlightedText(t("hero.subtitle") as string, lang);
     width: 0;
     height: 1px;
     background-color: currentColor;
-    animation: lineGrow 0.5s ease-out 4.4s forwards;
+    animation: lineGrow 0.5s ease-out 4.9s forwards;
   }
 
   .descubrimas-btn:hover::after {
@@ -608,6 +608,15 @@ const subtitle = processHighlightedText(t("hero.subtitle") as string, lang);
         rgba(16, 16, 16, 0.85) 80%,
         rgba(16, 16, 16, 0.95) 100%
       );
+    }
+  }
+
+  @keyframes overlayLoader {
+    0% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0.1;
     }
   }
 </style>
