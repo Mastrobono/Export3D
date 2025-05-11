@@ -236,7 +236,7 @@ const customStyles = `
   }
 
   /* Centrar thumbnails container en fullscreen */
-  .image-gallery.fullscreen .image-gallery-thumbnails-container,
+  .image-gallery.fullscreen .y,
   .image-gallery:fullscreen .image-gallery-thumbnails-container,
   .image-gallery:-webkit-full-screen .image-gallery-thumbnails-container {
     display: flex !important;
@@ -752,18 +752,6 @@ export default function ProjectPage({ slug, galleryImages, lang, project }: Proj
             max-width: 60px !important;
             max-height: 45px !important;
           }
-          .image-gallery-thumbnails-wrapper::-webkit-scrollbar {
-            height: 8px;
-            background: #121212;
-          }
-          .image-gallery-thumbnails-wrapper::-webkit-scrollbar-thumb {
-            background: #f9c461;
-            border-radius: 10px;
-          }
-          .image-gallery-thumbnails-wrapper::-webkit-scrollbar-track {
-            background: #121212;
-            border-radius: 10px;
-          }
           .image-gallery-image {
             touch-action: pan-y !important;
             -webkit-touch-callout: none;
@@ -849,50 +837,30 @@ export default function ProjectPage({ slug, galleryImages, lang, project }: Proj
           border: none !important;
           box-shadow: none !important;
         }
-          @media (max-width: 768px) {
-          .image-gallery.fullscreen .image-gallery-thumbnails-wrapper,
-          .image-gallery:fullscreen .image-gallery-thumbnails-wrapper,
-          .image-gallery:-webkit-full-screen .image-gallery-thumbnails-wrapper {
-            display: flex !important;
-            justify-content: center !important;
-            align-items: center !important;
-            overflow-x: auto !important;
-            overflow-y: hidden !important;
-            -webkit-overflow-scrolling: touch;
-            gap: 6px !important;
-            padding: 0 0px !important;
-            scrollbar-width: thin;
-            scrollbar-color: #f9c461 #121212;
-          }
-          .image-gallery.fullscreen .image-gallery-thumbnails,
-          .image-gallery:fullscreen .image-gallery-thumbnails,
-          .image-gallery:-webkit-full-screen .image-gallery-thumbnails {
-            flex-wrap: nowrap !important;
-            min-width: max-content;
-            justify-content: center !important;
-            gap: 6px !important;
-          }
-          .image-gallery.fullscreen .image-gallery-thumbnail,
-          .image-gallery:fullscreen .image-gallery-thumbnail,
-          .image-gallery:-webkit-full-screen .image-gallery-thumbnail {
-            width: 60px !important;
-            height: 45px !important;
-            min-width: 60px !important;
-            min-height: 45px !important;
-            max-width: 60px !important;
-            max-height: 45px !important;
-          }
-          .image-gallery-thumbnails-wrapper::-webkit-scrollbar {
-            height: 8px;
-            background: #121212;
-          }
-          .image-gallery-thumbnails-wrapper::-webkit-scrollbar-thumb {
-            background: #f9c461;
-            border-radius: 10px;
-          }
-          .image-gallery-thumbnails-wrapper::-webkit-scrollbar-track {
-            background: #121212;
-            border-radius: 10px;
+        /* --- FULLSCREEN FIX PARA iOS Y DESKTOP --- */
+        .image-gallery.fullscreen,
+        .image-gallery.fullscreen .image-gallery-content,
+        .image-gallery.fullscreen .image-gallery-swipe,
+        .image-gallery.fullscreen .image-gallery-slide-wrapper,
+        .image-gallery.fullscreen .image-gallery-slide,
+        .image-gallery.fullscreen .image-gallery-image,
+        .image-gallery.fullscreen .image-gallery-image img {
+          height: 100vh !important;
+          min-height: 100vh !important;
+          max-height: 100vh !important;
+          object-fit: contain !important;
+          background: #121212 !important;
+        }
+        /* --- SCROLL VERTICAL SOBRE IMAGEN EN MOBILE --- */
+        @media (max-width: 768px) {
+          .image-gallery-slide-wrapper,
+          .image-gallery-slide,
+          .image-gallery-image {
+            touch-action: pan-y !important;
+            pointer-events: auto !important;
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            user-select: none;
           }
         }
       `}</style>
