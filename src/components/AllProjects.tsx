@@ -216,11 +216,11 @@ const AllProjects: React.FC<AllProjectsProps> = ({ projects, lang }) => {
                     y: 0,
                     transition: {
                       duration: 0.8,
-                      delay: 0.4 + index * 0.1,
+                      delay: 0.075 + index * 0.075,
                       ease: [0.25, 0.1, 0.25, 1]
                     }
                   }}
-                  viewport={{ once: true, margin: "-100px" }}
+                  viewport={{ once: true, margin: "-75px" }}
                   exit={{ opacity: 0, y: 30 }}
                 >
                   <ProjectCard project={project} index={index} lang={lang} />

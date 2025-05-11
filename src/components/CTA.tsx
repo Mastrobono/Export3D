@@ -292,11 +292,11 @@ const CTA = ({ lang }: CTAProps) => {
                   opacity: 1,
                   y: 0,
                   transition: {
-                    duration: 0.6,
-                    delay: 1.0
+                    duration: 0.8,
+                    delay: 0.6
                   }
                 }}
-                viewport={{ once: true, margin: "-100px" }}
+                viewport={{ once: true, margin: "-75px" }}
               >
                 <button
                   type="submit"
