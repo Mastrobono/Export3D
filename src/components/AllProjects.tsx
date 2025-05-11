@@ -1,3 +1,4 @@
+import React, { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Container from "../layouts/Container";
 import { useProjectFilters } from "../hooks/useProjectFilters";
@@ -6,9 +7,6 @@ import { tags } from "../data/data";
 import ProjectCard from './ProjectCard';
 import NotFoundIllustration from './NotFoundIllustration';
 import { useTranslations } from '../i18n/utils';
-import { useEffect } from "react";
-import { useMediaQuery } from 'react-responsive';
-import React from 'react';
 
 interface AllProjectsProps {
   projects: Project[];
@@ -73,22 +71,38 @@ const ProjectTag = ({ tag }: { tag: string }) => (
   </span>
 );
 
+const PROJECTS_PER_PAGE_MOBILE = 4;
+
 const AllProjects: React.FC<AllProjectsProps> = ({ projects, lang }) => {
   const t = useTranslations(lang);
   const { activeFilters, filteredProjects, handleFilterChange, resetFilters, getTranslatedFilter } = useProjectFilters(projects, lang);
 
-  // PAGINACIÓN MOBILE
-  const isMobile = useMediaQuery({ maxWidth: 768 });
-  const [page, setPage] = React.useState(1);
-  const projectsPerPage = isMobile ? 6 : filteredProjects.length;
-  const totalPages = Math.ceil(filteredProjects.length / projectsPerPage);
-  const paginatedProjects = isMobile
-    ? filteredProjects.slice((page - 1) * projectsPerPage, page * projectsPerPage)
-    : filteredProjects;
+  // PAGINATION STATE
+  const [page, setPage] = useState(1);
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
-    setPage(1); // Reset page on filter change
-  }, [filteredProjects.length]);
+    const checkMobile = () => setIsMobile(window.innerWidth <= 768);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  useEffect(() => {
+    setPage(1); // Reset page when filters change
+  }, [filteredProjects]);
+
+  let paginatedProjects = filteredProjects;
+  let totalPages = 1;
+  if (isMobile) {
+    totalPages = Math.ceil(filteredProjects.length / PROJECTS_PER_PAGE_MOBILE);
+    const start = (page - 1) * PROJECTS_PER_PAGE_MOBILE;
+    paginatedProjects = filteredProjects.slice(start, start + PROJECTS_PER_PAGE_MOBILE);
+  }
+
+  // Mantener altura del grid para evitar saltos
+  const minRows = isMobile ? PROJECTS_PER_PAGE_MOBILE : 1;
+  const gridMinHeight = isMobile ? `min-h-[${minRows*200}px]` : '';
 
   return (
     <motion.div
@@ -219,7 +233,8 @@ const AllProjects: React.FC<AllProjectsProps> = ({ projects, lang }) => {
         ) : (
           <motion.div
             layout
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16"
+            className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16 ${gridMinHeight}`}
+            style={isMobile ? { minHeight: `${PROJECTS_PER_PAGE_MOBILE * 320}px` } : {}}
           >
             <AnimatePresence mode="popLayout">
               {paginatedProjects.map((project, index) => (
@@ -242,28 +257,35 @@ const AllProjects: React.FC<AllProjectsProps> = ({ projects, lang }) => {
                   <ProjectCard project={project} index={index} lang={lang} />
                 </motion.div>
               ))}
+              {/* Placeholders para mantener altura */}
+              {isMobile && paginatedProjects.length < PROJECTS_PER_PAGE_MOBILE &&
+                Array.from({ length: PROJECTS_PER_PAGE_MOBILE - paginatedProjects.length }).map((_, i) => (
+                  <div key={`placeholder-${i}`} style={{ visibility: 'hidden', height: 320 }} />
+                ))
+              }
             </AnimatePresence>
-            {/* Paginación solo en mobile */}
-            {isMobile && totalPages > 1 && (
-              <div className="flex justify-center items-center gap-2 mt-6">
-                <button
-                  className="px-3 py-1 rounded bg-accent-500 text-darkgray font-kuunari-medium disabled:opacity-50"
-                  onClick={() => setPage(page - 1)}
-                  disabled={page === 1}
-                >
-                  {t('previous') || '<'}
-                </button>
-                <span className="text-white/80 text-lg">{page} / {totalPages}</span>
-                <button
-                  className="px-3 py-1 rounded bg-accent-500 text-darkgray font-kuunari-medium disabled:opacity-50"
-                  onClick={() => setPage(page + 1)}
-                  disabled={page === totalPages}
-                >
-                  {t('next') || '>'}
-                </button>
-              </div>
-            )}
           </motion.div>
+        )}
+
+        {/* Paginación en mobile */}
+        {isMobile && totalPages > 1 && (
+          <div className="flex justify-center items-center gap-4 mb-8">
+            <button
+              className="px-3 py-1 rounded bg-accent-500 text-darkgray font-kuunari-medium disabled:opacity-40"
+              onClick={() => setPage(p => Math.max(1, p - 1))}
+              disabled={page === 1}
+            >
+              {t('previous') || 'Anterior'}
+            </button>
+            <span className="text-accent-500 font-kuunari-medium">{page} / {totalPages}</span>
+            <button
+              className="px-3 py-1 rounded bg-accent-500 text-darkgray font-kuunari-medium disabled:opacity-40"
+              onClick={() => setPage(p => Math.min(totalPages, p + 1))}
+              disabled={page === totalPages}
+            >
+              {t('next') || 'Siguiente'}
+            </button>
+          </div>
         )}
 
         {/* Explore Full Gallery Button */}

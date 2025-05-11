@@ -74,24 +74,29 @@ const ProjectList: React.FC<ProjectListProps> = ({ projects, lang }) => {
   return (
     <motion.div
       id="project-list"
-      className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 min-h-[600px]"
+      className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
       layout
     >
       <AnimatePresence mode="popLayout">
         {projects.map((project, idx) => (
-          <motion.div
-            key={project.id}
-            layout
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{
-              opacity: { duration: 0.3 },
-              layout: { duration: 0.4, ease: "easeInOut" }
-            }}
-          >
-            <ProjectCard project={project} index={idx} lang={lang} />
-          </motion.div>
+           <motion.div
+           key={project.id}
+           layout
+           initial={{ opacity: 0, y: 30 }}
+           whileInView={{ 
+             opacity: 1, 
+             y: 0,
+             transition: {
+               duration: 0.8,
+               delay: 0.075 + idx * 0.075,
+               ease: [0.25, 0.1, 0.25, 1]
+             }
+           }}
+           viewport={{ once: true, margin: "-75px" }}
+           exit={{ opacity: 0, y: 30 }}
+         >
+           <ProjectCard project={project} index={idx} lang={lang} />
+         </motion.div>
         ))}
       </AnimatePresence>
     </motion.div>
