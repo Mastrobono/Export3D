@@ -269,9 +269,7 @@ const customStyles = `
 
   /* Thumbnails responsive en fullscreen mobile */
   @media (max-width: 768px) {
-    .image-gallery.fullscreen .image-gallery-thumbnails-wrapper,
-    .image-gallery:fullscreen .image-gallery-thumbnails-wrapper,
-    .image-gallery:-webkit-full-screen .image-gallery-thumbnails-wrapper {
+    .image-gallery-thumbnails-wrapper {
       display: flex !important;
       justify-content: center !important;
       align-items: center !important;
@@ -282,33 +280,48 @@ const customStyles = `
       padding: 0 8px !important;
       scrollbar-width: thin;
       scrollbar-color: #f9c461 #121212;
+      margin-bottom: 24px !important;
     }
-    .image-gallery.fullscreen .image-gallery-thumbnails,
-    .image-gallery:fullscreen .image-gallery-thumbnails,
-    .image-gallery:-webkit-full-screen .image-gallery-thumbnails {
+
+    .image-gallery-thumbnails {
       flex-wrap: nowrap !important;
       min-width: max-content;
       justify-content: center !important;
       gap: 6px !important;
+      padding: 0 !important;
+      margin: 0 !important;
     }
-    .image-gallery.fullscreen .image-gallery-thumbnail,
-    .image-gallery:fullscreen .image-gallery-thumbnail,
-    .image-gallery:-webkit-full-screen .image-gallery-thumbnail {
+
+    .image-gallery-thumbnail {
       width: 60px !important;
       height: 45px !important;
       min-width: 60px !important;
       min-height: 45px !important;
       max-width: 60px !important;
       max-height: 45px !important;
+      margin: 0 !important;
+      padding: 0 !important;
     }
+
+    .image-gallery-thumbnails-container {
+      display: flex !important;
+      justify-content: center !important;
+      align-items: center !important;
+      width: 100% !important;
+      padding: 0 !important;
+      margin: 0 !important;
+    }
+
     .image-gallery-thumbnails-wrapper::-webkit-scrollbar {
       height: 8px;
       background: #121212;
     }
+
     .image-gallery-thumbnails-wrapper::-webkit-scrollbar-thumb {
       background: #f9c461;
       border-radius: 10px;
     }
+
     .image-gallery-thumbnails-wrapper::-webkit-scrollbar-track {
       background: #121212;
       border-radius: 10px;
@@ -518,7 +531,21 @@ export default function ProjectPage({ slug, galleryImages, lang, project }: Proj
                     <button
                       type="button"
                       className="image-gallery-fullscreen-button absolute bottom-0 right-0 z-10 p-2 text-white hover:text-accent-500"
-                      onClick={onClick}
+                      onClick={e => {
+                        const gal = document.querySelector('.image-gallery');
+                        // Fallback: siempre agrega la clase fullscreen
+                        if (gal) gal.classList.toggle('fullscreen');
+                        // Intentar fullscreen nativo si está disponible
+                        if (gal && gal.requestFullscreen) {
+                          if (!document.fullscreenElement) {
+                            gal.requestFullscreen();
+                          } else {
+                            document.exitFullscreen();
+                          }
+                        }
+                        // Ejecutar el callback original por compatibilidad
+                        if (onClick) onClick(e);
+                      }}
                       aria-label="Toggle Fullscreen"
                     >
                       <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -692,60 +719,26 @@ export default function ProjectPage({ slug, galleryImages, lang, project }: Proj
           stroke: #121212 !important;
         }
         @media (max-width: 768px) {
-          .image-gallery-thumbnails-wrapper {
-            margin-bottom: 24px !important;
+          .image-gallery.fullscreen,
+          .image-gallery.fullscreen .image-gallery-content,
+          .image-gallery.fullscreen .image-gallery-swipe,
+          .image-gallery.fullscreen .image-gallery-slide-wrapper,
+          .image-gallery.fullscreen .image-gallery-slide,
+          .image-gallery.fullscreen .image-gallery-image,
+          .image-gallery.fullscreen .image-gallery-slide .image-gallery-image img {
+            position: fixed !important;
+            top: 0 !important;
+            left: 0 !important;
+            width: 100vw !important;
+            height: 100vh !important;
+            min-height: 100vh !important;
+            max-height: 100vh !important;
+            object-fit: contain !important;
+            background: #121212 !important;
+            z-index: 9999 !important;
           }
-          .image-gallery-slide-wrapper,
-          .image-gallery-slide,
-          .image-gallery-image,
-          .image-gallery-image img {
-            height: 500px !important;
-            min-height: 500px !important;
-            max-height: 500px !important;
-          }
-          .image-gallery.fullscreen .image-gallery-thumbnails-wrapper,
-          .image-gallery:fullscreen .image-gallery-thumbnails-wrapper,
-          .image-gallery:-webkit-full-screen .image-gallery-thumbnails-wrapper {
-            display: flex !important;
-            justify-content: center !important;
-            align-items: center !important;
-            overflow-x: auto !important;
-            overflow-y: hidden !important;
-            -webkit-overflow-scrolling: touch;
-            gap: 6px !important;
-            padding: 0 8px !important;
-            scrollbar-width: thin;
-            scrollbar-color: #f9c461 #121212;
-          }
-          .image-gallery.fullscreen .image-gallery-thumbnails,
-          .image-gallery:fullscreen .image-gallery-thumbnails,
-          .image-gallery:-webkit-full-screen .image-gallery-thumbnails {
-            flex-wrap: nowrap !important;
-            min-width: max-content;
-            justify-content: center !important;
-            gap: 6px !important;
-          }
-          .image-gallery.fullscreen .image-gallery-thumbnail,
-          .image-gallery:fullscreen .image-gallery-thumbnail,
-          .image-gallery:-webkit-full-screen .image-gallery-thumbnail {
-            width: 60px !important;
-            height: 45px !important;
-            min-width: 60px !important;
-            min-height: 45px !important;
-            max-width: 60px !important;
-            max-height: 45px !important;
-          }
-          .image-gallery-thumbnails-wrapper::-webkit-scrollbar {
-            height: 8px;
-            background: #121212;
-          }
-          .image-gallery-thumbnails-wrapper::-webkit-scrollbar-thumb {
-            background: #f9c461;
-            border-radius: 10px;
-          }
-          .image-gallery-thumbnails-wrapper::-webkit-scrollbar-track {
-            background: #121212;
-            border-radius: 10px;
+          body {
+            overflow: hidden !important;
           }
         }
         /* FULLSCREEN: fuerza altura y object-fit en todos los modos de fullscreen */
