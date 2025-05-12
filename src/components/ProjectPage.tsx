@@ -346,6 +346,7 @@ export default function ProjectPage({ slug, galleryImages, lang, project }: Proj
   const [prevProject, setPrevProject] = useState<Project | null>(null);
   const [nextProject, setNextProject] = useState<Project | null>(null);
   const [relatedProjects, setRelatedProjects] = useState<Project[]>([]);
+  const [useBrowserFullscreen, setUseBrowserFullscreen] = useState(false);
   const t = useTranslations(lang);
 
   useEffect(() => {
@@ -376,6 +377,18 @@ export default function ProjectPage({ slug, galleryImages, lang, project }: Proj
       .slice(0, 3);
     setRelatedProjects(related);
   }, [slug, project]);
+
+  useEffect(() => {
+    setUseBrowserFullscreen(
+      typeof document !== 'undefined' &&
+      (
+        document.fullscreenEnabled ||
+        (document as any).webkitFullscreenEnabled ||
+        (document as any).mozFullScreenEnabled ||
+        (document as any).msFullscreenEnabled
+      )
+    );
+  }, []);
 
   if (!project) return null;
 
@@ -500,7 +513,7 @@ export default function ProjectPage({ slug, galleryImages, lang, project }: Proj
                   showFullscreenButton={true}
                   showNav={true}
                   thumbnailPosition="top"
-                  useBrowserFullscreen={document.fullscreenEnabled || document.webkitFullscreenEnabled || document.mozFullScreenEnabled || document.msFullscreenEnabled}
+                  useBrowserFullscreen={useBrowserFullscreen}
                   showBullets={false}
                   slideDuration={450}
                   slideInterval={3000}
@@ -734,6 +747,7 @@ export default function ProjectPage({ slug, galleryImages, lang, project }: Proj
             padding: 0 0px !important;
             scrollbar-width: thin;
             scrollbar-color: #f9c461 #121212;
+            margin-top:1rem !important;
           }
           .image-gallery.fullscreen .image-gallery-thumbnails,
           .image-gallery:fullscreen .image-gallery-thumbnails,

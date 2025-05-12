@@ -2,7 +2,7 @@
 import Navbar from "./Navbar";
 import Footer from "../components/Footer";
 import { SEOMetadata } from "astro-seo-metadata";
-import { getLangFromUrl } from '../i18n/utils';
+import { getLangFromUrl } from "../i18n/utils";
 
 interface Props {
   title?: string;
@@ -50,7 +50,7 @@ const lang = getLangFromUrl(Astro.url);
   </head>
   <body class="bg-darkgray min-h-screen">
     <Navbar lang={lang} client:load />
-    <slot />
+      <slot />
     <Footer lang={lang} client:load />
   </body>
 </html>

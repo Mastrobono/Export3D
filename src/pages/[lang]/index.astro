@@ -1,5 +1,5 @@
 ---
-import Hero from "../../components/Hero.astro";
+import Hero from "../../components/Hero.tsx";
 import AboutUs from "../../components/AboutUs.tsx";
 import Layout from "../../layouts/Layout.astro";
 import Featured from "../../components/Featured";
@@ -16,21 +16,32 @@ if (!lang || !['en', 'es'].includes(lang)) {
 ---
 
 <Layout lang={lang}>
-  <Hero lang={lang} />
-  <AboutUs lang={lang} client:load />
-  <Featured
-    lang={lang}
-    projects={projects
-      .filter((project) => project.metadata.featured == true)
-      .map((project) => ({
-        ...project,
-        metadata: {
-          ...project.metadata,
-          slug: project.slug
-        }
-      }))}
-    client:load
-  />
-  <AllProjects lang={lang} projects={projects} client:load />
-  <CTA lang={lang} client:load />
-</Layout> 
+  <div id="spinner" class="fixed inset-0 z-[9999] flex items-center justify-center bg-darkgray">
+    <span class="text-white text-3xl font-bold animate-pulse">Cargando...</span>
+  </div>
+  <div id="client-content" style="display:none">
+    <Hero lang={lang} client:load />
+    <AboutUs lang={lang} client:load />
+    <Featured
+      lang={lang}
+      projects={projects
+        .filter((project) => project.metadata.featured == true)
+        .map((project) => ({
+          ...project,
+          metadata: {
+            ...project.metadata,
+            slug: project.slug
+          }
+        }))}
+      client:load
+    />
+    <AllProjects lang={lang} projects={projects} client:load />
+    <CTA lang={lang} client:load />
+  </div>
+  <script>
+    window.addEventListener("hero-image-loaded", () => {
+      document.getElementById("spinner").style.display = "none";
+      document.getElementById("client-content").style.display = "";
+    });
+  </script>
+</Layout>
