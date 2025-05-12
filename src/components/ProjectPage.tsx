@@ -500,11 +500,12 @@ export default function ProjectPage({ slug, galleryImages, lang, project }: Proj
                   showFullscreenButton={true}
                   showNav={true}
                   thumbnailPosition="top"
-                  useBrowserFullscreen={true}
+                  useBrowserFullscreen={document.fullscreenEnabled || document.webkitFullscreenEnabled || document.mozFullScreenEnabled || document.msFullscreenEnabled}
                   showBullets={false}
                   slideDuration={450}
                   slideInterval={3000}
                   additionalClass="custom-image-gallery"
+                  disableSwipe={true}
                   renderLeftNav={(onClick, disabled) => (
                     <button
                       type="button"
