@@ -28,49 +28,9 @@ export default function Hero({ lang }: HeroProps) {
     const t = useTranslations(lang);
     const subtitle = processHighlightedText(t("hero.subtitle") as string, lang);
     const heroContainerRef = useRef<HTMLDivElement>(null);
-    const spotlightRef = useRef<HTMLDivElement>(null);
-    const [underline, setUnderline] = useState(false);
-    const { loading, setLoading } = useLoader();
     const imgRef = useRef<HTMLImageElement>(null);
 
-    useEffect(() => {
-        const heroContainer = heroContainerRef.current;
-        const spotlight = spotlightRef.current;
 
-        if (heroContainer && spotlight) {
-            let spotlightTimeout: ReturnType<typeof setTimeout>;
-
-            const handleMouseMove = (e: MouseEvent) => {
-                const rect = heroContainer.getBoundingClientRect();
-                clearTimeout(spotlightTimeout);
-                const cursorX = e.clientX - rect.left - 400;
-                const cursorY = e.clientY - rect.top - 400;
-                spotlight.style.opacity = "1";
-                spotlight.style.transform = `translate3d(${cursorX}px, ${cursorY}px, 0)`;
-            };
-
-            const handleMouseLeave = () => {
-                spotlight.style.opacity = "0";
-                spotlightTimeout = setTimeout(() => {
-                    spotlight.style.transform = "translate(-100%, -100%)";
-                }, 500);
-            };
-
-            heroContainer.addEventListener("mousemove", handleMouseMove);
-            heroContainer.addEventListener("mouseleave", handleMouseLeave);
-
-            return () => {
-                heroContainer.removeEventListener("mousemove", handleMouseMove);
-                heroContainer.removeEventListener("mouseleave", handleMouseLeave);
-            };
-        }
-    }, []);
-
-    useEffect(() => {
-        // El delay total de la animación del botón es 3s (delay) + 0.8s (duración)
-        const timeout = setTimeout(() => setUnderline(true), 3900);
-        return () => clearTimeout(timeout);
-    }, []);
 
     useEffect(() => {
         const img = imgRef.current;

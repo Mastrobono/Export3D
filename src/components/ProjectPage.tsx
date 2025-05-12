@@ -346,9 +346,8 @@ export default function ProjectPage({ slug, galleryImages, lang, project }: Proj
   const [prevProject, setPrevProject] = useState<Project | null>(null);
   const [nextProject, setNextProject] = useState<Project | null>(null);
   const [relatedProjects, setRelatedProjects] = useState<Project[]>([]);
-  const [useBrowserFullscreen, setUseBrowserFullscreen] = useState(false);
-  const t = useTranslations(lang);
 
+  const t = useTranslations(lang);
   useEffect(() => {
     // Add the custom styles to the document
     const styleElement = document.createElement('style');
@@ -379,11 +378,22 @@ export default function ProjectPage({ slug, galleryImages, lang, project }: Proj
   }, [slug, project]);
 
   useEffect(() => {
-    if (typeof navigator !== 'undefined') {
-      const ua = navigator.userAgent.toLowerCase();
-      const isApple = /iphone|ipad|ipod|macintosh/.test(ua);
-      setUseBrowserFullscreen(!isApple);
-    }
+    // Bloquear scroll de fondo en fullscreen-modal
+    const checkFullscreen = () => {
+      const isFullscreen = document.querySelector('.image-gallery.fullscreen-modal');
+      if (isFullscreen) {
+        document.body.classList.add('fullscreen-modal-open');
+      } else {
+        document.body.classList.remove('fullscreen-modal-open');
+      }
+    };
+    document.addEventListener('click', checkFullscreen);
+    document.addEventListener('keydown', checkFullscreen);
+    return () => {
+      document.body.classList.remove('fullscreen-modal-open');
+      document.removeEventListener('click', checkFullscreen);
+      document.removeEventListener('keydown', checkFullscreen);
+    };
   }, []);
 
   if (!project) return null;
@@ -509,7 +519,6 @@ export default function ProjectPage({ slug, galleryImages, lang, project }: Proj
                   showFullscreenButton={true}
                   showNav={true}
                   thumbnailPosition="top"
-                  useBrowserFullscreen={useBrowserFullscreen}
                   showBullets={false}
                   slideDuration={450}
                   slideInterval={3000}
@@ -560,7 +569,6 @@ export default function ProjectPage({ slug, galleryImages, lang, project }: Proj
         </motion.div>
 
         {/* Related Projects */}
-        useBrowserFullscreen {useBrowserFullscreen}
         {relatedProjects.length > 0 && (
           <motion.div
             initial={{ y: 20, opacity: 0 }}
@@ -838,6 +846,94 @@ export default function ProjectPage({ slug, galleryImages, lang, project }: Proj
             -webkit-user-select: none;
             user-select: none;
           }
+        }
+        .image-gallery {
+          position: relative !important;
+        }
+        .image-gallery.fullscreen-modal {
+          position: fixed !important;
+          top: 0 !important;
+          left: 0 !important;
+          width: 100vw !important;
+          height: 100vh !important;
+          z-index: 9999 !important;
+          background: #121212 !important;
+        }
+        .image-gallery.fullscreen-modal .image-gallery-thumbnails-wrapper,
+        .image-gallery.fullscreen-modal .image-gallery-thumbnails {
+          display: flex !important;
+          justify-content: center !important;
+          align-items: center !important;
+          position: absolute !important;
+          bottom: 1.5rem !important;
+          left: 0;
+          width: 100vw !important;
+          z-index: 10001 !important;
+          background: rgba(18,18,18,0.8) !important;
+        }
+          .image-gallery.fullscreen-modal .image-gallery-thumbnails-container {
+            position: fixed !important;
+            justify-content: center !important;
+            top: 0 !important;
+            margin-top: calc(64px + 2rem) !important;
+            overflow-x: auto !important;
+            overflow-y: hidden !important;
+            white-space: nowrap !important;
+            width: 100vw !important;
+            left: 0 !important;
+          }
+        .image-gallery.fullscreen-modal .custom-exit-fullscreen {
+          display: block !important;
+          position: absolute !important;
+          top: 1rem !important;
+          right: 1rem !important;
+          z-index: 10002 !important;
+          background: rgba(0,0,0,0.7) !important;
+          color: #fff !important;
+          border: none !important;
+          border-radius: 50% !important;
+          width: 40px !important;
+          height: 40px !important;
+          font-size: 1.5rem !important;
+          cursor: pointer !important;
+          transition: background 0.2s !important;
+        }
+        .image-gallery.fullscreen-modal .image-gallery-slide-wrapper,
+        .image-gallery.fullscreen-modal .image-gallery-slide,
+        .image-gallery.fullscreen-modal .image-gallery-image,
+        .image-gallery.fullscreen-modal .image-gallery-image img {
+          height: 100vh !important;
+          min-height: 100vh !important;
+          max-height: 100vh !important;
+          object-fit: contain !important;
+          background: #121212 !important;
+          display: flex !important;
+          align-items: center !important;
+          justify-content: center !important;
+        }
+        .image-gallery.fullscreen-modal .image-gallery-left-nav,
+        .image-gallery.fullscreen-modal .image-gallery-right-nav {
+          z-index: 10003 !important;
+        }
+        @media (max-width: 768px) {
+          .image-gallery-slide-wrapper,
+          .image-gallery-slide,
+          .image-gallery-image {
+            touch-action: pan-y !important;
+            pointer-events: auto !important;
+            -webkit-touch-callout: none;
+            -webkit-user-select: auto !important;
+            user-select: auto !important;
+            overscroll-behavior: contain;
+          }
+          .image-gallery-image img {
+            pointer-events: auto !important;
+            user-select: auto !important;
+          }
+        }
+        body.fullscreen-modal-open {
+          overflow: hidden !important;
+          height: 100vh !important;
         }
       `}</style>
       {/* Botón salir de fullscreen (solo visible en fullscreen) */}
