@@ -511,12 +511,27 @@ export default function ProjectPage({ slug, galleryImages, lang, project }: Proj
               transition={{ duration: 0.5, delay: 0.7 }}
               className="w-full h-full relative"
             >
-
+              {/* Div invisible para permitir scroll sobre la imagen en mobile, sin cubrir flechas ni fullscreen */}
+              <div
+                className="block md:hidden"
+                style={{
+                  position: 'absolute',
+                  top: 0,
+                  left: '48px', // deja libres las flechas
+                  right: '48px', // deja libres las flechas
+                  height: '100%',
+                  zIndex: 2,
+                  pointerEvents: 'auto',
+                  touchAction: 'pan-y',
+                  background: 'transparent',
+                }}
+              />
               <div className="relative z-10">
                 <ImageGallery
                   items={galleryImages}
                   showPlayButton={false}
                   showFullscreenButton={true}
+                  useBrowserFullscreen={true}
                   showNav={true}
                   thumbnailPosition="top"
                   showBullets={false}
