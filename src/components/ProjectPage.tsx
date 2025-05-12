@@ -12,6 +12,7 @@ import { useTranslations } from '../i18n/utils';
 const customStyles = `
   .image-gallery-slide .image-gallery-image{
     object-fit:cover !important;
+    border-radius: 0.5rem !important;
   }
 
   .image-gallery-thumbnails-container{
@@ -31,9 +32,22 @@ const customStyles = `
     position:absolute !important;
     top:0 !important;
     z-index: 99 !important;
-
   }
 
+  .image-gallery-thumbnail{
+    width:64px !important;
+    height:64px !important;
+  }
+  .image-gallery-thumbnail-inner{
+    width:100% !important;
+    height:100% !important;
+  }
+
+  .image-gallery-thumbnail-image{
+    width:100% !important;
+    height:100% !important;
+    object-fit:cover !important;
+  }
 
 `;
 
@@ -224,7 +238,7 @@ export default function ProjectPage({ slug, galleryImages, lang, project }: Proj
                   left: '48px', // deja libres las flechas
                   right: '48px', // deja libres las flechas
                   height: '100%',
-                  zIndex: 2,
+                  zIndex: 9999,
                   pointerEvents: 'auto',
                   touchAction: 'pan-y',
                   background: 'transparent',
