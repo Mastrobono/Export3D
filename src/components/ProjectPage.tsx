@@ -379,15 +379,11 @@ export default function ProjectPage({ slug, galleryImages, lang, project }: Proj
   }, [slug, project]);
 
   useEffect(() => {
-    setUseBrowserFullscreen(
-      typeof document !== 'undefined' &&
-      (
-        document.fullscreenEnabled ||
-        (document as any).webkitFullscreenEnabled ||
-        (document as any).mozFullScreenEnabled ||
-        (document as any).msFullscreenEnabled
-      )
-    );
+    if (typeof navigator !== 'undefined') {
+      const ua = navigator.userAgent.toLowerCase();
+      const isApple = /iphone|ipad|ipod|macintosh/.test(ua);
+      setUseBrowserFullscreen(!isApple);
+    }
   }, []);
 
   if (!project) return null;
@@ -564,6 +560,7 @@ export default function ProjectPage({ slug, galleryImages, lang, project }: Proj
         </motion.div>
 
         {/* Related Projects */}
+        useBrowserFullscreen {useBrowserFullscreen}
         {relatedProjects.length > 0 && (
           <motion.div
             initial={{ y: 20, opacity: 0 }}
@@ -723,55 +720,19 @@ export default function ProjectPage({ slug, galleryImages, lang, project }: Proj
           stroke: #121212 !important;
         }
         @media (max-width: 768px) {
-          .image-gallery-thumbnails-wrapper {
-            margin-bottom: 24px !important;
-          }
           .image-gallery-slide-wrapper,
           .image-gallery-slide,
-          .image-gallery-image,
-          .image-gallery-image img {
-            height: 500px !important;
-            min-height: 500px !important;
-            max-height: 500px !important;
-          }
-          .image-gallery.fullscreen .image-gallery-thumbnails-wrapper,
-          .image-gallery:fullscreen .image-gallery-thumbnails-wrapper,
-          .image-gallery:-webkit-full-screen .image-gallery-thumbnails-wrapper {
-            display: flex !important;
-            justify-content: center !important;
-            align-items: center !important;
-            overflow-x: auto !important;
-            overflow-y: hidden !important;
-            -webkit-overflow-scrolling: touch;
-            gap: 6px !important;
-            padding: 0 0px !important;
-            scrollbar-width: thin;
-            scrollbar-color: #f9c461 #121212;
-            margin-top:1rem !important;
-          }
-          .image-gallery.fullscreen .image-gallery-thumbnails,
-          .image-gallery:fullscreen .image-gallery-thumbnails,
-          .image-gallery:-webkit-full-screen .image-gallery-thumbnails {
-            flex-wrap: nowrap !important;
-            min-width: max-content;
-            justify-content: center !important;
-            gap: 6px !important;
-          }
-          .image-gallery.fullscreen .image-gallery-thumbnail,
-          .image-gallery:fullscreen .image-gallery-thumbnail,
-          .image-gallery:-webkit-full-screen .image-gallery-thumbnail {
-            width: 60px !important;
-            height: 45px !important;
-            min-width: 60px !important;
-            min-height: 45px !important;
-            max-width: 60px !important;
-            max-height: 45px !important;
-          }
           .image-gallery-image {
             touch-action: pan-y !important;
+            pointer-events: auto !important;
             -webkit-touch-callout: none;
-            -webkit-user-select: none;
-            user-select: none;
+            -webkit-user-select: auto !important;
+            user-select: auto !important;
+            overscroll-behavior: contain;
+          }
+          .image-gallery-image img {
+            pointer-events: auto !important;
+            user-select: auto !important;
           }
         }
         /* FULLSCREEN: fuerza altura y object-fit en todos los modos de fullscreen */
