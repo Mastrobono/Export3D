@@ -10,6 +10,30 @@ import ProjectCard from './ProjectCard';
 import { useTranslations } from '../i18n/utils';
 
 const customStyles = `
+  .image-gallery-slide .image-gallery-image{
+    object-fit:cover !important;
+  }
+
+  .image-gallery-thumbnails-container{
+    display:flex !important;
+    justify-content:flext-start !important;
+    align-items:center !important;
+  }
+
+  .image-gallery.fullscreen-modal .image-gallery-thumbnails-container, .image-gallery .fullscreen .image-gallery-thumbnails-container{
+    justify-content:center !important;
+  }
+
+  .image-gallery .fullscreen .image-gallery-thumbnails-wrapper.image-gallery-thumbnails-top.thumbnails-swipe-horizontal{
+    margin-top:2rem !important;
+  }
+  .image-gallery .fullscreen .image-gallery-thumbnails-wrapper  .image-gallery-thumbnails-top.thumbnails-swipe-horizontal.image-gallery-thumbnails{
+    position:absolute !important;
+    top:0 !important;
+    z-index: 99 !important;
+
+  }
+
 
 `;
 
