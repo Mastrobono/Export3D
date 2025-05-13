@@ -253,10 +253,8 @@ export default function ProjectPage({ slug, galleryImages, lang, project }: Proj
                   showNav={true}
                   thumbnailPosition="top"
                   showBullets={false}
-                  slideDuration={450}
-                  slideInterval={3000}
+                  useTranslate3D={false}
                   additionalClass="custom-image-gallery"
-                  disableSwipe={true}
                   renderLeftNav={(onClick, disabled) => (
                     <button
                       type="button"

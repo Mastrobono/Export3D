@@ -1,0 +1,80 @@
+---
+// No necesitas props para el loader simple
+---
+
+<div
+    id="loader-container"
+    class="fixed inset-0 z-[9999] flex items-center justify-center bg-[#161616] overflow-hidden flex flex-col gap-6"
+>
+    <h1
+        id="title-loader"
+        class="text-white text-3xl font-bold font-kuunari-medium typewriter"
+    >
+        Export<span class="text-accent-500 text-[28px]">3D</span>.
+    </h1>
+</div>
+<style>
+    /* Fade-in + translateY animation */
+    @keyframes fadeInMove {
+        to {
+            opacity: 1;
+        }
+    }
+    @-webkit-keyframes fadeInMove {
+        to {
+            opacity: 1;
+        }
+    }
+    #title-loader.typewriter {
+        overflow: hidden;
+        white-space: nowrap;
+        width: 0;
+        opacity: 0;
+        animation:
+            fadeInMove 0.8s ease-out forwards,
+            typing 2.2s steps(30, end) 0.2s forwards;
+        animation-delay: 0.8s, 0.6s;
+
+        -webkit-animation:
+            fadeInMove 0.8s ease-out forwards,
+            typing 2.2s steps(30, end) 0.2s forwards;
+        -webkit-animation-delay: 0.8s, 0.6s;
+    }
+    @keyframes typing {
+        from {
+            width: 0;
+        }
+        to {
+            width: 104px;
+        }
+    }
+    @-webkit-keyframes typing {
+        from {
+            width: 0;
+        }
+        to {
+            width: 104px;
+        }
+    }
+</style>
+<script>
+    const startTime = Date.now();
+    const MINIMUM_LOAD_TIME = 3200; // ms
+
+    const hideLoaderAndShowContent = () => {
+        const loaderContainer = document.getElementById("loader-container");
+        const clientContent = document.getElementById("client-content");
+        
+        if (loaderContainer) loaderContainer.style.display = "none";
+        if (clientContent) clientContent.style.display = "";
+    };
+
+    window.addEventListener("hero-image-loaded", () => {
+        const elapsedTime = Date.now() - startTime;
+        const remainingTime = Math.max(0, MINIMUM_LOAD_TIME - elapsedTime);
+        
+        setTimeout(hideLoaderAndShowContent, remainingTime);
+    });
+
+    window.addEventListener("hero-image-loaded-by-cache", hideLoaderAndShowContent);
+</script>

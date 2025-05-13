@@ -1,10 +1,10 @@
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { useTranslations } from "../i18n/utils";
 import { ui } from "../i18n/ui";
 import Container from "../layouts/Container";
 import background from "../assets/background.webp";
 import { useEffect, useRef, useState } from "react";
-import { useLoader } from "./Loader";
+
 
 interface HeroProps {
     lang: keyof typeof ui;
@@ -29,18 +29,31 @@ export default function Hero({ lang }: HeroProps) {
     const subtitle = processHighlightedText(t("hero.subtitle") as string, lang);
     const heroContainerRef = useRef<HTMLDivElement>(null);
     const imgRef = useRef<HTMLImageElement>(null);
-
-
+    const [startAnimation, setStartAnimation] = useState(false);
 
     useEffect(() => {
         const img = imgRef.current;
         if (!img) return;
-        const handleLoad = () => {
-            window.dispatchEvent(new CustomEvent("hero-image-loaded"));
+
+        const handleImageLoad = () => {
+            const isCached = img.complete;
+            const eventName = isCached ? "hero-image-loaded-by-cache" : "hero-image-loaded";
+            
+            if (isCached) {
+                setStartAnimation(true);
+            } else {
+                setTimeout(() => setStartAnimation(true), 3200);
+            }
+            
+            window.dispatchEvent(new CustomEvent(eventName));
         };
-        img.addEventListener("load", handleLoad);
-        if (img.complete) handleLoad();
-        return () => img.removeEventListener("load", handleLoad);
+
+        if (img.complete) {
+            handleImageLoad();
+        } else {
+            img.addEventListener("load", handleImageLoad);
+            return () => img.removeEventListener("load", handleImageLoad);
+        }
     }, []);
 
     const handleScrollToAbout = () => {
@@ -66,6 +79,16 @@ export default function Hero({ lang }: HeroProps) {
                 id="hero-container"
                 className="relative h-[90vh] overflow-hidden rounded-md"
             >
+
+                {/* Dark overlay intro animation */}
+
+                <motion.div id="dark-overlay" className="fixed bg-darkgray w-full z-[99] h-full top-0"
+                    initial={{ opacity: 1 }}
+                    animate={startAnimation ? { opacity: 0, visibility: 'hidden' } : { opacity: 1, visibility: 'visible' }}
+                    transition={{ duration: 1, delay: 0 }}
+                ></motion.div>
+
+
                 {/* Background with effects */}
                 <div className="absolute inset-0 z-0">
                     <div id="parallax-image" className="relative w-full h-full">
@@ -125,39 +148,33 @@ export default function Hero({ lang }: HeroProps) {
                             {/* Main title */}
                             <motion.h1
                                 initial={{ opacity: 0 }}
-                                animate={{ opacity: 1 }}
-                                transition={{ duration: 1 }}
+                                animate={startAnimation ? { opacity: 1 } : { opacity: 0 }}
+                                transition={{ duration: 1, delay: 0 }}
                                 className="text-[6rem] sm:text-[8rem] min-[1130px]:text-[12rem] text-white leading-[1] font-kuunari-bold tracking-[-6px] sm:tracking-[-10px] min-[1130px]:tracking-[-12px] drop-shadow-[0_4px_20px_rgba(0,0,0,0.4)] main-title ml-[-6px] sm:ml-[-8px] relative overflow-visible"
                             >
                                 <motion.span
                                     initial={{ opacity: 0, x: -100 }}
-                                    animate={{ opacity: 1, x: 0 }}
+                                    animate={startAnimation ? { opacity: 1, x: 0 } : { opacity: 0, x: -100 }}
                                     transition={{ duration: 0.8, delay: 0.5 }}
                                 >
                                     Export
                                 </motion.span>
                                 <motion.span
                                     initial={{ opacity: 0, y: -30 }}
-                                    animate={{ opacity: 1, y: 0 }}
-                                    transition={{ duration: 0.5, delay: 1.2}}
+                                    animate={startAnimation ? { opacity: 1, y: 0 } : { opacity: 0, y: -30 }}
+                                    transition={{ duration: 0.5, delay: 1.2 }}
                                     className="text-accent-500 inline-block"
                                 >
-                                    3d
+                                    3D
+                                    <span className="text-white">.</span>
                                 </motion.span>
-                                <motion.span
-                                    initial={{ opacity: 0 }}
-                                    animate={ { opacity: 1 }}
-                                    transition={{ duration: 0.3, delay: 1.8 }}
-                                    className="period"
-                                >
-                                    .
-                                </motion.span>
+
                             </motion.h1>
 
                             {/* Subtitle */}
                             <motion.p
                                 initial={{ opacity: 0, y: 20 }}
-                                animate={{ opacity: 1, y: 0 }}
+                                animate={startAnimation ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
                                 transition={{ duration: 0.8, delay: 2 }}
                                 className="mt-6 text-[24px] sm:text-[28px] lg:text-[32px] tracking-[.7px] font-kuunari-light text-white/90 max-w-2xl subtitle-text mt-[-2px] min-[1130px]:mt-0"
                                 dangerouslySetInnerHTML={{ __html: subtitle }}
@@ -167,14 +184,14 @@ export default function Hero({ lang }: HeroProps) {
                         {/* Right column with marketing text */}
                         <motion.div
                             initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
+                            animate={startAnimation ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
                             transition={{ duration: 0.8, delay: 2.2 }}
                             className="absolute bottom-10 min-[1130px]:bottom-32 left-0 sm:left-4 min-[1130px]:right-12 min-[1130px]:left-auto px-6 min-[1130px]:px-0 text-left min-[1130px]:text-right max-w-full lg:max-w-md marketing-text flex flex-col justify-start z-20 mt-12 lg:mt-0"
                         >
                             <div className="space-y-6">
                                 <motion.p
                                     initial={{ opacity: 0, x: 50 }}
-                                    animate={{ opacity: 1, x: 0 }}
+                                    animate={startAnimation ? { opacity: 1, x: 0 } : { opacity: 0, x: 50 }}
                                     transition={{ duration: 0.8, delay: 2.4 }}
                                     className="text-[20px] sm:text-[24px] lg:text-[28px] leading-[1.1] font-kuunari-medium text-white/90"
                                 >
@@ -184,7 +201,7 @@ export default function Hero({ lang }: HeroProps) {
                                 <div className="space-y-4">
                                     <motion.div
                                         initial={{ opacity: 0, x: 50 }}
-                                        animate={{ opacity: 1, x: 0 }}
+                                        animate={startAnimation ? { opacity: 1, x: 0 } : { opacity: 0, x: 50 }}
                                         transition={{ duration: 0.8, delay: 2.6 }}
                                         className="flex items-center min-[1130px]:justify-end gap-3"
                                     >
@@ -193,7 +210,7 @@ export default function Hero({ lang }: HeroProps) {
                                     </motion.div>
                                     <motion.div
                                         initial={{ opacity: 0, x: 50 }}
-                                        animate={{ opacity: 1, x: 0 }}
+                                        animate={startAnimation ? { opacity: 1, x: 0 } : { opacity: 0, x: 50 }}
                                         transition={{ duration: 0.8, delay: 2.8 }}
                                         className="flex items-center min-[1130px]:justify-end gap-3"
                                     >
@@ -204,7 +221,7 @@ export default function Hero({ lang }: HeroProps) {
 
                                 <motion.button
                                     initial={{ opacity: 0, y: 20 }}
-                                    animate={{ opacity: 1, y: 0 }}
+                                    animate={startAnimation ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
                                     transition={{ duration: 0.8, delay: 3 }}
                                     whileHover={{ scale: 1.05 }}
                                     onClick={handleScrollToAbout}
@@ -232,7 +249,7 @@ export default function Hero({ lang }: HeroProps) {
                                     <motion.span
                                         className="absolute left-0 right-0 bottom-[-2px] h-[2px] bg-accent-500 rounded origin-left"
                                         initial={{ scaleX: 0 }}
-                                        animate={{ scaleX: 1 }}
+                                        animate={startAnimation ? { scaleX: 1 } : { scaleX: 0 }}
                                         transition={{ duration: 0.5, delay: 3.8, ease: 'easeInOut' }}
                                         style={{ zIndex: 1 }}
                                     />

@@ -6,21 +6,20 @@ import Featured from "../../components/Featured";
 import AllProjects from "../../components/AllProjects.tsx";
 import CTA from "../../components/CTA.tsx";
 import { projects } from "../../data/data.ts";
+import Loader from "../../components/Loader.astro";
 
 const { lang } = Astro.params;
 
 // Validar el idioma
-if (!lang || !['en', 'es'].includes(lang)) {
-  return Astro.redirect('/es');
+if (!lang || !["en", "es"].includes(lang)) {
+  return Astro.redirect("/es");
 }
 ---
 
 <Layout lang={lang}>
-  <div id="spinner" class="fixed inset-0 z-[9999] flex items-center justify-center bg-darkgray">
-    <span class="text-white text-3xl font-bold animate-pulse">Cargando...</span>
-  </div>
+  <Loader />
   <div id="client-content" style="display:none">
-    <Hero lang={lang} client:load />
+    <Hero lang={lang} client:load heroVisible={false} />
     <AboutUs lang={lang} client:load />
     <Featured
       lang={lang}
@@ -30,18 +29,108 @@ if (!lang || !['en', 'es'].includes(lang)) {
           ...project,
           metadata: {
             ...project.metadata,
-            slug: project.slug
-          }
+            slug: project.slug,
+          },
         }))}
       client:load
     />
     <AllProjects lang={lang} projects={projects} client:load />
     <CTA lang={lang} client:load />
   </div>
+  <style>
+    .loader {
+      width: 48px;
+      height: 48px;
+      display: inline-block;
+      position: relative;
+      background: #f9c461c4;
+      transform: rotateX(65deg) rotate(45deg);
+      transform: perspective(200px) rotateX(65deg) rotate(45deg);
+      color: #ffffffd2;
+      animation: layers1 1s linear infinite alternate;
+    }
+    .loader:after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: #d3ae6ba1;
+      animation: layerTr 1s linear infinite alternate;
+    }
+    @keyframes layers1 {
+      0% {
+        box-shadow: 0px 0px 0 0px;
+      }
+      90%,
+      100% {
+        box-shadow: 20px 20px 0 -4px;
+      }
+    }
+    @keyframes layerTr {
+      0% {
+        transform: translate(0, 0) scale(1);
+      }
+      100% {
+        transform: translate(-25px, -25px) scale(1);
+      }
+    }
+    /* Typewriter animation for logo-loader */
+    #logo-loader.typewriter {
+      overflow: hidden;
+      border-right: 1px solid #fff;
+      white-space: nowrap;
+      width: 0;
+      animation:
+        typing 2.2s steps(30, end) 0.2s forwards,
+        blink-cursor 1s steps(2, start) 2.6s forwards;
+      -webkit-animation:
+        typing 2.2s steps(30, end) 0.2s forwards,
+        blink-cursor 1s steps(2, start) 2.6s forwards;
+    }
+    @keyframes typing {
+      from {
+        width: 0;
+      }
+      to {
+        width: 104px;
+      }
+    }
+    @-webkit-keyframes typing {
+      from {
+        width: 0;
+      }
+      to {
+        width: 104px;
+      }
+    }
+    @keyframes blink-cursor {
+      0%,
+      100% {
+        border-color: transparent;
+      }
+      50% {
+        border-color: #fff;
+      }
+      100% {
+        border-right: none;
+      }
+    }
+    @-webkit-keyframes blink-cursor {
+      0%,
+      100% {
+        border-color: transparent;
+      }
+      50% {
+        border-color: #fff;
+      }
+      100% {
+        border-right: none;
+      }
+    }
+  </style>
   <script>
     window.addEventListener("hero-image-loaded", () => {
-      document.getElementById("spinner").style.display = "none";
-      document.getElementById("client-content").style.display = "";
+      //document.getElementById("spinner").style.display = "none";
+      //document.getElementById("client-content").style.display = "";
     });
   </script>
 </Layout>

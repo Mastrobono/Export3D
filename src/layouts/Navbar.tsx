@@ -68,12 +68,10 @@ export default function Navbar({ lang }: NavbarProps) {
                   href={`/${lang}`}
                   className="cursor-pointer"
                 >
-                  <div className="relative h-8 w-32 overflow-hidden">
-                    <img
-                      src={logoTransparent.src}
-                      alt="Export3D Logo"
-                      className="h-8 w-auto"
-                    />
+                  <div className="relative h-8 overflow-hidden">
+                   
+                    <span className="text-white font-kuunari-medium text-[20px] tracking-[-0.5px] ">Export<span className="text-accent-500 text-[20px]">3D</span>.</span>
+
                   </div>
                 </a>
               </div>
