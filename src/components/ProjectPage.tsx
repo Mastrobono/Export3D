@@ -19,6 +19,7 @@ const customStyles = `
     display:flex !important;
     justify-content:flext-start !important;
     align-items:center !important;
+    gap:4px;
   }
 
   .image-gallery.fullscreen-modal .image-gallery-thumbnails-container, .image-gallery .fullscreen .image-gallery-thumbnails-container{
@@ -35,12 +36,14 @@ const customStyles = `
   }
 
   .image-gallery-thumbnail{
-    width:64px !important;
-    height:64px !important;
+    width:80px !important;
+    height:80px !important;
   }
   .image-gallery-thumbnail-inner{
     width:100% !important;
     height:100% !important;
+    width:80px !important;
+    height:80px !important;
   }
 
   .image-gallery-thumbnail-image{
@@ -281,18 +284,7 @@ export default function ProjectPage({ slug, galleryImages, lang, project }: Proj
                       </svg>
                     </button>
                   )}
-                  renderFullscreenButton={(onClick, isFullscreen) => (
-                    <button
-                      type="button"
-                      className="image-gallery-fullscreen-button absolute bottom-0 right-0 z-10 p-2 text-white hover:text-accent-500"
-                      onClick={onClick}
-                      aria-label="Toggle Fullscreen"
-                    >
-                      <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 8V4m0 0h4M4 4l5 5m11-5h-4m4 0v4m0-4l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4" />
-                      </svg>
-                    </button>
-                  )}
+                
                 />
               </div>
             </motion.div>
@@ -405,41 +397,21 @@ export default function ProjectPage({ slug, galleryImages, lang, project }: Proj
           box-shadow: none !important;
         }
         /* Altura mínima para la imagen principal fuera de fullscreen */
-        .image-gallery-slide-wrapper,
+        :not(.fullscreen-modal-open).image-gallery-slide-wrapper,
         .image-gallery-image {
           min-height: 400px !important;
           position: relative !important;
         }
         @media (min-width: 768px) {
-          .image-gallery-slide-wrapper,
-          .image-gallery-image {
+          :not(.fullscreen-modal-open).image-gallery-slide-wrapper,
+          :not(.fullscreen-modal-open).image-gallery-image {
             min-height: 600px !important;
+            max-height: calc(100vh - 200px) !important;
+
           }
         }
-        /* Botón fullscreen: posición fija en esquina inferior derecha, más abajo en fullscreen */
-        .image-gallery-fullscreen-button {
-          position: absolute !important;
-          bottom: 1rem !important;
-          right: 1rem !important;
-          z-index: 20 !important;
-          background: rgba(0,0,0,0.7) !important;
-          border-radius: 4px !important;
-          margin: 0 !important;
-          opacity: 0.85;
-          transition: bottom 0.3s, opacity 0.3s, all 0.3s ease !important;
-          width: 40px !important;
-          height: 40px !important;
-          display: flex !important;
-          align-items: center;
-          justify-content: center;
-          padding: 0 !important;
-          overflow: visible !important;
-        }
-        .image-gallery.fullscreen .image-gallery-fullscreen-button,
-        .image-gallery:fullscreen .image-gallery-fullscreen-button,
-        .image-gallery:-webkit-full-screen .image-gallery-fullscreen-button {
-          bottom: 1rem !important;
-        }
+
+       
         .image-gallery-fullscreen-button svg {
           width: 24px !important;
           height: 24px !important;
@@ -458,85 +430,7 @@ export default function ProjectPage({ slug, galleryImages, lang, project }: Proj
           color: #121212 !important;
           stroke: #121212 !important;
         }
-        @media (max-width: 768px) {
-          .image-gallery-slide-wrapper,
-          .image-gallery-slide,
-          .image-gallery-image {
-            touch-action: pan-y !important;
-            pointer-events: auto !important;
-            -webkit-touch-callout: none;
-            -webkit-user-select: auto !important;
-            user-select: auto !important;
-            overscroll-behavior: contain;
-          }
-          .image-gallery-image img {
-            pointer-events: auto !important;
-            user-select: auto !important;
-          }
-        }
-        /* FULLSCREEN: fuerza altura y object-fit en todos los modos de fullscreen */
-        body .image-gallery.fullscreen,
-        body .image-gallery.fullscreen .image-gallery-content,
-        body .image-gallery.fullscreen .image-gallery-swipe,
-        body .image-gallery.fullscreen .image-gallery-slide-wrapper,
-        body .image-gallery.fullscreen .image-gallery-slide,
-        body .image-gallery.fullscreen .image-gallery-image,
-        body .image-gallery.fullscreen .image-gallery-slide .image-gallery-image img,
-        body .image-gallery:fullscreen,
-        body .image-gallery:fullscreen .image-gallery-content,
-        body .image-gallery:fullscreen .image-gallery-swipe,
-        body .image-gallery:fullscreen .image-gallery-slide-wrapper,
-        body .image-gallery:fullscreen .image-gallery-slide,
-        body .image-gallery:fullscreen .image-gallery-image,
-        body .image-gallery:fullscreen .image-gallery-slide .image-gallery-image img,
-        body .image-gallery:-webkit-full-screen,
-        body .image-gallery:-webkit-full-screen .image-gallery-content,
-        body .image-gallery:-webkit-full-screen .image-gallery-swipe,
-        body .image-gallery:-webkit-full-screen .image-gallery-slide-wrapper,
-        body .image-gallery:-webkit-full-screen .image-gallery-slide,
-        body .image-gallery:-webkit-full-screen .image-gallery-image,
-        body .image-gallery:-webkit-full-screen .image-gallery-slide .image-gallery-image img {
-          height: 90vh !important;
-          min-height: 90vh !important;
-          max-height: 90vh !important;
-          object-fit: contain !important;
-          background: #121212 !important;
-        }
-        /* Botón salir de fullscreen */
-        .custom-exit-fullscreen {
-          display: none;
-        }
-        .image-gallery.fullscreen .custom-exit-fullscreen {
-          display: block;
-          position: absolute;
-          top: 1rem;
-          right: 1rem;
-          z-index: 30;
-          background: rgba(0,0,0,0.7);
-          color: #fff;
-          border: none;
-          border-radius: 50%;
-          width: 40px;
-          height: 40px;
-          font-size: 1.5rem;
-          cursor: pointer;
-          transition: background 0.2s;
-        }
-        .image-gallery.fullscreen .custom-exit-fullscreen:hover {
-          background: #f9c461;
-          color: #121212;
-        }
-        /* --- REGLAS FINALES PARA FORZAR PRIORIDAD --- */
-        @media (min-width: 768px) {
-          .image-gallery-slide-wrapper,
-          .image-gallery-slide,
-          .image-gallery-image,
-          .image-gallery-image img {
-            height: 700px !important;
-            min-height: 700px !important;
-            max-height: 700px !important;
-          }
-        }
+     
         /* Borde visible en los thumbnails */
         .image-gallery-thumbnail {
           border: 2px solid transparent !important;
@@ -552,138 +446,10 @@ export default function ProjectPage({ slug, galleryImages, lang, project }: Proj
           border: none !important;
           box-shadow: none !important;
         }
-        /* --- FULLSCREEN FIX PARA iOS Y DESKTOP --- */
-        .image-gallery.fullscreen,
-        .image-gallery.fullscreen .image-gallery-content,
-        .image-gallery.fullscreen .image-gallery-swipe,
-        .image-gallery.fullscreen .image-gallery-slide-wrapper,
-        .image-gallery.fullscreen .image-gallery-slide,
-        .image-gallery.fullscreen .image-gallery-image,
-        .image-gallery.fullscreen .image-gallery-image img {
-          height: 100vh !important;
-          min-height: 100vh !important;
-          max-height: 100vh !important;
-          object-fit: contain !important;
-          background: #121212 !important;
-        }
-        /* --- SCROLL VERTICAL SOBRE IMAGEN EN MOBILE --- */
-        @media (max-width: 768px) {
-          .image-gallery-slide-wrapper,
-          .image-gallery-slide,
-          .image-gallery-image {
-            touch-action: pan-y !important;
-            pointer-events: auto !important;
-            -webkit-touch-callout: none;
-            -webkit-user-select: none;
-            user-select: none;
-          }
-        }
-        .image-gallery {
-          position: relative !important;
-        }
-        .image-gallery.fullscreen-modal {
-          position: fixed !important;
-          top: 0 !important;
-          left: 0 !important;
-          width: 100vw !important;
-          height: 100vh !important;
-          z-index: 9999 !important;
-          background: #121212 !important;
-        }
-        .image-gallery.fullscreen-modal .image-gallery-thumbnails-wrapper,
-        .image-gallery.fullscreen-modal .image-gallery-thumbnails {
-          display: flex !important;
-          justify-content: center !important;
-          align-items: center !important;
-          position: absolute !important;
-          bottom: 1.5rem !important;
-          left: 0;
-          width: 100vw !important;
-          z-index: 10001 !important;
-          background: rgba(18,18,18,0.8) !important;
-        }
-          .image-gallery.fullscreen-modal .image-gallery-thumbnails-container {
-            position: fixed !important;
-            justify-content: center !important;
-            top: 0 !important;
-            margin-top: calc(64px + 2rem) !important;
-            overflow-x: auto !important;
-            overflow-y: hidden !important;
-            white-space: nowrap !important;
-            width: 100vw !important;
-            left: 0 !important;
-          }
-        .image-gallery.fullscreen-modal .custom-exit-fullscreen {
-          display: block !important;
-          position: absolute !important;
-          top: 1rem !important;
-          right: 1rem !important;
-          z-index: 10002 !important;
-          background: rgba(0,0,0,0.7) !important;
-          color: #fff !important;
-          border: none !important;
-          border-radius: 50% !important;
-          width: 40px !important;
-          height: 40px !important;
-          font-size: 1.5rem !important;
-          cursor: pointer !important;
-          transition: background 0.2s !important;
-        }
-        .image-gallery.fullscreen-modal .image-gallery-slide-wrapper,
-        .image-gallery.fullscreen-modal .image-gallery-slide,
-        .image-gallery.fullscreen-modal .image-gallery-image,
-        .image-gallery.fullscreen-modal .image-gallery-image img {
-          height: 100vh !important;
-          min-height: 100vh !important;
-          max-height: 100vh !important;
-          object-fit: contain !important;
-          background: #121212 !important;
-          display: flex !important;
-          align-items: center !important;
-          justify-content: center !important;
-        }
-        .image-gallery.fullscreen-modal .image-gallery-left-nav,
-        .image-gallery.fullscreen-modal .image-gallery-right-nav {
-          z-index: 10003 !important;
-        }
-        @media (max-width: 768px) {
-          .image-gallery-slide-wrapper,
-          .image-gallery-slide,
-          .image-gallery-image {
-            touch-action: pan-y !important;
-            pointer-events: auto !important;
-            -webkit-touch-callout: none;
-            -webkit-user-select: auto !important;
-            user-select: auto !important;
-            overscroll-behavior: contain;
-          }
-          .image-gallery-image img {
-            pointer-events: auto !important;
-            user-select: auto !important;
-          }
-        }
-        body.fullscreen-modal-open {
-          overflow: hidden !important;
-          height: 100vh !important;
-        }
+
+   
       `}</style>
-      {/* Botón salir de fullscreen (solo visible en fullscreen) */}
-      <button
-        className="custom-exit-fullscreen"
-        type="button"
-        aria-label="Salir de pantalla completa"
-        onClick={() => {
-          // Intenta salir de fullscreen nativo
-          if (document.fullscreenElement) {
-            document.exitFullscreen();
-          }
-          // Quita la clase fullscreen de la galería si react-image-gallery la usa
-          const gal = document.querySelector('.image-gallery.fullscreen');
-          if (gal) gal.classList.remove('fullscreen');
-        }}
-      >
-        ×
-      </button>
+
     </main>
   );
 } 

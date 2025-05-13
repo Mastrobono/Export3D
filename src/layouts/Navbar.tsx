@@ -130,7 +130,7 @@ export default function Navbar({ lang }: NavbarProps) {
           </div>
 
           {/* Mobile menu panel */}
-          <Disclosure.Panel className="lg:hidden bg-darkgray backdrop-blur-sm shadow-[0 0 6px 1px #020202]">
+          <Disclosure.Panel className="min-[1130px]:hidden bg-darkgray backdrop-blur-sm shadow-[0 0 6px 1px #020202]">
             <div className="space-y-1 px-4 pb-3 pt-2">
               {NavbarOptions.map((option) => (
                 <Disclosure.Button
