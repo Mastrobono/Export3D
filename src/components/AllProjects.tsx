@@ -7,6 +7,8 @@ import { tags } from "../data/data";
 import ProjectCard from './ProjectCard';
 import NotFoundIllustration from './NotFoundIllustration';
 import { useTranslations } from '../i18n/utils';
+import { Dialog, DialogBackdrop, DialogPanel } from "@headlessui/react";
+import { XMarkIcon, PlusIcon } from "@heroicons/react/24/outline";
 
 interface AllProjectsProps {
   projects: Project[];
@@ -80,6 +82,7 @@ const AllProjects: React.FC<AllProjectsProps> = ({ projects, lang }) => {
   // PAGINATION STATE
   const [page, setPage] = useState(1);
   const [isMobile, setIsMobile] = useState(false);
+  const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
 
   useEffect(() => {
     const checkMobile = () => setIsMobile(window.innerWidth <= 768);
@@ -104,6 +107,41 @@ const AllProjects: React.FC<AllProjectsProps> = ({ projects, lang }) => {
   const minRows = isMobile ? PROJECTS_PER_PAGE_MOBILE : 1;
   const gridMinHeight = isMobile ? `min-h-[${minRows*200}px]` : '';
 
+  const handleFilterClick = (tag: string) => {
+    handleFilterChange(tag);
+    // No cerramos el drawer después de aplicar el filtro
+  };
+
+  const GalleryButton = ({ className = "" }: { className?: string }) => (
+    <motion.a
+      href={`/${lang}/projects`}
+      className={`group relative inline-flex items-center gap-3 py-2 ${className}`}
+      whileHover={{ scale: 1.05 }}
+      whileTap={{ scale: 0.95 }}
+    >
+      <span className="relative text-2xl text-accent-500 font-kuunari-medium">
+        {t('allProjects.exploreGallery')}
+        <span className="absolute bottom-0 left-1/2 w-0 h-[2px] bg-accent-500 transition-all duration-300 group-hover:w-full group-hover:left-0"/>
+      </span>
+      <div className="overflow-hidden w-8">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          strokeWidth={2}
+          stroke="currentColor"
+          className="w-6 h-6 text-accent-500 transform transition-transform duration-300 ease-out group-hover:translate-x-2"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3"
+          />
+        </svg>
+      </div>
+    </motion.a>
+  );
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -119,26 +157,111 @@ const AllProjects: React.FC<AllProjectsProps> = ({ projects, lang }) => {
       className="mx-auto max-w-7xl md:max-w-8xl min-[1800px]:max-w-[1800px] rounded-md bg-lightgray shadow-xl px-8 py-24 md:px-20 md:py-32"
       data-section="all-projects"
     >
-      <motion.h2
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: "-100px" }}
-        transition={{ duration: 0.6 }}
-        className="text-title-sm md:text-title-md font-semibold tracking-tight font-kuunari-medium text-accent-500 text-center mb-16"
-      >
-        {t('allProjects.moreProjects')}
-      </motion.h2>
-
       <div className="max-w-[1400px] mx-auto">
-        {/* Filters */}
+        {/* Header Section with Title and Mobile Gallery Button */}
+        <div className="flex flex-col md:flex-row justify-between  mb-16 gap-4">
+          <motion.h2
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.6 }}
+            className="text-title-sm md:text-title-md font-semibold tracking-tight font-kuunari-medium text-white text-left"
+          >
+            {t('allProjects.moreProjects')}
+          </motion.h2>
+          
+          {/* Mobile Gallery Button */}
+          <div className="md:hidden">
+            <GalleryButton />
+          </div>
+        </div>
+
+        {/* Mobile Filter Dialog */}
+        <Dialog
+          open={mobileFiltersOpen}
+          onClose={setMobileFiltersOpen}
+          className="relative z-50 lg:hidden"
+        >
+          <DialogBackdrop
+            transition
+            className="fixed inset-0 bg-black/50 transition-opacity duration-300 ease-linear data-[closed]:opacity-0"
+          />
+
+          <div className="fixed inset-0 z-50 flex">
+            <DialogPanel
+              transition
+              className="relative ml-auto flex h-full w-full max-w-xs transform flex-col overflow-y-auto bg-[#101010] py-4 pb-6 shadow-xl transition duration-300 ease-in-out data-[closed]:translate-x-full"
+            >
+              <div className="flex items-center justify-between px-4">
+                <h2 className="text-2xl font-kuunari-bold text-white">{t('filters.title')}</h2>
+                <button
+                  type="button"
+                  onClick={() => setMobileFiltersOpen(false)}
+                  className="-mr-2 flex h-10 w-10 items-center justify-center p-2 text-white/60 hover:text-accent-500"
+                >
+                  <span className="sr-only">{t('filters.close')}</span>
+                  <XMarkIcon aria-hidden="true" className="h-6 w-6" />
+                </button>
+              </div>
+
+              {/* Reset Filters Button - Always present but conditionally visible */}
+              <div className="mb-4 mx-4 h-[27px]" >
+                {activeFilters.length > 0 && (
+                  <button
+                    type="button"
+                    onClick={resetFilters}
+                    className="text-[18px] font-kuunari-medium text-white cursor-pointer flex items-center gap-2 hover:text-accent-500 transition-colors"
+                  >
+                    {t('filters.reset')}
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-5 w-5"
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                    >
+                      <path
+                        fillRule="evenodd"
+                        d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z"
+                        clipRule="evenodd"
+                      />
+                    </svg>
+                  </button>
+                )}
+              </div>
+
+              {/* Mobile Filters */}
+              <div className="mt-4 px-4">
+                {(Object.keys(tags) as Array<keyof typeof tags>).map((category) => (
+                  <div key={category} className="mb-6">
+                    <h4 className="text-[18px] text-white font-kuunari-bold mb-3">
+                      {getTranslatedFilter(category, lang)}
+                    </h4>
+                    <div className="flex flex-wrap gap-2">
+                      {tags[category].map((tag: string) => (
+                        <FilterChip
+                          key={tag}
+                          tag={getTranslatedFilter(tag, lang)}
+                          isActive={activeFilters.includes(tag)}
+                          onClick={() => handleFilterClick(tag)}
+                        />
+                      ))}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </DialogPanel>
+          </div>
+        </Dialog>
+
+        {/* Desktop Filters */}
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 0.6, delay: 0.2 }}
-          className="flex flex-col gap-y-8 items-start mb-14"
+          className="hidden md:flex flex-col gap-y-8 items-start mb-14"
         >
-          <div className="flex flex-col md:flex-row gap-x-12 gap-y-6">
+          <div className="flex flex-row gap-x-12 gap-y-6">
             {(Object.keys(tags) as Array<keyof typeof tags>).map((category, index) => (
               <motion.div 
                 key={category}
@@ -200,6 +323,28 @@ const AllProjects: React.FC<AllProjectsProps> = ({ projects, lang }) => {
           )}
         </motion.div>
 
+        {/* Mobile Filter Button */}
+        <div className="md:hidden flex justify-between items-center mb-8">
+          <button
+            type="button"
+            onClick={() => setMobileFiltersOpen(true)}
+            className="inline-flex items-center gap-2 text-white/80 hover:text-accent-500 transition-colors"
+          >
+            <span className="text-base font-kuunari-medium">
+              {t('filters.title')}
+            </span>
+            <PlusIcon className="h-5 w-5" />
+          </button>
+          {activeFilters.length > 0 && (
+            <button
+              onClick={resetFilters}
+              className="text-sm text-accent-500 hover:text-accent-400 transition-colors"
+            >
+              {t('filters.reset')}
+            </button>
+          )}
+        </div>
+
         {/* Projects Grid */}
         {filteredProjects.length === 0 ? (
           <motion.div
@@ -233,7 +378,7 @@ const AllProjects: React.FC<AllProjectsProps> = ({ projects, lang }) => {
         ) : (
           <motion.div
             layout
-            className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16 ${gridMinHeight}`}
+            className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16`}
             style={isMobile ? { minHeight: `${PROJECTS_PER_PAGE_MOBILE * 320}px` } : {}}
           >
             <AnimatePresence mode="popLayout">
@@ -257,17 +402,11 @@ const AllProjects: React.FC<AllProjectsProps> = ({ projects, lang }) => {
                   <ProjectCard project={project} index={index} lang={lang} />
                 </motion.div>
               ))}
-              {/* Placeholders para mantener altura */}
-              {isMobile && paginatedProjects.length < PROJECTS_PER_PAGE_MOBILE &&
-                Array.from({ length: PROJECTS_PER_PAGE_MOBILE - paginatedProjects.length }).map((_, i) => (
-                  <div key={`placeholder-${i}`} style={{ visibility: 'hidden', height: 320 }} />
-                ))
-              }
             </AnimatePresence>
           </motion.div>
         )}
 
-        {/* Paginación en mobile */}
+        {/* Pagination for Mobile */}
         {isMobile && totalPages > 1 && (
           <div className="flex justify-center items-center gap-4 mb-8">
             <button
@@ -275,20 +414,22 @@ const AllProjects: React.FC<AllProjectsProps> = ({ projects, lang }) => {
               onClick={() => setPage(p => Math.max(1, p - 1))}
               disabled={page === 1}
             >
-              {t('previous') || 'Anterior'}
+              {t('pagination.previous')}
             </button>
-            <span className="text-accent-500 font-kuunari-medium">{page} / {totalPages}</span>
+            <span className="text-accent-500 font-kuunari-medium">
+              {t('pagination.page').replace('{current}', page.toString()).replace('{total}', totalPages.toString())}
+            </span>
             <button
               className="px-3 py-1 rounded bg-accent-500 text-darkgray font-kuunari-medium disabled:opacity-40"
               onClick={() => setPage(p => Math.min(totalPages, p + 1))}
               disabled={page === totalPages}
             >
-              {t('next') || 'Siguiente'}
+              {t('pagination.next')}
             </button>
           </div>
         )}
 
-        {/* Explore Full Gallery Button */}
+        {/* Gallery Button - Now shown in both mobile and desktop */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -296,50 +437,7 @@ const AllProjects: React.FC<AllProjectsProps> = ({ projects, lang }) => {
           transition={{ duration: 0.6, delay: 0.2 + filteredProjects.length * 0.05 + 0.3 }}
           className="flex justify-center mt-8"
         >
-          <motion.div
-            initial={{ width: 0, opacity: 0 }}
-            whileInView={{ width: "auto", opacity: 1 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ 
-              duration: 0.8,
-              delay: 0.2 + filteredProjects.length * 0.05 + 0.3,
-              width: {
-                duration: 0.4,
-                ease: "easeOut"
-              },
-              opacity: {
-                duration: 0.6,
-                delay: 0.2 + filteredProjects.length * 0.05 + 0.5
-              }
-            }}
-            className="overflow-visible"
-          >
-            <motion.a
-              href={`/${lang}/projects`}
-              className="group relative inline-flex items-center gap-3 px-4 py-2"
-            >
-              <span className="relative text-2xl text-accent-500 font-kuunari-medium">
-                {lang === 'es' ? 'Explorar Galería Completa' : 'Explore Full Gallery'}
-                <span className="absolute bottom-0 left-1/2 w-0 h-[2px] bg-accent-500 transition-all duration-300 group-hover:w-full group-hover:left-0"/>
-              </span>
-              <div className="overflow-hidden w-8">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth={2}
-                  stroke="currentColor"
-                  className="w-6 h-6 text-accent-500 transform transition-transform duration-300 ease-out group-hover:translate-x-2"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3"
-                  />
-                </svg>
-              </div>
-            </motion.a>
-          </motion.div>
+          <GalleryButton />
         </motion.div>
       </div>
     </motion.div>

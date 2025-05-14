@@ -161,7 +161,7 @@ export default function Navbar({ lang }: NavbarProps) {
               <Disclosure.Button
                 as="button"
                 onClick={() => setIsContactFormOpen(true)}
-                className="mt-4 mx-3 my-2  w-full rounded-xl bg-accent-500 px-6 py-2 text-base font-medium text-white hover:bg-accent-400 transition-colors duration-200"
+                className="mt-4 mx-3 my-2  w-full rounded-xl bg-accent-500 px-6 py-2 text-base font-medium text-darkgray hover:bg-accent-400 transition-colors duration-200"
               >
                 {t('nav.cta')}
               </Disclosure.Button>

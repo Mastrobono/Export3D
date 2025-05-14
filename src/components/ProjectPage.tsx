@@ -20,6 +20,7 @@ const customStyles = `
     justify-content:flext-start !important;
     align-items:center !important;
     gap:4px;
+    margin-bottom:1px;
   }
 
   .image-gallery.fullscreen-modal .image-gallery-thumbnails-container, .image-gallery .fullscreen .image-gallery-thumbnails-container{

@@ -177,7 +177,7 @@ export default function ProjectsFilter({ lang }: ProjectsFilterProps) {
                     </svg>
                   </button>
                 ) : (
-                  <div className="mb-4 mx-4" style={{ height: '40px' }} aria-hidden="true"></div>
+                  <div className="mb-4 mx-4 h-[27px]" aria-hidden="true"></div>
                 )}
 
                 {/* Filters */}
@@ -262,7 +262,7 @@ export default function ProjectsFilter({ lang }: ProjectsFilterProps) {
                   </h3>
                   <button
                     onClick={() => setIsContactFormOpen(true)}
-                    className="w-full inline-flex justify-center items-center px-4 py-2 border border-transparent text-base font-kuunari-medium rounded-md text-white bg-accent-500 hover:bg-accent-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-accent-500 mb-6"
+                    className="w-full inline-flex justify-center items-center px-4 py-2 border border-transparent text-base font-kuunari-medium rounded-md text-darkgray bg-accent-500 hover:bg-accent-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-accent-500 mb-6"
                   >
                     {t('contact.ctaButton')}
                   </button>

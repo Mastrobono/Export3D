@@ -103,7 +103,7 @@ const Feature: React.FC<FeatureProps> = ({ projects, lang }) => {
           }
         }}
         viewport={{ once: true, margin: "-100px" }}
-        className="text-title-sm md:text-title-md  mb-16 font-semibold tracking-tight font-kuunari-medium text-accent-500 text-center"
+        className="text-title-sm md:text-title-md  mb-16 font-semibold tracking-tight font-kuunari-medium text-white text-center"
       >
         {getLabel('featured.title', 'Proyectos Destacados')}
       </motion.h2>
@@ -204,7 +204,7 @@ const Feature: React.FC<FeatureProps> = ({ projects, lang }) => {
 
               {/* Content Container */}
               <motion.div
-                className="relative z-20 h-full flex flex-col justify-between p-20"
+                className="relative z-20 h-full flex flex-col justify-between px-8 md:px-20 py-24 md:py-32"
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
@@ -218,7 +218,7 @@ const Feature: React.FC<FeatureProps> = ({ projects, lang }) => {
                       whileInView={{ opacity: 1, x: 0 }}
                       viewport={{ once: true }}
                       transition={{ duration: 0.6, delay: 0.15 }}
-                      className="text-lg md:text-xl text-white/90 font-kuunari-medium"
+                      className="text-xl md:text-xl text-white/90 font-kuunari-medium drop-shadow-[0_2px_3px_rgba(0,0,0,0.3)]"
                     >
                       {slide.metadata.date}
                     </motion.p>
@@ -227,7 +227,7 @@ const Feature: React.FC<FeatureProps> = ({ projects, lang }) => {
                       whileInView={{ opacity: 1, x: 0 }}
                       viewport={{ once: true }}
                       transition={{ duration: 0.6, delay: 0.2 }}
-                      className="text-xl md:text-2xl text-accent-500 font-kuunari-bold"
+                      className="text-2xl md:text-2xl text-accent-500 font-kuunari-bold drop-shadow-[0_2px_3px_rgba(0,0,0,0.4)]"
                     >
                       {getLabel('featured.role.' + slide.metadata.role, slide.metadata.role)}
                     </motion.h4>
@@ -260,11 +260,11 @@ const Feature: React.FC<FeatureProps> = ({ projects, lang }) => {
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
-                    className="inline-flex"
+                    className="inline-flex !mt-[12px]"
                   >
                     <a
                       href={`/${lang}/projects/${slide.metadata.slug}`}
-                      className="group/btn flex items-center gap-4 text-xl md:text-2xl text-white font-kuunari-medium drop-shadow-[0_2px_3px_rgba(0,0,0,0.5)] group-hover:text-accent-500 hover:text-accent-500 transition-colors duration-300"
+                      className=" group/btn flex items-center gap-4 text-xl md:text-2xl text-white font-kuunari-medium drop-shadow-[0_2px_3px_rgba(0,0,0,0.5)] group-hover:text-accent-500 hover:text-accent-500 transition-colors duration-300"
                     >
                       {getLabel('featured.seeProject', 'Ver Proyecto')}
                       <span className="text-inherit transition-transform duration-300 group-hover/btn:translate-x-2">
