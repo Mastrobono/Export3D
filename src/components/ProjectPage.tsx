@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-import Container from './Container.tsx';
 import ContactForm from './ContactForm.tsx';
 import { projects } from '../data/data';
 import type { Project } from '../types/project';
@@ -8,6 +7,7 @@ import ImageGallery from 'react-image-gallery';
 import "react-image-gallery/styles/css/image-gallery.css";
 import ProjectCard from './ProjectCard';
 import { useTranslations } from '../i18n/utils';
+import Breadcrumb from './Breadcrumb';
 
 const customStyles = `
   .image-gallery-slide .image-gallery-image{
@@ -122,7 +122,7 @@ export default function ProjectPage({ slug, galleryImages, lang, project }: Proj
 
   return (
     <main className="w-full max-w-7xl md:max-w-8xl min-[1800px]:max-w-[1800px] mx-auto py-12 my-12 bg-darkgray">
-      {/* Background effects (igual que AboutUs) */}
+      {/* Background effects */}
       <div className="absolute inset-0 z-0">
         <div className="absolute inset-0 bg-gradient-to-b from-darkgray/50 to-darkgray"></div>
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.03)_0%,transparent_70%)]"></div>
@@ -135,6 +135,12 @@ export default function ProjectPage({ slug, galleryImages, lang, project }: Proj
         transition={{ duration: 0.5, delay: 0.2 }}
         className="relative z-10"
       >
+        {/* Breadcrumb */}
+        <Breadcrumb 
+          lang={lang} 
+          currentPage={project.metadata.title} 
+        />
+
         {/* Project Header */}
         <motion.div
           initial={{ y: 20, opacity: 0 }}
@@ -149,6 +155,7 @@ export default function ProjectPage({ slug, galleryImages, lang, project }: Proj
               className="lg:mt-[75px] lg:pr-8 flex flex-col h-full"
               style={{ height: '100%' }}
             >
+              
               {/* Botón Volver a galería */}
               <motion.a
                 href={`/${lang}/projects`}
@@ -198,7 +205,7 @@ export default function ProjectPage({ slug, galleryImages, lang, project }: Proj
                 id="details"
                 className="mt-8"
               >
-                <dl className="space-y-4">
+                <dl className=" md:space-y-4 grid grid-cols-2 md:grid-cols-1 gap-4 md:gap-0">
                   <div>
                     <dt className="text-white/60 font-kuunari-light text-lg">{t('project.client')}</dt>
                     <dd className="text-white font-kuunari-medium text-xl">{project.metadata.client}</dd>
@@ -238,10 +245,10 @@ export default function ProjectPage({ slug, galleryImages, lang, project }: Proj
                 className="block md:hidden"
                 style={{
                   position: 'absolute',
-                  top: 0,
+                  bottom: 0,
                   left: '48px', // deja libres las flechas
                   right: '48px', // deja libres las flechas
-                  height: '100%',
+                  height: '85%',
                   zIndex: 9999,
                   pointerEvents: 'auto',
                   touchAction: 'pan-y',
@@ -267,9 +274,11 @@ export default function ProjectPage({ slug, galleryImages, lang, project }: Proj
                       onClick={onClick}
                       aria-label="Previous Slide"
                     >
-                      <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-                      </svg>
+                      <div className="bg-black/50 rounded-full p-2">
+                        <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                        </svg>
+                      </div>
                     </button>
                   )}
                   renderRightNav={(onClick, disabled) => (
@@ -280,9 +289,11 @@ export default function ProjectPage({ slug, galleryImages, lang, project }: Proj
                       onClick={onClick}
                       aria-label="Next Slide"
                     >
-                      <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                      </svg>
+                      <div className="bg-black/50 rounded-full p-2">
+                        <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                        </svg>
+                      </div>
                     </button>
                   )}
                 
@@ -412,7 +423,15 @@ export default function ProjectPage({ slug, galleryImages, lang, project }: Proj
           }
         }
 
+         :not(.fullscreen-modal-open) .image-gallery-thumbnails{
+          padding:10px 0;
+         }
        
+        .image-gallery-fullscreen-button {
+          background: rgba(0, 0, 0, 0.5) !important;
+          border-radius: 50% !important;
+          padding: 8px !important;
+        }
         .image-gallery-fullscreen-button svg {
           width: 24px !important;
           height: 24px !important;
@@ -448,7 +467,11 @@ export default function ProjectPage({ slug, galleryImages, lang, project }: Proj
           box-shadow: none !important;
         }
 
-   
+        .image-gallery-fullscreen-button{
+        
+        right:10px !important;
+        bottom:10px !important;
+        }
       `}</style>
 
     </main>

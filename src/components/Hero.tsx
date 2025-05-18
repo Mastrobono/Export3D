@@ -94,7 +94,7 @@ export default function Hero({ lang }: HeroProps) {
                     <div id="parallax-image" className="relative w-full h-full">
                         <img
                             ref={imgRef}
-                            className="w-full h-full object-cover object-[center_65%] rounded-md"
+                            className="w-full h-full object-cover object-[61%_center]  md:object-[center_65%] rounded-md"
                             src={background.src}
                             alt="Architectural visualization"
                             fetchPriority="high"
@@ -176,7 +176,7 @@ export default function Hero({ lang }: HeroProps) {
                                 initial={{ opacity: 0, y: 20 }}
                                 animate={startAnimation ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
                                 transition={{ duration: 0.8, delay: 2 }}
-                                className="mt-6 text-[24px] sm:text-[28px] lg:text-[32px] tracking-[.7px] font-kuunari-light text-white/90 max-w-2xl subtitle-text mt-[-2px] min-[1130px]:mt-0"
+                                className="mt-6 text-[24px] sm:text-[28px] lg:text-[32px] tracking-[.7px] font-kuunari-light text-white/90 max-w-2xl subtitle-text mt-[-2px] min-[1130px]:mt-0 drop-shadow-[0_2px_3px_rgba(0,0,0,0.9)]  min-[1130px]:drop-shadow-[0_2px_3px_rgba(0,0,0,0.5)]"
                                 dangerouslySetInnerHTML={{ __html: subtitle }}
                             />
                         </div>
@@ -193,19 +193,18 @@ export default function Hero({ lang }: HeroProps) {
                                     initial={{ opacity: 0, x: 50 }}
                                     animate={startAnimation ? { opacity: 1, x: 0 } : { opacity: 0, x: 50 }}
                                     transition={{ duration: 0.8, delay: 2.4 }}
-                                    className="text-[20px] sm:text-[24px] lg:text-[28px] leading-[1.1] font-kuunari-medium text-white/90"
+                                    className="text-[20px] drop-shadow-[0_2px_3px_rgba(0,0,0,0.9)]  min-[1130px]:drop-shadow-[0_2px_3px_rgba(0,0,0,0.5)] sm:text-[24px] lg:text-[28px] leading-[1.1] font-kuunari-medium text-white/90"
                                 >
                                     {t("hero.description")}
                                 </motion.p>
 
-                                <div className="space-y-4">
+                                <div className="space-y-4 drop-shadow-[0_2px_3px_rgba(0,0,0,0.9)]  min-[1130px]:drop-shadow-[0_2px_3px_rgba(0,0,0,0.5)]">
                                     <motion.div
                                         initial={{ opacity: 0, x: 50 }}
                                         animate={startAnimation ? { opacity: 1, x: 0 } : { opacity: 0, x: 50 }}
                                         transition={{ duration: 0.8, delay: 2.6 }}
-                                        className="flex items-center min-[1130px]:justify-end gap-3"
+                                        className="flex items-center min-[1130px]:justify-end gap-3 "
                                     >
-                                        <span className="text-accent-500 text-lg">01</span>
                                         <p className="text-white/60 text-lg">{t("hero.service1")}</p>
                                     </motion.div>
                                     <motion.div
@@ -214,7 +213,6 @@ export default function Hero({ lang }: HeroProps) {
                                         transition={{ duration: 0.8, delay: 2.8 }}
                                         className="flex items-center min-[1130px]:justify-end gap-3"
                                     >
-                                        <span className="text-accent-500 text-lg">02</span>
                                         <p className="text-white/60 text-lg">{t("hero.service2")}</p>
                                     </motion.div>
                                 </div>
@@ -225,7 +223,7 @@ export default function Hero({ lang }: HeroProps) {
                                     transition={{ duration: 0.8, delay: 3 }}
                                     whileHover={{ scale: 1.05 }}
                                     onClick={handleScrollToAbout}
-                                    className="mt-8 inline-flex items-center gap-2 text-accent-500 hover:text-white transition-colors duration-300 group descubrimas-btn relative overflow-visible"
+                                    className="mt-8 inline-flex items-center gap-2 text-accent-500 hover:text-white transition-colors duration-300 group descubrimas-btn relative overflow-visible drop-shadow-[0_2px_3px_rgba(0,0,0,0.9)]  min-[1130px]:drop-shadow-[0_2px_3px_rgba(0,0,0,0.5)]"
                                     type="button"
                                 >
                                     <span className="text-base uppercase tracking-widest font-kuunari-regular relative z-10 pb-1">

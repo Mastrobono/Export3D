@@ -165,13 +165,13 @@ const AllProjects: React.FC<AllProjectsProps> = ({ projects, lang }) => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-100px" }}
             transition={{ duration: 0.6 }}
-            className="text-title-sm md:text-title-md font-semibold tracking-tight font-kuunari-medium text-white text-left"
+            className="text-title-sm md:text-title-md font-semibold tracking-tight font-kuunari-medium text-white text-center"
           >
             {t('allProjects.moreProjects')}
           </motion.h2>
           
           {/* Mobile Gallery Button */}
-          <div className="md:hidden">
+          <div className="md:hidden text-center">
             <GalleryButton />
           </div>
         </div>

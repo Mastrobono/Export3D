@@ -1,11 +1,61 @@
-import { motion } from "framer-motion";
+import { motion, AnimateNumber, useMotionValue, useTransform, useSpring, useAnimation, useInView } from "framer-motion";
 import Container from "../layouts/Container";
 import { useTranslations } from "../i18n/utils";
 import { ui } from "../i18n/ui";
+import React, { useState, useEffect, useRef } from "react";
 
 interface AboutUsProps {
   lang: "es" | "en";
 }
+
+interface AnimatedNumberProps {
+  from: number;
+  to: number;
+  duration?: number;
+  suffix?: string;
+}
+
+const AnimatedNumber = ({ from, to, duration = 2, suffix = "" }: AnimatedNumberProps) => {
+  const [count, setCount] = useState(from);
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true });
+
+  useEffect(() => {
+    if (!isInView) return;
+
+    let startTime: number;
+    let animationFrame: number;
+
+    const animate = (currentTime: number) => {
+      if (!startTime) startTime = currentTime;
+      const progress = Math.min((currentTime - startTime) / (duration * 1000), 1);
+      
+      const currentCount = Math.floor(from + (to - from) * progress);
+      setCount(currentCount);
+
+      if (progress < 1) {
+        animationFrame = requestAnimationFrame(animate);
+      }
+    };
+
+    animationFrame = requestAnimationFrame(animate);
+
+    return () => {
+      cancelAnimationFrame(animationFrame);
+    };
+  }, [from, to, duration, isInView]);
+
+  return (
+    <motion.span
+      ref={ref}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.5 }}
+    >
+      {count}{suffix}
+    </motion.span>
+  );
+};
 
 const AboutUs = ({ lang }: AboutUsProps) => {
   const t = useTranslations(lang);
@@ -132,7 +182,7 @@ const AboutUs = ({ lang }: AboutUsProps) => {
 
             {/* Stats Grid */}
             <motion.div 
-              className="grid grid-cols-2 lg:grid-cols-3 gap-8 pt-8"
+              className="flex flex-row flex-wrap justify-center min-[1130px]:justify-start gap-8 pt-8"
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ 
                 opacity: 1, 
@@ -155,9 +205,11 @@ const AboutUs = ({ lang }: AboutUsProps) => {
                   }
                 }}
                 viewport={{ once: true, amount: 0.3 }}
-                className="space-y-4"
+                className="space-y-4 flex flex-col items-center justify-center"
               >
-                <div className="text-accent-500 text-4xl font-kuunari-bold">+10</div>
+                <div className="text-accent-500 text-4xl font-kuunari-bold">
+                  <AnimatedNumber from={0} to={10} suffix="+" />
+                </div>
                 <div className="text-white/70 text-xl font-kuunari-light">{t('about.stats.experience')}</div>
               </motion.div>
               <motion.div 
@@ -171,9 +223,11 @@ const AboutUs = ({ lang }: AboutUsProps) => {
                   }
                 }}
                 viewport={{ once: true, amount: 0.3 }}
-                className="space-y-4"
+                className="space-y-4 flex flex-col items-center justify-center"
               >
-                <div className="text-accent-500 text-4xl font-kuunari-bold">+200</div>
+                <div className="text-accent-500 text-4xl font-kuunari-bold">
+                  <AnimatedNumber from={0} to={200} suffix="+" />
+                </div>
                 <div className="text-white/70 text-xl font-kuunari-light">{t('about.stats.projects')}</div>
               </motion.div>
               <motion.div 
@@ -187,9 +241,11 @@ const AboutUs = ({ lang }: AboutUsProps) => {
                   }
                 }}
                 viewport={{ once: true, amount: 0.3 }}
-                className="space-y-4"
+                className="space-y-4 flex flex-col items-center justify-center"
               >
-                <div className="text-accent-500 text-4xl font-kuunari-bold">100%</div>
+                <div className="text-accent-500 text-4xl font-kuunari-bold">
+                  <AnimatedNumber from={0} to={100} suffix="%" />
+                </div>
                 <div className="text-white/70 text-xl font-kuunari-light">{t('about.stats.clients')}</div>
               </motion.div>
             </motion.div>
